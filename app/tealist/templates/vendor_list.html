@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4 text-white">Pricing</h1>
+    <p class="lead text-white">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It's built with default Bootstrap components and utilities with little customization.</p>
+  </div>
+  
+<div class="container">
+
+{% if filter %}
+<div class="row">
+<ul class="list-group col-9">
+    {% for vendor in filter %}
+    <li class="list-group-item">
+        <a href="https://{{ vendor.url }}" class="link-primary"><h4>{{ vendor.name }}</h4></a>
+        <div>
+            {% for variety in vendor.variety.all %} 
+            <span class="badge badge-primary badge-pill">{{ variety }}</span>
+            {% endfor %}
+        </div>
+        {% if vendor.description %}
+        <div class="pt-4 pb-4 border-bottom">
+            {{ vendor.description }}
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-4 col-md border-right pt-1">
+                <p>
+                Ships To: {{ vendor.ship_to.all|join:", " }}
+                </p>
+            </div>
+            <div class="col-4 col-md border-right pt-1">
+                <p>
+                Ships From: {{ vendor.store_location.all|join:", " }}
+                </p>
+            </div>
+            <div class="col-4 col-md pt-1">
+                <p>
+                    Sources From: {{ vendor.tea_source.all|join:", " }}
+                </p>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-end">
+                {% if filter.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ filter.previous_page_number }}">Previous</a></li>
+                {% endif %}
+                {% if filter.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ filter.next_page_number }}">Next</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+</ul>
+
+<form method="get" class="col-3 col-md">
+
+    {{ filter_form.form.name }}
+
+    <label for="id_store_location" class="text-white">Store Location</label>
+    <p>{{ filter_form.form.store_location }}</p>
+
+    <label class="text-white">Ships To</label>
+    <p>{{ filter_form.form.ship_to }}</p>
+
+    <label class="text-white">Sources From</label>
+    <p>{{ filter_form.form.tea_source }}</p>
+
+    <label class="text-white">Varities</label>
+    <p>{{ filter_form.form.variety }}</p>
+
+    <input type="submit" />
+
+</form>
+
+{% else %}
+    <p>There are no vendors.</p>
+{% endif %}
+</div>
+
+{% endblock %}
