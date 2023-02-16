@@ -2,84 +2,174 @@
 
 {% block content %}
 
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4 text-white">Pricing</h1>
-    <p class="lead text-white">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It's built with default Bootstrap components and utilities with little customization.</p>
-  </div>
-  
+
+
 <div class="container">
 
-{% if filter %}
-<div class="row">
-<ul class="list-group col-9">
-    {% for vendor in filter %}
-    <li class="list-group-item">
-        <a href="https://{{ vendor.url }}" class="link-primary"><h4>{{ vendor.name }}</h4></a>
+
+  <div class="row vendorlist">
+    <ul class="vendors list-group col-9 vendor-list text-white pr-0">
+      {% if filter %}
+      {% for vendor in filter %}
+      <li class="list-group-item">
+        <h4>{{ vendor.name }} <a href="https://{{ vendor.url }}" class="link-primary" target="_blank"><i
+              class="material-symbols-outlined">open_in_new</i></a></h4>
         <div>
-            {% for variety in vendor.variety.all %} 
-            <span class="badge badge-primary badge-pill">{{ variety }}</span>
-            {% endfor %}
+          {% for variety in vendor.variety.all %}
+          <span class="badge badge-success badge-pill">{{ variety }}</span>
+          {% endfor %}
         </div>
         {% if vendor.description %}
         <div class="pt-4 pb-4 border-bottom">
-            {{ vendor.description }}
+          {{ vendor.description }}
         </div>
         {% endif %}
-        <div class="row">
-            <div class="col-4 col-md border-right pt-1">
-                <p>
-                Ships To: {{ vendor.ship_to.all|join:", " }}
-                </p>
-            </div>
-            <div class="col-4 col-md border-right pt-1">
-                <p>
-                Ships From: {{ vendor.store_location.all|join:", " }}
-                </p>
-            </div>
-            <div class="col-4 col-md pt-1">
-                <p>
-                    Sources From: {{ vendor.tea_source.all|join:", " }}
-                </p>
-            </div>
+        <div class="row locations">
+          <div class="col-4 col-md border-right pt-1">
+            <p>
+              <i class="material-symbols-outlined">local_shipping</i> Ships To: {{ vendor.ship_to.all|join:", " }}
+            </p>
+          </div>
+          <div class="col-4 col-md border-right pt-1">
+            <p>
+              <i class="material-symbols-outlined">home</i> Ships From: {{ vendor.store_location.all|join:", " }}
+            </p>
+          </div>
+          <div class="col-4 col-md pt-1">
+            <p>
+              <i class="material-symbols-outlined">map</i> Sources From: {{ vendor.tea_source.all|join:", " }}
+            </p>
+          </div>
         </div>
-    </li>
-    {% endfor %}
+      </li>
+      {% endfor %}
 
+      <!-- If there are no results matching the filter -->
+
+      {% else %}
+      <li class="list-group-item">
+        <p>There are no vendors that match your criteria.</p>
+      </li>
+      {% endif %}
+
+      <!-- Pagination -->
+      <li class="list-group-item">
         <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-end">
-                {% if filter.has_previous %}
-                <li class="page-item"><a class="page-link" href="?page={{ filter.previous_page_number }}">Previous</a></li>
-                {% endif %}
-                {% if filter.has_next %}
-                <li class="page-item"><a class="page-link" href="?page={{ filter.next_page_number }}">Next</a></li>
-                {% endif %}
-            </ul>
+          <ul class="pagination justify-content-end">
+            {% if filter.has_previous %}
+            <li class="page-item w-50"><a class="page-link" hx-get="?page={{ filter.previous_page_number }}"
+                hx-target=".vendors">Previous</a></li>
+            {% endif %}
+            {% if filter.has_next %}
+            <li class="page-item w-50 text-right"><a class="page-link" hx-get="?page={{ filter.next_page_number }}"
+                hx-target=".vendors">Next</a></li>
+            {% endif %}
+          </ul>
         </nav>
-</ul>
+      </li>
+    </ul>
 
-<form method="get" class="col-3 col-md">
 
-    {{ filter_form.form.name }}
 
-    <label for="id_store_location" class="text-white">Store Location</label>
-    <p>{{ filter_form.form.store_location }}</p>
+    <!-- Form for filtering results -->
 
-    <label class="text-white">Ships To</label>
-    <p>{{ filter_form.form.ship_to }}</p>
+    <form class="col-3 col-md text-dark filter-form pt-3" hx-get="{% url 'vendors' %}" hx-target=".vendors">
 
-    <label class="text-white">Sources From</label>
-    <p>{{ filter_form.form.tea_source }}</p>
+      {{ filter_form.form.name }}
+      {{ filter_form.form.o }}
 
-    <label class="text-white">Varities</label>
-    <p>{{ filter_form.form.variety }}</p>
+      <div id="accordion" class="text-white">
+        <div class="card border-0 rounded-0">
+          <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+              <button type="button" class="btn btn-link collapsed text-white pl-0" data-toggle="collapse"
+                data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Store Location
+              </button>
+            </h5>
+          </div>
 
-    <input type="submit" />
+          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+              {% for v in filter_form.form.store_location %}
+              {{ v.tag }}<label for="{{ v.id_for_label }}" class="badge badge-success label-for-check">
+                {{ v.choice_label }}
+              </label>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="card border-0 rounded-0">
+          <div class="card-header" id="headingTwo">
+            <h5 class="mb-0">
+              <button type="button" class="btn btn-link collapsed text-white pl-0" data-toggle="collapse"
+                data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Ships To
+              </button>
+            </h5>
+          </div>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="card-body">
+              {% for v in filter_form.form.ship_to %}
+              {{ v.tag }}<label for="{{ v.id_for_label }}" class="badge badge-success label-for-check">
+                {{ v.choice_label }}
+              </label>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="card border-0 rounded-0">
+          <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+              <button type="button" class="btn btn-link collapsed text-white pl-0" data-toggle="collapse"
+                data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Sources From
+              </button>
+            </h5>
+          </div>
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+              {% for v in filter_form.form.tea_source %}
+              {{ v.tag }}<label for="{{ v.id_for_label }}" class="badge badge-success label-for-check">
+                {{ v.choice_label }}
+              </label>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="card border-0 rounded-0">
+          <div class="card-header" id="headingFour">
+            <h5 class="mb-0">
+              <button type="button" class="btn btn-link collapsed text-white pl-0" data-toggle="collapse"
+                data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                Varities
+              </button>
+            </h5>
+          </div>
+          <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+            <div class="card-body">
+              {% for v in filter_form.form.variety %}
+              {{ v.tag }}<label for="{{ v.id_for_label }}" class="badge badge-success label-for-check">
+                {{ v.choice_label }}
+              </label>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
 
-</form>
 
-{% else %}
-    <p>There are no vendors.</p>
-{% endif %}
-</div>
+      <input type="submit" value="Apply Filters" class="w-100 p-1 submit-filters" />
 
-{% endblock %}
+    </form>
+  </div>
+
+  <script>
+    var elements = document.getElementsByTagName("INPUT");
+    for (var inp of elements) {
+      if (inp.type === "checkbox")
+        inp.checked = false;
+    }
+  </script>
+
+  {% endblock %}

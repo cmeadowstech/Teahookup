@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('tealist', '0002_alter_vendor_established'),
+        ("tealist", "0002_alter_vendor_established"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='vendor',
-            name='url',
+            model_name="vendor",
+            name="url",
             field=models.URLField(blank=True, help_text="URL for this vendor's store"),
         ),
     ]

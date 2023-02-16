@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 
+
 class location(models.Model):
     name = models.CharField(max_length=30, help_text="Country/region name", unique=True)
 
@@ -10,7 +11,9 @@ class location(models.Model):
 
 
 class variety(models.Model):
-    name = models.CharField(max_length=30, help_text="Type of tea or offering", unique=True)
+    name = models.CharField(
+        max_length=30, help_text="Type of tea or offering", unique=True
+    )
     description = models.TextField(
         help_text="Description of this type of tea", blank=True
     )
@@ -23,7 +26,10 @@ class vendor(models.Model):
     name = models.CharField(
         max_length=30, help_text="Business name of the vendor", unique=True
     )
-    url = models.URLField(help_text="URL for this vendor's store")
+    url = models.URLField(help_text="URL for this vendor's store", unique=True)
+    url_alt = models.URLField(
+        help_text="Alternate URL for this vendor's store.", blank=True
+    )
     description = models.TextField(help_text="Description of the vendor", blank=True)
     store_location = models.ManyToManyField(
         location,
@@ -44,7 +50,6 @@ class vendor(models.Model):
         related_name="tea_source",
     )
     featured = models.BooleanField()
-    promoted = models.BooleanField()
     variety = models.ManyToManyField(
         variety, help_text="Select the varieties of tea this vendor sells", blank=True
     )

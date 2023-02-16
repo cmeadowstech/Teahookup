@@ -20,5 +20,114 @@ html {
 }
 
 body {
-  background-color: #1b2e24;
+  background-color: #283618;
+}
+
+/* Vendor list */
+
+.list-group-item, .card {
+  background-color: #1a240c
+}
+
+.vendorlist {
+  background-color: #1a240c
+}
+
+.material-symbols-outlined {
+  font-size: 16px !important;
+  color: #bc6c25 !important;
+}
+
+h4 {
+  color: #dda15e;
+}
+
+.badge-success {
+  background-color: #2c600f;
+}
+
+.border-bottom, .border-right {
+  border-color: #4a5e13 !important;
+}
+
+.locations {
+  color: #c5d3a0;
+}
+
+.page-link {
+  background-color: #2c600f !important;
+  border: none;
+  border-right: 2px solid #1a240c;
+  outline: none;
+  transition: background-color .5s;
+}
+
+.page-link:hover {
+  border-right: 2px solid #1a240c;
+  background-color: #bc6c25 !important;
+  transition: background-color .5s;
+}
+
+/* Form styling */
+
+input[type="checkbox"] {
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  background-color: #fff;
+  /* Not removed via appearance */
+  margin: 0;
+}
+
+input[type="checkbox"]:checked + .label-for-check {
+  background-color: #9dd02d;
+  color: black;
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+  background-color: #2c600f;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition: background-color .5s;
+}
+
+input[type=submit]:hover {
+background-color: #bc6c25 !important;
+  transition: background-color .5s;
+}
+
+input[type=text] {
+  background-color: #283618;
+  border: none;
+  color: white;
+  padding: .75rem 1.25rem;  
+}
+
+input[type=text]:focus {
+  outline: none;
+}
+
+select {
+  background-color: #283618;
+  border: none;
+  color: white;
+  padding: .5rem 1.25rem;
+  margin-top: .5rem;
+}
+
+.btn-link {
+  color: #c5d3a0 !important;
+}
+
+.card {
+  border-bottom: 1px solid #4a5e13 !important;
+}
+
+#id_o {
+  width: 100%
 }

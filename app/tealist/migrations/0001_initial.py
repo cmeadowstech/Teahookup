@@ -4,43 +4,117 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='location',
+            name="location",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Country/region name', max_length=30)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(help_text="Country/region name", max_length=30),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='variety',
+            name="variety",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Country/region name', max_length=30)),
-                ('description', models.TextField(blank=True, help_text='Description of this type of tea')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(help_text="Country/region name", max_length=30),
+                ),
+                (
+                    "description",
+                    models.TextField(
+                        blank=True, help_text="Description of this type of tea"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='vendor',
+            name="vendor",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Business name of the vendor', max_length=30, unique=True)),
-                ('description', models.TextField(blank=True, help_text='Description of the vendor')),
-                ('featured', models.BooleanField()),
-                ('promoted', models.BooleanField()),
-                ('established', models.DateField(blank=True)),
-                ('created', models.DateField(auto_now_add=True)),
-                ('slug', models.SlugField(blank=True, max_length=250)),
-                ('ship_to', models.ManyToManyField(blank=True, help_text='Select locations this vendor ships to', related_name='ship_to', to='tealist.location')),
-                ('store_location', models.ManyToManyField(blank=True, help_text='Select locations this vendor ships from', related_name='store_location', to='tealist.location')),
-                ('tea_source', models.ManyToManyField(blank=True, help_text='Select locations this vendor sources tea from', related_name='tea_source', to='tealist.location')),
-                ('variety', models.ManyToManyField(blank=True, help_text='Select the varieties of tea this vendor sells', to='tealist.variety')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        help_text="Business name of the vendor",
+                        max_length=30,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "description",
+                    models.TextField(blank=True, help_text="Description of the vendor"),
+                ),
+                ("featured", models.BooleanField()),
+                ("promoted", models.BooleanField()),
+                ("established", models.DateField(blank=True)),
+                ("created", models.DateField(auto_now_add=True)),
+                ("slug", models.SlugField(blank=True, max_length=250)),
+                (
+                    "ship_to",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="Select locations this vendor ships to",
+                        related_name="ship_to",
+                        to="tealist.location",
+                    ),
+                ),
+                (
+                    "store_location",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="Select locations this vendor ships from",
+                        related_name="store_location",
+                        to="tealist.location",
+                    ),
+                ),
+                (
+                    "tea_source",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="Select locations this vendor sources tea from",
+                        related_name="tea_source",
+                        to="tealist.location",
+                    ),
+                ),
+                (
+                    "variety",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="Select the varieties of tea this vendor sells",
+                        to="tealist.variety",
+                    ),
+                ),
             ],
         ),
     ]
