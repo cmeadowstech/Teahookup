@@ -169,7 +169,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # allauth settings
 
-SITE_ID = 3
+if not DEBUG:
+    SITE_ID = 4
+else:
+    SITE_ID = 3
+
 LOGIN_REDIRECT_URL = '/'
 
 # Miscellaneous
