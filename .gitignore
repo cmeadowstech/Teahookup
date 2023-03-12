@@ -1,6 +1,3 @@
-# Until I secure settings
-*settings.py
-
 # Django #
 *.log
 *.pot
