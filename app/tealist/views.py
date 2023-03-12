@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import requests, json
+import environ
 
 from .models import *
 from .filters import *
@@ -8,6 +10,7 @@ from .forms import CommentForm
 
 # Helper logic
 
+env = environ.Env()
 
 def GetPages(qs, pagination, request):
     paginator = Paginator(qs, pagination)
@@ -113,3 +116,22 @@ def CommentsView(request, slug):
     context = {"vendor": Vendor, "comments": Comments, "comment_form": cf}
 
     return render(request, "comments_partial.html", context)
+
+def ReleaseHistory(request):
+    url = "https://api.github.com/repos/cmeadowstech/tea-list/releases"
+
+    payload={}
+    headers = {
+        'Authorization': 'Bearer ' + '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',
+        'Accept': 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28'
+    }
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+    Releases = response.json()
+
+    print(response.text)
+
+    context = {"Releases": Releases}
+
+    return render(request, "release_history.html", context)
