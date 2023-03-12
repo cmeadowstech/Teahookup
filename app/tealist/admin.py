@@ -6,13 +6,19 @@ from django.http import HttpResponse
 admin.site.register(location)
 admin.site.register(variety)
 
-class EnableFeatured:
+class UpdateFeatured:
     def enable_featured(self, request, queryset):
         for Vendor in queryset:
             Vendor.featured = True
             Vendor.save()
+
+    def disable_featured(self, request, queryset):
+        for Vendor in queryset:
+            Vendor.featured = False
+            Vendor.save()
     
-    enable_featured.short_description = "Feature Selected"
+    enable_featured.short_description = "Enable Featured"
+    disable_featured.short_description = "Disabled Featured"
 
 class ExportCsvMixin:
     def export_as_csv(self, request, queryset):
@@ -33,7 +39,7 @@ class ExportCsvMixin:
 
 
 @admin.register(vendor)
-class VendorAdmin(admin.ModelAdmin, ExportCsvMixin):
+class VendorAdmin(admin.ModelAdmin, ExportCsvMixin, UpdateFeatured):
     list_display = ("name", "url", "created", "featured")
     list_filter = ("store_location", "ship_to", "tea_source")
 
@@ -55,7 +61,7 @@ class VendorAdmin(admin.ModelAdmin, ExportCsvMixin):
         ),
     )
 
-    actions = ["export_as_csv", "enable_featured"]
+    actions = ["export_as_csv", "enable_featured", "disable_featured"]
 
 
 admin.site.register(comment)
