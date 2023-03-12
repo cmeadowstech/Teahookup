@@ -1,0 +1,70 @@
+{% if filter %}
+    {% for vendor in filter %}
+    <li class="list-group-item mt-1 mb-1 mr-2 border-bottom">
+        <h4>
+            <a href="#" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx-modal" hx-trigger="click">
+                {{ vendor.name }}
+            </a>
+            <a href="{{ vendor.url }}" class="link-primary" target="_blank">
+                <i class="material-symbols-outlined">open_in_new</i>
+            </a>
+            {% if vendor.url_alt %}
+            <a href="/{{ vendor.url_alt }}" class="link-primary" target="_blank">
+                <i class="material-symbols-outlined">public</i>
+            </a>
+            {% endif %}
+        </h4>
+        <div>
+            {% for variety in vendor.variety.all %} 
+            <span class="badge badge-success badge-pill">{{ variety }}</span>
+            {% endfor %}
+        </div>
+        {% if vendor.description %}
+        <div class="pt-4 pb-4 border-bottom">
+            {{ vendor.description }}
+        </div>
+        {% endif %}
+        <div class="row locations">
+            <div class="col-4 col-md border-right pt-1">
+                <p>
+                  <i class="material-symbols-outlined">local_shipping</i>  Ships To: {{ vendor.ship_to.all|join:", " }}
+                </p>
+            </div>
+            <div class="col-4 col-md border-right pt-1">
+                <p>
+                  <i class="material-symbols-outlined">home</i> Ships From: {{ vendor.store_location.all|join:", " }}
+                </p>
+            </div>
+            <div class="col-4 col-md pt-1">
+                <p>
+                  <i class="material-symbols-outlined">map</i> Sources From: {{ vendor.tea_source.all|join:", " }}
+                </p>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+
+    <!-- If there are no results matching the filter -->
+
+    {% else %}
+    <li class="list-group-item mt-1 mb-1 mr-2 border-bottom">
+      <p>There are no vendors that match your criteria.</p>
+    </li>
+    {% endif %}
+
+    <!-- Pagination -->
+    <li class="list-group-item page-nav">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-end">
+                {% if filter.has_previous %}
+                <li class="page-item w-50"><a class="page-link" hx-get="{% url 'vendors' %}?page={{ filter.previous_page_number }}&{{ parameters }}" hx-target=".vendors" hx-push-url="true">Previous</a></li>
+                {% endif %}
+                {% if filter.has_next %}
+                <li class="page-item w-50 text-right"><a class="page-link" hx-get="{% url 'vendors' %}?page={{ filter.next_page_number }}&{{ parameters }}" hx-target=".vendors" hx-push-url="true">Next</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+      </li>
+
+      <!-- Modal -->
+      <div id="vendor-modal"></div>

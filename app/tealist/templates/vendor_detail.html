@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card mb-3">
+  <div class="card-body">
+
+    <h4 class="modal-title">{{ vendor.name }}</h4>
+
+    <div class="row pb-3 mb-2 border-bottom">
+      <div class="col-md-6 locations">
+        <i class="material-symbols-outlined">open_in_new</i> Main Site: <a href="{{ vendor.url }}"
+          class="link-primary" target="_blank">{{ vendor.url }}
+        </a>
+      </div>
+      {% if vendor.url_alt %}
+      <div class="col-md-6 locations border-left">
+        <i class="material-symbols-outlined">public</i> Global Site: <a href="{{ vendor.url_alt }}"
+          class="link-primary" target="_blank">{{ vendor.url_alt }}
+        </a>
+      </div>
+      {% endif %}
+    </div>
+    <div>
+      {% for variety in vendor.variety.all %}
+      <span class="badge badge-success badge-pill text-large">{{ variety }}</span>
+      {% endfor %}
+    </div>
+    {% if vendor.description %}
+    <div class="pt-2 pb-4 border-bottom">
+      {{ vendor.description }}
+    </div>
+    {% endif %}
+    <div class="row locations">
+      <div class="col-4 col-md border-right pt-1">
+        <p>
+          <i class="material-symbols-outlined">local_shipping</i> Ships To: {{ vendor.ship_to.all|join:", " }}
+        </p>
+      </div>
+      <div class="col-4 col-md border-right pt-1">
+        <p>
+          <i class="material-symbols-outlined">home</i> Ships From: {{ vendor.store_location.all|join:", " }}
+        </p>
+      </div>
+      <div class="col-4 col-md pt-1">
+        <p>
+          <i class="material-symbols-outlined">map</i> Sources From: {{ vendor.tea_source.all|join:", " }}
+        </p>
+      </div>
+    </div>
+
+    <!--- Comments -->
+
+    {% if user.is_authenticated %}
+    <div id="comment-error" class="alert alert-warning mt-4 mb-0" role="alert"></div>
+    <form hx-post="{{ vendor.get_absolute_url }}comments/" hx-target="#comment-error" class="pt-4">
+      {% csrf_token %}
+      {{comment_form.as_p}}
+      <input type="submit" value="Post Comment" class="w-100 p-1 submit-filters" />
+    </form>
+    {% endif %}
+    {% if comments %}
+    <ul class="list-group">
+      {% for comment in comments %}
+      <li class="list-group-item border-bottom mb-2 pb-2">
+        <h5><span class="badge badge-primary comment-user">{{ comment.user.username }}</span> |
+          <small class="locations">{{ comment.created_on|date:"D, F jS" }}</small></h5>
+        <p>{{ comment.content|linebreaks }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+  </div>
+</div>
+
+
+
+
+{% endblock %}

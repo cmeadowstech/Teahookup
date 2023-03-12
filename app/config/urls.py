@@ -22,6 +22,9 @@ from tealist import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.index, name="index"),
-    path("vendors", views.VendorListView, name="vendors"),
-    path('accounts/', include('allauth.urls')),
+    path("vendors/list", views.VendorListView, name="vendors"),
+    path("vendors/<str:slug>/", views.VendorDetailView, name="vendor-detail"),
+    path("vendors/<str:slug>/comments/", views.CommentsView, name="comments"),
+    path("accounts/", include("allauth.urls")),                                     # Used by django-allauth
+    path('__debug__/', include('debug_toolbar.urls')),                              # Used by Django debug doolbat
 ]

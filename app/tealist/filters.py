@@ -30,11 +30,7 @@ class VendorFilter(django_filters.FilterSet):
         queryset=variety.objects.all(), widget=forms.CheckboxSelectMultiple
     )
 
-    o = django_filters.OrderingFilter(
-    fields=(
-        ('name', 'name')
-    )
-)
+    o = django_filters.OrderingFilter(fields=(("name", "name")))
 
     class Meta:
         model = vendor

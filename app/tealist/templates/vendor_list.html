@@ -4,76 +4,17 @@
 
 
 
-<div class="container">
+
 
 
   <div class="row vendorlist">
-    <ul class="vendors list-group col-9 vendor-list text-white pr-0">
-      {% if filter %}
-      {% for vendor in filter %}
-      <li class="list-group-item">
-        <h4>{{ vendor.name }} <a href="https://{{ vendor.url }}" class="link-primary" target="_blank"><i
-              class="material-symbols-outlined">open_in_new</i></a></h4>
-        <div>
-          {% for variety in vendor.variety.all %}
-          <span class="badge badge-success badge-pill">{{ variety }}</span>
-          {% endfor %}
-        </div>
-        {% if vendor.description %}
-        <div class="pt-4 pb-4 border-bottom">
-          {{ vendor.description }}
-        </div>
-        {% endif %}
-        <div class="row locations">
-          <div class="col-4 col-md border-right pt-1">
-            <p>
-              <i class="material-symbols-outlined">local_shipping</i> Ships To: {{ vendor.ship_to.all|join:", " }}
-            </p>
-          </div>
-          <div class="col-4 col-md border-right pt-1">
-            <p>
-              <i class="material-symbols-outlined">home</i> Ships From: {{ vendor.store_location.all|join:", " }}
-            </p>
-          </div>
-          <div class="col-4 col-md pt-1">
-            <p>
-              <i class="material-symbols-outlined">map</i> Sources From: {{ vendor.tea_source.all|join:", " }}
-            </p>
-          </div>
-        </div>
-      </li>
-      {% endfor %}
-
-      <!-- If there are no results matching the filter -->
-
-      {% else %}
-      <li class="list-group-item">
-        <p>There are no vendors that match your criteria.</p>
-      </li>
-      {% endif %}
-
-      <!-- Pagination -->
-      <li class="list-group-item">
-        <nav aria-label="Page navigation">
-          <ul class="pagination justify-content-end">
-            {% if filter.has_previous %}
-            <li class="page-item w-50"><a class="page-link" hx-get="?page={{ filter.previous_page_number }}"
-                hx-target=".vendors">Previous</a></li>
-            {% endif %}
-            {% if filter.has_next %}
-            <li class="page-item w-50 text-right"><a class="page-link" hx-get="?page={{ filter.next_page_number }}"
-                hx-target=".vendors">Next</a></li>
-            {% endif %}
-          </ul>
-        </nav>
-      </li>
+    <ul class="vendors vendor-list list-group col-12 col-md-9 order-2 order-md-1 text-white pr-0">
+      {% include 'vendor_list_partial.html' %}
     </ul>
-
-
 
     <!-- Form for filtering results -->
 
-    <form class="col-3 col-md text-dark filter-form pt-3" hx-get="{% url 'vendors' %}" hx-target=".vendors">
+    <form class="filter-form col-12 col-md-3 order-1 order-md-2 text-dark pt-3 pb-3 mt-1" hx-get="{% url 'vendors' %}" hx-target=".vendors" hx-push-url="true">
 
       {{ filter_form.form.name }}
       {{ filter_form.form.o }}
@@ -92,7 +33,7 @@
           <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body">
               {% for v in filter_form.form.store_location %}
-              {{ v.tag }}<label for="{{ v.id_for_label }}" class="badge badge-success label-for-check">
+              {{ v.tag }}<label for="{{ v.id_for_label }}" class="badge badge-success label-for-check text-large">
                 {{ v.choice_label }}
               </label>
               {% endfor %}
@@ -111,7 +52,7 @@
           <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
             <div class="card-body">
               {% for v in filter_form.form.ship_to %}
-              {{ v.tag }}<label for="{{ v.id_for_label }}" class="badge badge-success label-for-check">
+              {{ v.tag }}<label for="{{ v.id_for_label }}" class="badge badge-success label-for-check text-large text-large">
                 {{ v.choice_label }}
               </label>
               {% endfor %}
@@ -130,7 +71,7 @@
           <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
             <div class="card-body">
               {% for v in filter_form.form.tea_source %}
-              {{ v.tag }}<label for="{{ v.id_for_label }}" class="badge badge-success label-for-check">
+              {{ v.tag }}<label for="{{ v.id_for_label }}" class="badge badge-success label-for-check text-large text-large">
                 {{ v.choice_label }}
               </label>
               {% endfor %}
@@ -149,7 +90,7 @@
           <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
             <div class="card-body">
               {% for v in filter_form.form.variety %}
-              {{ v.tag }}<label for="{{ v.id_for_label }}" class="badge badge-success label-for-check">
+              {{ v.tag }}<label for="{{ v.id_for_label }}" class="badge badge-success label-for-check text-large text-large">
                 {{ v.choice_label }}
               </label>
               {% endfor %}
@@ -169,6 +110,22 @@
     for (var inp of elements) {
       if (inp.type === "checkbox")
         inp.checked = false;
+    }
+  </script>
+
+  <script>
+    function closeModal() {
+      var container = document.getElementById("vendor-modal")
+      var backdrop = document.getElementById("modal-backdrop")
+      var modal = document.getElementById("modal")
+
+      modal.classList.remove("show")
+      backdrop.classList.remove("show")
+
+      setTimeout(function() {
+        container.removeChild(backdrop)
+        container.removeChild(modal)
+      }, 200)
     }
   </script>
 

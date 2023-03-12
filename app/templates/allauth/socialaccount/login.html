@@ -1,0 +1,38 @@
+{% load i18n %}
+{% load socialaccount %}
+
+<div id="modal-backdrop" class="modal-backdrop fade show" style="display:block;"></div>
+<div id="modal" class="modal fade show" tabindex="-1" style="display:block;">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-white">
+      <div class="modal-header">
+        {% if process == "connect" %}
+        <h1>{% blocktrans with provider.name as provider %}Connect {{ provider }}{% endblocktrans %}</h1>
+
+        <p>{% blocktrans with provider.name as provider %}You are about to connect a new third party account from {{
+          provider }}.{% endblocktrans %}</p>
+        {% else %}
+        <h1>{% blocktrans with provider.name as provider %}Sign In Via {{ provider }}{% endblocktrans %}</h1>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+
+        <p>{% blocktrans with provider.name as provider %}You are about to sign in using a third party account from {{ provider }}.{% endblocktrans %}</p>
+        {% endif %}
+      </div>
+
+      <div class="modal-footer">
+        <form method="post" action="{% provider_login_url provider.name.lower %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">{% trans "Continue" %}</button>
+        </form>
+       
+      </div>
+
+
+    </div>
+  </div>
+</div>

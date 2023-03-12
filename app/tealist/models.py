@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 
 
 class location(models.Model):
@@ -49,7 +50,7 @@ class vendor(models.Model):
         blank=True,
         related_name="tea_source",
     )
-    featured = models.BooleanField()
+    featured = models.BooleanField(default=False)
     variety = models.ManyToManyField(
         variety, help_text="Select the varieties of tea this vendor sells", blank=True
     )
@@ -61,10 +62,27 @@ class vendor(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        kwargs = {"pk": self.id, "slug": self.slug}
-        return reverse("vendor", kwargs=kwargs)
+        return "/vendors/%s/" % self.slug
 
     def save(self, *args, **kwargs):
         value = self.name
         self.slug = slugify(value, allow_unicode=True)
         super().save(*args, **kwargs)
+
+
+class comment(models.Model):
+    vendor = models.ForeignKey(
+        vendor, on_delete=models.CASCADE, related_name="comments"
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["created_on"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["vendor", "user"], name="One comment per user per vendor"
+            )
+        ]

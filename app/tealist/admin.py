@@ -1,19 +1,26 @@
 from django.contrib import admin
-from tealist.models import vendor, location, variety
+from tealist.models import *
 import csv
 from django.http import HttpResponse
 
 admin.site.register(location)
 admin.site.register(variety)
 
+class EnableFeatured:
+    def enable_featured(self, request, queryset):
+        for Vendor in queryset:
+            Vendor.featured = True
+            Vendor.save()
+    
+    enable_featured.short_description = "Feature Selected"
+
 class ExportCsvMixin:
     def export_as_csv(self, request, queryset):
-
         meta = self.model._meta
         field_names = [field.name for field in meta.fields]
 
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
+        response = HttpResponse(content_type="text/csv")
+        response["Content-Disposition"] = "attachment; filename={}.csv".format(meta)
         writer = csv.writer(response)
 
         writer.writerow(field_names)
@@ -24,31 +31,31 @@ class ExportCsvMixin:
 
     export_as_csv.short_description = "Export Selected"
 
+
 @admin.register(vendor)
 class VendorAdmin(admin.ModelAdmin, ExportCsvMixin):
-    list_display = ('name', 'url', 'created')
-    list_filter = ('store_location', 'ship_to', 'tea_source')
+    list_display = ("name", "url", "created", "featured")
+    list_filter = ("store_location", "ship_to", "tea_source")
 
-    filter_horizontal = ('variety',) 
+    filter_horizontal = ("variety",)
 
     fieldsets = (
-        (None, {
-            'fields': ('name', 'description', 'variety')
-        }),
-        ('URLs', {
-            'fields': [('url', 'url_alt')]
-        }),
-        ('Locations', {
-            'classes': ('extrapretty',),
-            'fields': [('store_location', 'ship_to', 'tea_source')]
-        }),
-        ('Advanced', {
-            'classes': ('collapse',),
-            'fields': [('featured', 'established'), 'slug']
-        }),
+        (None, {"fields": ("name", "description", "variety")}),
+        ("URLs", {"fields": [("url", "url_alt")]}),
+        (
+            "Locations",
+            {
+                "classes": ("extrapretty",),
+                "fields": [("store_location", "ship_to", "tea_source")],
+            },
+        ),
+        (
+            "Advanced",
+            {"classes": ("collapse",), "fields": [("featured", "established"), "slug"]},
+        ),
     )
 
-    actions = ["export_as_csv"]
+    actions = ["export_as_csv", "enable_featured"]
 
 
-
+admin.site.register(comment)

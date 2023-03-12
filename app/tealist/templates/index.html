@@ -1,59 +1,79 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-  <h1 class="display-4">Pricing</h1>
-  <p class="lead">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It's built with default Bootstrap components and utilities with little customization.</p>
-</div>
-
 <div class="container">
-  <div class="card-deck mb-3 text-center">
-    <div class="card mb-4 shadow-sm">
-      <div class="card-header">
-        <h4 class="my-0 font-weight-normal">Free</h4>
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-4 login-image" style="background-image: url({% static 'tea-login-hero.jpg' %})">
+
       </div>
-      <div class="card-body">
-        <h1 class="card-title pricing-card-title">$0 <small class="text-muted">/ mo</small></h1>
-        <ul class="list-unstyled mt-3 mb-4">
-          <li>10 users included</li>
-          <li>2 GB of storage</li>
-          <li>Email support</li>
-          <li>Help center access</li>
-        </ul>
-        <button type="button" class="btn btn-lg btn-block btn-outline-primary">Sign up for free</button>
-      </div>
-    </div>
-    <div class="card mb-4 shadow-sm">
-      <div class="card-header">
-        <h4 class="my-0 font-weight-normal">Pro</h4>
-      </div>
-      <div class="card-body">
-        <h1 class="card-title pricing-card-title">$15 <small class="text-muted">/ mo</small></h1>
-        <ul class="list-unstyled mt-3 mb-4">
-          <li>20 users included</li>
-          <li>10 GB of storage</li>
-          <li>Priority email support</li>
-          <li>Help center access</li>
-        </ul>
-        <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
-      </div>
-    </div>
-    <div class="card mb-4 shadow-sm">
-      <div class="card-header">
-        <h4 class="my-0 font-weight-normal">Enterprise</h4>
-      </div>
-      <div class="card-body">
-        <h1 class="card-title pricing-card-title">$29 <small class="text-muted">/ mo</small></h1>
-        <ul class="list-unstyled mt-3 mb-4">
-          <li>30 users included</li>
-          <li>15 GB of storage</li>
-          <li>Phone and email support</li>
-          <li>Help center access</li>
-        </ul>
-        <button type="button" class="btn btn-lg btn-block btn-primary">Contact us</button>
+      <div class="col-md-8 text-white login">
+        <div class="card-body text-right">
+          <h1>Find your new favorite vendor</h1>
+          <p class="lead text-white">The internet and globalization has allowed small tea vendors across the world
+            access to new markets. Finding these vendors can be a challenge, but I hope this tool allows you to explore
+            these new options.</p>
+          <a href="{% url 'vendors' %}" class="btn btn-primary text-right">Start your search</a>
+        </div>
       </div>
     </div>
   </div>
 
-{% endblock %}
+  <div class="text-center quote p-5">
+    <h4>
+      “If you are cold, tea will warm you;
+      if you are too heated, it will cool you;
+      If you are depressed, it will cheer you;
+      If you are excited, it will calm you.”
+    </h4>
+    <footer class="blockquote-footer locations">William Ewart Gladstone</footer>
+  </div>
+
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-7 login">
+        <div class="card-body">
+          <ul class="list-group">
+            {% for vendor in Featured %}
+            <li class="list-group-item p-0">
+              <p class="text-white border-bottom"><a href="{{ vendor.get_absolute_url }}">{{ vendor.name }}</a> <span
+                  class="material-symbols-outlined">
+                  psychiatry
+                </span> <span class="locations">Teas from: {{ vendor.tea_source.all|join:", " }}</span></p>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-5 d-flex featured-image" style="background-image: url({% static 'tea-login-hero.jpg' %})">
+        <h1 class="w-100 text-center align-self-center">Featured</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-5 d-flex featured-image" style="background-image: url({% static 'tea-login-hero.jpg' %})">
+        <h1 class="w-100 text-center align-self-center">Recent</h1>
+      </div>
+      <div class="col-md-7 login">
+        <div class="card-body">
+          <ul class="list-group">
+            {% for vendor in Recent %}
+            <li class="list-group-item p-0">
+              <p class="text-white border-bottom"><a href="{{ vendor.get_absolute_url }}">{{ vendor.name }}</a> <span
+                  class="material-symbols-outlined">
+                  psychiatry
+                </span> <span class="locations">Teas from: {{ vendor.tea_source.all|join:", " }}</span></p>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  {% endblock %}
