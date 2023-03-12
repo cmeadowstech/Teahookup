@@ -122,7 +122,7 @@ def ReleaseHistory(request):
 
     payload={}
     headers = {
-        'Authorization': 'Bearer ' + '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',
+        'Authorization': 'Bearer ' + env('GH_API_TOKEN'),
         'Accept': 'application/vnd.github+json',
         'X-GitHub-Api-Version': '2022-11-28'
     }
