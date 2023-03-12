@@ -39,6 +39,7 @@ ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS=['https://*.tealist.fly.dev']
 
 INTERNAL_IPS = [
+    env('MY_PUBLIC_IP'),
     #"127.0.0.1",
 ]
 
