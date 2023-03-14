@@ -25,64 +25,84 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alice&display=swap" rel="stylesheet">
 
+  <!-- Load d3.js -->
+  <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+
 </head>
 
 <body>
-  <div class="container"> <!-- Tes this terminates in base.html, don't judge me -->
-  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 border-bottom">
-    <img src="{% static 'tea-leaves.svg' %}" alt="" width="24" height="24">
-    <h5 class="my-0 mr-md-auto ml-2 font-weight-normal text-white"><a href="{% url 'index' %}">The Tea List</a></h5>
-    <nav class="my-2 my-md-0 mr-md-3">
-      <a class="p-2 text-white" href="{% url 'vendors' %}">Tea List</a>
+
+
+  <div id="header">
+    <nav class="navbar navbar-expand-md mx-auto">
+      <a class="navbar-brand mr-auto" href="{% url 'index' %}">
+        <img src="{% static 'tea-leaves.svg' %}" alt="" width="24" height="24">
+        TeaList
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="material-symbols-outlined">
+          menu
+        </span>
+      </button>
+      <div class="navbar-collapse collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav ml-auto">
+          <a class="nav-item nav-link active" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link" href="{% url 'vendors' %}">Tea List</a>
+          {% if user.is_authenticated %}
+          <a class="nav-item nav-link btn btn-outline-primary" href="/accounts/logout/" hx-get="/accounts/logout/"
+            hx-target="#htmx-modal">Sign
+            Out</a>
+          {% else %}
+          <a class="nav-item nav-link btn btn-outline-primary" href="{% url 'account_login' %}">Sign In</a>
+          {% endif %}
+        </div>
+      </div>
     </nav>
-    {% if user.is_authenticated %}
-    <a class="btn btn-outline-primary"
-       href="/accounts/logout/"
-       hx-get="/accounts/logout/"
-       hx-target="#htmx-modal">Sign Out</a>
-    {% else %}
-    <a class="btn btn-outline-primary" href="{% url 'account_login' %}">Sign In</a>
-    {% endif %}
   </div>
 
-  <div id="htmx-modal"></div>
+  <div class="container">
 
-  {% block content %}{% endblock %}
+    <div id="htmx-modal"></div>
 
-  <footer class="pt-4 my-md-5 pt-md-5 border-top">
-    <div class="row">
-      <div class="col-12 col-md">
-        <img class="mb-2" src="{% static 'tea-leaves.svg' %}" alt="" width="24" height="24">
-        <small class="d-block mb-3 text-white">&copy; 2023</small>
+    {% block content %}{% endblock %}
+
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+      <div class="row">
+        <div class="col-12 col-md">
+          <img class="mb-2" src="{% static 'tea-leaves.svg' %}" alt="" width="24" height="24">
+          <small class="d-block mb-3 text-white">&copy; 2023</small>
+        </div>
+        <div class="col-6 col-md">
+          <h5 class="text-white">Features</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-white" href="#">Cool stuff</a></li>
+            <li><a class="text-white" href="#">Random feature</a></li>
+            <li><a class="text-white" href="#">Team feature</a></li>
+            <li><a class="text-white" href="#">Stuff for developers</a></li>
+            <li><a class="text-white" href="#">Another one</a></li>
+            <li><a class="text-white" href="#">Last time</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5 class="text-white">Resources</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-white" href="{% url 'releases' %}">Releases</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5 class="text-white">About</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-white" href="#">Team</a></li>
+            <li><a class="text-white" href="#">Locations</a></li>
+            <li><a class="text-white" href="#">Privacy</a></li>
+            <li><a class="text-white" href="#">Terms</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="col-6 col-md">
-        <h5 class="text-white">Features</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="text-white" href="#">Cool stuff</a></li>
-          <li><a class="text-white" href="#">Random feature</a></li>
-          <li><a class="text-white" href="#">Team feature</a></li>
-          <li><a class="text-white" href="#">Stuff for developers</a></li>
-          <li><a class="text-white" href="#">Another one</a></li>
-          <li><a class="text-white" href="#">Last time</a></li>
-        </ul>
-      </div>
-      <div class="col-6 col-md">
-        <h5 class="text-white">Resources</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="text-white" href="{% url 'releases' %}">Releases</a></li>
-        </ul>
-      </div>
-      <div class="col-6 col-md">
-        <h5 class="text-white">About</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="text-white" href="#">Team</a></li>
-          <li><a class="text-white" href="#">Locations</a></li>
-          <li><a class="text-white" href="#">Privacy</a></li>
-          <li><a class="text-white" href="#">Terms</a></li>
-        </ul>
-      </div>
-    </div>
-  </footer>
+    </footer>
   </div>
 
 
@@ -91,15 +111,17 @@
   <!-- Placed at the end of the document so the pages load faster -->
   <script src="https://unpkg.com/htmx.org@1.8.5"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script>
+    window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"
-    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-    crossorigin="anonymous"></script>
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-    crossorigin="anonymous"></script>
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
+  </script>
   <script>
     Holder.addTheme('thumb', {
       bg: '#55595c',
@@ -108,21 +130,21 @@
     });
   </script>
 
-<script>
-  function closeModal() {
-    var container = document.getElementById("htmx-modal")
-    var backdrop = document.getElementById("modal-backdrop")
-    var modal = document.getElementById("modal")
+  <script>
+    function closeModal() {
+      var container = document.getElementById("htmx-modal")
+      var backdrop = document.getElementById("modal-backdrop")
+      var modal = document.getElementById("modal")
 
-    modal.classList.remove("show")
-    backdrop.classList.remove("show")
+      modal.classList.remove("show")
+      backdrop.classList.remove("show")
 
-    setTimeout(function() {
-      container.removeChild(backdrop)
-      container.removeChild(modal)
-    }, 200)
-  }
-</script>
+      setTimeout(function () {
+        container.removeChild(backdrop)
+        container.removeChild(modal)
+      }, 200)
+    }
+  </script>
 </body>
 
 </html>

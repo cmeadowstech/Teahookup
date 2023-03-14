@@ -1,5 +1,6 @@
 html {
   font-size: 14px;
+  overflow-x: hidden;
 }
 
 @media (min-width: 768px) {
@@ -19,7 +20,7 @@ body {
 }
 
 .container {
-  max-width: 1024px;
+  max-width: 1399px;
 }
 
 .home-header {
@@ -32,6 +33,48 @@ body {
 
 body {
   background-color: #283618;
+  background: linear-gradient(90deg, rgba(36, 48, 22, 1) 0%, rgba(40, 54, 24, 1) 25%, rgba(40, 54, 24, 1) 75%, rgba(36, 48, 22, 1) 100%);
+}
+
+#header {
+  background-color: #1a240c;
+  opacity: 0.8;
+}
+
+.navbar {
+  max-width: 1399px;
+}
+
+.home-bg-image {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.hero {
+  background-color: rgba(40, 54, 24, 0.8);
+  margin: 20vh 0;
+}
+
+.quote {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#tea_map {
+  margin: 5vh auto;
+  max-width: 960px;
+}
+
+#tea_map svg {
+  width: 100%;
+}
+
+.map-tooltip {
+  position: absolute;
+  z-index: 1070;
 }
 
 /* Vendor list */
@@ -243,4 +286,3 @@ a:hover {
   background-repeat: no-repeat;
   background-position: center center;
 }
-

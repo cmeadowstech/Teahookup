@@ -3,77 +3,196 @@
 
 {% block content %}
 
-<div class="container">
-  <div class="card mb-3">
-    <div class="row no-gutters">
-      <div class="col-md-4 login-image" style="background-image: url({% static 'tea-1.jpg' %})">
+<img class="home-bg-image" src="{% static 'tea-5.png' %}" alt="background image">
 
-      </div>
-      <div class="col-md-8 text-white login">
-        <div class="card-body text-right">
-          <h1>Find your new favorite vendor</h1>
-          <p class="lead text-white">The internet and globalization has allowed small tea vendors across the world
-            access to new markets. Finding these vendors can be a challenge, but I hope this tool allows you to explore
-            these new options.</p>
-          <a href="{% url 'vendors' %}" class="btn btn-primary text-right">Start your search</a>
-        </div>
+
+<div class="hero text-left p-3 col-12 col-md-6">
+  <h1>Find your new favorite vendor</h1>
+  <p class="lead text-white">The internet and globalization has allowed small tea vendors across the world
+    access to new markets. Finding these vendors can be a challenge, but I hope this tool allows you to explore
+    these new options.</p>
+  <a href="{% url 'vendors' %}" class="btn btn-primary text-right">Start your search</a>
+</div>
+
+<div class="hero text-right quote p-5 col-12 col-md-6 ml-auto">
+  <h4>
+    “If you are cold, tea will warm you;
+    if you are too heated, it will cool you;
+    If you are depressed, it will cheer you;
+    If you are excited, it will calm you.”
+  </h4>
+  <footer class="blockquote-footer locations">William Ewart Gladstone</footer>
+</div>
+
+<div id="tea_map"></div>
+
+<div class="card mb-3">
+  <div class="row no-gutters">
+    <div class="col-md-7 login">
+      <div class="card-body">
+        <ul class="list-group">
+          <h4>Featured Vendors</h4>
+          {% for vendor in Featured %}
+          <li class="list-group-item p-0">
+            <p class="text-white border-bottom"><a href="{{ vendor.get_absolute_url }}">{{ vendor.name }}</a> <span
+                class="material-symbols-outlined">
+                psychiatry
+              </span> <span class="locations">Teas from: {{ vendor.tea_source.all|join:", " }}</span></p>
+          </li>
+          {% endfor %}
+          <h4>Recent Vendors</h4>
+          {% for vendor in Recent %}
+          <li class="list-group-item p-0">
+            <p class="text-white border-bottom"><a href="{{ vendor.get_absolute_url }}">{{ vendor.name }}</a> <span
+                class="material-symbols-outlined">
+                psychiatry
+              </span> <span class="locations">Teas from: {{ vendor.tea_source.all|join:", " }}</span></p>
+          </li>
+          {% endfor %}
+        </ul>
       </div>
     </div>
-  </div>
-
-  <div class="text-center quote p-5">
-    <h4>
-      “If you are cold, tea will warm you;
-      if you are too heated, it will cool you;
-      If you are depressed, it will cheer you;
-      If you are excited, it will calm you.”
-    </h4>
-    <footer class="blockquote-footer locations">William Ewart Gladstone</footer>
-  </div>
-
-  <div class="card mb-3">
-    <div class="row no-gutters">
-      <div class="col-md-7 login">
-        <div class="card-body">
-          <ul class="list-group">
-            {% for vendor in Featured %}
-            <li class="list-group-item p-0">
-              <p class="text-white border-bottom"><a href="{{ vendor.get_absolute_url }}">{{ vendor.name }}</a> <span
-                  class="material-symbols-outlined">
-                  psychiatry
-                </span> <span class="locations">Teas from: {{ vendor.tea_source.all|join:", " }}</span></p>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-5 d-flex featured-image" style="background-image: url({% static 'tea-2.jpg' %})">
-        <h1 class="w-100 text-center align-self-center">Featured</h1>
-      </div>
+    <div class="col-md-5 d-flex featured-image" style="background-image: url({% static 'tea-2.jpg' %})">
     </div>
   </div>
+</div>
 
-  <div class="card mb-3">
-    <div class="row no-gutters">
-      <div class="col-md-5 d-flex featured-image" style="background-image: url({% static 'tea-3.jpg' %})">
-        <h1 class="w-100 text-center align-self-center">Recent</h1>
-      </div>
-      <div class="col-md-7 login">
-        <div class="card-body">
-          <ul class="list-group">
-            {% for vendor in Recent %}
-            <li class="list-group-item p-0">
-              <p class="text-white border-bottom"><a href="{{ vendor.get_absolute_url }}">{{ vendor.name }}</a> <span
-                  class="material-symbols-outlined">
-                  psychiatry
-                </span> <span class="locations">Teas from: {{ vendor.tea_source.all|join:", " }}</span></p>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
 
-    </div>
-  </div>
+<script>
+  // Size ?
+  var width = 960
+  var height = 600
 
-  {% endblock %}
+  // The svg
+  var svg = d3.select("#tea_map")
+    .append("svg")
+    .attr("viewBox", `0 0 960 600`)
+
+  // Map and projection
+  var projection = d3.geoEckert3()
+    .center([0, 20]) // GPS of location to zoom on
+    .scale(width / 1.6 / Math.PI)
+    .translate([width / 2, height / 2])
+
+  d3.queue()
+    .defer(d3.json, "{% static 'world-geo-small.json' %}") // World shape
+    .defer(d3.csv, "{% static 'location_counts.csv' %}") // Position of circles
+    .await(ready);
+
+  function ready(error, dataGeo, data) {
+
+    // Create a color scale
+    var allContinent = d3.map(data, function (d) {
+      return (d.country)
+    }).keys()
+    var color = d3.scaleOrdinal()
+      .domain(allContinent)
+      .range(d3.schemePaired);
+
+    // Add a scale for bubble size
+    var valueExtent = d3.extent(data, function (d) {
+      return +d.n;
+    })
+    var size = d3.scaleSqrt()
+      .domain(valueExtent) // What's in the data
+      .range([15, 25]) // Size in pixel
+
+    // Draw the map
+    svg.append("g")
+      .selectAll("path")
+      .data(dataGeo.features)
+      .enter()
+      .append("path")
+      .attr("fill", "#c5d3a0")
+      .attr("d", d3.geoPath()
+        .projection(projection)
+      )
+      .style("stroke", "#283618")
+      .attr("stroke-width", 2)
+      .style("opacity", 1)
+
+    // create a tooltip
+    var Tooltip = d3.select("#tea_map")
+      .append("div")
+      .attr("class", "map-tooltip")
+      .style("opacity", 0)
+      .style("background-color", "#1a240c")
+      .style("border", "none")
+      .style("border-width", "2px")
+      .style("border-radius", "5px")
+      .style("padding", ".75em")
+
+    // Three function that change the tooltip when user hover / move / leave a cell
+    var mouseover = function (d) {
+      Tooltip.style("opacity", 1)
+    }
+    var mousemove = function (d) {
+
+      Tooltip.html(d.country + ": " + d.n + " vendors")
+        .style("left", (parseInt(d3.select(this).attr("cx")) + document.getElementById("tea_map").offsetLeft + 20) +
+          "px")
+        .style("top", (parseInt(d3.select(this).attr("cy")) + document.getElementById("tea_map").offsetTop) + "px")
+    }
+    var mouseleave = function (d) {
+      Tooltip.style("opacity", 0)
+    }
+
+    // Add circles:
+
+    svg
+      .selectAll("myCircles")
+      .data(data.sort(function (a, b) {
+        return +b.n - +a.n
+      }).filter(function (d, i) {
+        return i < 1000
+      }))
+      .enter()
+      .append("circle")
+      .attr("cx", function (d) {
+        return projection([+d.homelon, +d.homelat])[0]
+      })
+      .attr("cy", function (d) {
+        return projection([+d.homelon, +d.homelat])[1]
+      })
+      .attr("r", function (d) {
+        return size(+d.n)
+      })
+      .attr("class", "circle")
+      .style("fill", "#1a240c")
+      .attr("stroke", "#9dd02d")
+      .attr("stroke-width", 2)
+      .on("mouseover", mouseover)
+      .on("mousemove", mousemove)
+      .on("mouseleave", mouseleave)
+
+    // Add markers
+
+    svg.selectAll(".m")
+      .data(data.sort(function (a, b) {
+        return +b.n - +a.n
+      }).filter(function (d, i) {
+        return i < 1000
+      }))
+      .enter()
+      .append("image")
+      .attr('width', 20)
+      .attr('height', 20)
+      .attr("xlink:href", "{% static 'tea-marker.svg' %}")
+      .attr("transform", (d) => {
+        let p = projection([d.homelon, d.homelat]);
+        return `translate(${p[0]-10}, ${p[1]-10})`;
+      })
+      .attr("cx", function (d) {
+        return projection([+d.homelon, +d.homelat])[0]
+      })
+      .attr("cy", function (d) {
+        return projection([+d.homelon, +d.homelat])[1]
+      })
+      .on("mouseover", mouseover)
+      .on("mousemove", mousemove)
+      .on("mouseleave", mouseleave)
+
+  }
+</script>
+
+{% endblock %}
