@@ -1,0 +1,27 @@
+    <!--- Comments -->
+
+    {% if user.is_authenticated %}
+    <div id="comment-error" class="alert alert-warning mt-4 mb-0" role="alert"></div>
+    <form hx-post="{{ vendor.get_absolute_url }}comments/" hx-target="#comment-error" class="pt-4">
+        {% csrf_token %}
+        {{comment_form.as_p}}
+        <input type="submit" value="Post Comment" class="w-100 p-1 submit-filters" />
+    </form>
+    {% endif %}
+
+    {% if comments %}
+    <ul class="list-group">
+        {% for comment in comments %}
+        <li class="list-group-item border-bottom mb-2 pb-2 comment">
+            <p>{{ comment.content|linebreaks }}</p>
+            <footer class="blockquote-footer text-right"><span
+                    class="badge badge-primary comment-user">{{ comment.user.username }}</span><span
+                    class="badge badge-success badge-pill ml-1">{{ comment.value }} <i
+                        class="material-symbols-outlined">
+                        star
+                    </i></span> |
+                <small class="locations">{{ comment.created_on|date:"D, F jS" }}</small></footer>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}

@@ -103,8 +103,9 @@ def CommentsView(request, slug):
             cf = CommentForm(request.POST or None)
             if cf.is_valid():
                 content = request.POST.get("content")
+                value = request.POST.get("value")
                 Comment = comment.objects.create(
-                    vendor=Vendor, user=request.user, content=content
+                    vendor=Vendor, user=request.user, content=content, value=value
                 )
                 Comment.save()
 
@@ -129,8 +130,6 @@ def ReleaseHistory(request):
 
     response = requests.request("GET", url, headers=headers, data=payload)
     Releases = response.json()
-
-    print(response.text)
 
     context = {"Releases": Releases}
 

@@ -14,7 +14,8 @@ class CommentForm(forms.ModelForm):
             }
         ),
     )
+    value = forms.ChoiceField(label="Rating", choices = comment.value.field.choices)
 
     class Meta:
         model = comment
-        fields = ["content"]
+        fields = ["content", "value"]

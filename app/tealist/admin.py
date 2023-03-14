@@ -40,7 +40,7 @@ class ExportCsvMixin:
 
 @admin.register(vendor)
 class VendorAdmin(admin.ModelAdmin, ExportCsvMixin, UpdateFeatured):
-    list_display = ("name", "url", "created", "featured")
+    list_display = ("name", "url", "created", "featured", "rating")
     list_filter = ("store_location", "ship_to", "tea_source")
 
     filter_horizontal = ("variety",)
@@ -57,11 +57,13 @@ class VendorAdmin(admin.ModelAdmin, ExportCsvMixin, UpdateFeatured):
         ),
         (
             "Advanced",
-            {"classes": ("collapse",), "fields": [("featured", "established"), "slug"]},
+            {"classes": ("collapse",), "fields": [("featured", "established"), "slug", "rating"]},
         ),
     )
 
     actions = ["export_as_csv", "enable_featured", "disable_featured"]
 
-
-admin.site.register(comment)
+@admin.register(comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ("created_on", "vendor", "user", "value", "active")
+    search_fields = ['user__username', 'vendor__name']

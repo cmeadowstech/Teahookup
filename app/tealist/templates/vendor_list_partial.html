@@ -13,6 +13,9 @@
                 <i class="material-symbols-outlined">public</i>
             </a>
             {% endif %}
+            {% if vendor.rating %}
+            <span class="badge badge-primary float-right">{{ vendor.rating }}</span>
+            {% endif %}
         </h4>
         <div>
             {% for variety in vendor.variety.all %} 

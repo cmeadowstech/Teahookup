@@ -57,6 +57,7 @@ class vendor(models.Model):
     established = models.DateField(blank=True, null=True)
     created = models.DateField(auto_now_add=True)
     slug = models.SlugField(max_length=250, blank=True)
+    rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, default=0.0)
 
     def __str__(self):
         return self.name
@@ -71,6 +72,14 @@ class vendor(models.Model):
 
 
 class comment(models.Model):
+    RATING_CHOICES = (
+        (5, '5'),
+        (4, '4'),
+        (3, '3'),
+        (2, '2'),
+        (1, '1'),
+    )
+
     vendor = models.ForeignKey(
         vendor, on_delete=models.CASCADE, related_name="comments"
     )
@@ -78,6 +87,20 @@ class comment(models.Model):
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)
+    value = models.IntegerField(choices=RATING_CHOICES)
+
+    def save(self, *args, **kwargs):
+        Vendor = self.vendor
+        Comments = comment.objects.filter(vendor=Vendor)
+        avg = float(0)
+        for c in Comments:
+            avg += float(c.value)
+
+        avg += self.value
+        avg = avg / (len(Comments) + 1)
+        Vendor.rating = avg
+        Vendor.save()
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ["created_on"]

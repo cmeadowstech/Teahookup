@@ -2,11 +2,11 @@
 
 {% block content %}
 
-<ul class="list-group">
+<ul class="list-group mt-3">
     {% for release in Releases %}
     <li class="list-group-item p-3">
         <h4 class="border-bottom pb-2">{{ release.tag_name }} | <small class="locations">{{ release.created_at }}</small></h4>
-        <p>{{ release.body }}</p>
+        <p>{{ release.body|linebreaks }}</p>
     </li>
     {% endfor %}
 </ul>

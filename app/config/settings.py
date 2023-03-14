@@ -114,7 +114,7 @@ else:
     }
 
 DATABASES = {
-    'default': DJANGO_DB
+    'default': env.db()
 }
 
 # Password validation

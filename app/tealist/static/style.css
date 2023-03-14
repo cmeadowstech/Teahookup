@@ -257,12 +257,22 @@ a:hover {
 
 /* Vendor Detail */
 
-.comment-user {
+.badge-primary {
   background-color: #bc6c25;
 }
 
 #comment-error:empty {
   display: none;
+}
+
+.comment .blockquote-footer {
+  font-size: 100%;
+}
+
+.comment .material-symbols-outlined {
+  color: white !important;
+  font-size: inherit !important;
+  height: 100%;
 }
 
 /* Login / Auth */
