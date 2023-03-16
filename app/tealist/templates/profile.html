@@ -11,8 +11,10 @@
             <div class="card-body">
                 <h4 class="pb-2 card-title">Welcome, {% user_display user %}</h4>
 
+                {% if user.password %}
                 <div id="password-reset" hx-get="{% url 'account_change_password' %}" hx-trigger="load"></div>
-
+                {% endif %}
+                
                 <div id="update-email" class="mt-4" hx-get="{% url 'account_email' %}" hx-trigger="load"></div>
 
             </div>
