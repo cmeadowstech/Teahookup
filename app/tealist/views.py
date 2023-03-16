@@ -6,7 +6,7 @@ import environ
 
 from .models import *
 from .filters import *
-from .forms import CommentForm
+from .forms import CommentForm, VendorForm
 
 # Helper logic
 
@@ -134,3 +134,28 @@ def ReleaseHistory(request):
     context = {"Releases": Releases}
 
     return render(request, "release_history.html", context)
+
+def ProfileView(request):
+
+    return render(request, "profile.html")
+
+def VendorSubmitView(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = VendorForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponse('/thanks/')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = VendorForm()
+
+
+    context = {"vendor_form": form}
+
+    return render(request, "vendor_submit.html", context)

@@ -1,5 +1,5 @@
 from django import forms
-from .models import comment
+from .models import comment, vendor
 
 
 class CommentForm(forms.ModelForm):
@@ -19,3 +19,11 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = comment
         fields = ["content", "value"]
+
+class VendorForm(forms.ModelForm):
+    
+
+    class Meta:
+        model = vendor
+        fields = ["name", "description", "store_location"]
+        widgets = {'store_location': forms.CheckboxSelectMultiple}

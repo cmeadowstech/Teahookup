@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="card">
+    <div class="row no-gutters">
+        <div class="col-md-4 featured-image" style="background-image: url({% static 'tea-login-hero.jpg' %})">
+
+        </div>
+        <div class="col-md-8 text-white login">
+            <div class="card-body">
+                <h4 class="pb-2 card-title">Submit a new vendor</h4>
+                {% if user.is_authenticated %}
+                <div id="comment-error" class="alert alert-warning mt-4 mb-0" role="alert"></div>
+                <form hx-post="{{ vendor.get_absolute_url }}comments/" hx-target="#comment-error" class="pt-4">
+                    {% csrf_token %}
+                    <ul class="list-group">
+                        <li id="{{ vendor_form.name.label }}" class="list-group-item">
+                            <label for="{{ vendor_form.name.id_for_label }}">{{ vendor_form.name.label }}</label>
+                            {{vendor_form.name}}
+                        </li>
+                        <li id="{{ vendor_form.description.label }}" class="list-group-item">
+                            <label
+                                for="{{ vendor_form.description.id_for_label }}">{{ vendor_form.description.label }}</label>
+                            {{vendor_form.description}}
+                        </li>
+                        <li id="{{ vendor_form.store_location.label }}" class="list-group-item">
+                            <label
+                                for="{{ vendor_form.store_location.id_for_label }}">{{ vendor_form.store_location.label }}</label>
+
+                            {% for v in vendor_form.store_location %}
+                            {{ v.tag }}<label for="{{ v.id_for_label }}"
+                                class="badge badge-success label-for-check text-large text-large">
+                                {{ v.choice_label }}
+                            </label>
+                            {% endfor %}
+                        </li>
+                    </ul>
+                    <input type="submit" value="Submit Vendor" class="w-100 p-1 submit-filters" />
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

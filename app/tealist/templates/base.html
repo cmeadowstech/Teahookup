@@ -52,9 +52,8 @@
           <a class="nav-item nav-link active" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
           <a class="nav-item nav-link" href="{% url 'vendors' %}">Tea List</a>
           {% if user.is_authenticated %}
-          <a class="nav-item nav-link btn btn-outline-primary" href="/accounts/logout/" hx-get="/accounts/logout/"
-            hx-target="#htmx-modal">Sign
-            Out</a>
+          <a class="nav-item nav-link btn btn-outline-primary" href="{% url 'account_logout' %}" hx-get="/accounts/logout/"
+            hx-target="#htmx-modal">Sign Out</a>
           {% else %}
           <a class="nav-item nav-link btn btn-outline-primary" href="{% url 'account_login' %}">Sign In</a>
           {% endif %}
@@ -63,7 +62,7 @@
     </nav>
   </div>
 
-  <div class="container">
+  <div class="container mt-3">
 
     <div id="htmx-modal"></div>
 
@@ -78,12 +77,9 @@
         <div class="col-6 col-md">
           <h5 class="text-white">Features</h5>
           <ul class="list-unstyled text-small">
-            <li><a class="text-white" href="#">Cool stuff</a></li>
-            <li><a class="text-white" href="#">Random feature</a></li>
-            <li><a class="text-white" href="#">Team feature</a></li>
-            <li><a class="text-white" href="#">Stuff for developers</a></li>
-            <li><a class="text-white" href="#">Another one</a></li>
-            <li><a class="text-white" href="#">Last time</a></li>
+            {% if user.is_authenticated %}
+            <li><a class="text-white" href="{% url 'profile' %}">Your profile</a></li>
+            {% endif %}
           </ul>
         </div>
         <div class="col-6 col-md">

@@ -1,15 +1,12 @@
-{% extends "account/base.html" %}
-
 {% load i18n %}
 
-{% block head_title %}{% trans "E-mail Addresses" %}{% endblock %}
 
 {% block content %}
-    <h1>{% trans "E-mail Addresses" %}</h1>
+    <h4>{% trans "E-mail Addresses" %}</h4>
 {% if user.emailaddress_set.all %}
 <p>{% trans 'The following e-mail addresses are associated with your account:' %}</p>
 
-<form action="{% url 'account_email' %}" class="email_list" method="post">
+<form hx-post="{% url 'account_email' %}" class="email_list" hx-target="#update-email">
 {% csrf_token %}
 <fieldset class="blockLabels">
 
@@ -31,9 +28,9 @@
   {% endfor %}
 
 <div class="buttonHolder">
-      <button class="secondaryAction" type="submit" name="action_primary" >{% trans 'Make Primary' %}</button>
-      <button class="secondaryAction" type="submit" name="action_send" >{% trans 'Re-send Verification' %}</button>
-      <button class="primaryAction" type="submit" name="action_remove" >{% trans 'Remove' %}</button>
+  <input type="submit" value="{% trans 'Make Primary' %}" name="action_primary" >
+  <input type="submit" value="{% trans 'Re-send Verification' %}" name="action_send" >
+  <input type="submit" value="{% trans 'Remove' %}" name="action_remove" >
 </div>
 
 </fieldset>
@@ -45,12 +42,12 @@
 {% endif %}
 
   {% if can_add_email %}
-    <h2>{% trans "Add E-mail Address" %}</h2>
+    <h3 class="mt-3">{% trans "Add E-mail Address" %}</h3>
 
-    <form method="post" action="{% url 'account_email' %}" class="add_email">
+    <form hx-post="{% url 'account_email' %}" class="add_email" hx-target="#update-email">
         {% csrf_token %}
         {{ form.as_p }}
-        <button name="action_add" type="submit">{% trans "Add E-mail" %}</button>
+        <input type="submit" value="{% trans 'Add E-mail' %}">
     </form>
   {% endif %}
 
