@@ -145,15 +145,18 @@ def ProfileView(request):
 
 
 def VendorSubmitView(request):
-
     if request.method == "POST":
         form = VendorForm(request.POST)
         if form.is_valid():
             Vendor = form.save()
 
-            return HttpResponse(f'Thanks for submitting { Vendor.name }. Once it is approved by an admin, it will be become available on the site.')
+            return HttpResponse(
+                f"Thanks for submitting { Vendor.name }. Once it is approved by an admin, it will be become available on the site."
+            )
         else:
-            return HttpResponse('The vendor name or url you submitted already exists in our database. Or, we ran into some other error.')
+            return HttpResponse(
+                "The vendor name or url you submitted already exists in our database. Or, we ran into some other error."
+            )
 
     # if a GET (or any other method) we'll create a blank form
     else:

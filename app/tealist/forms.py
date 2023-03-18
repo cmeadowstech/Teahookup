@@ -23,7 +23,7 @@ class CommentForm(forms.ModelForm):
 
 class VendorForm(forms.ModelForm):
     name = forms.CharField(
-        help_text='The business name of the vendor',
+        help_text="The business name of the vendor",
         widget=forms.TextInput(
             attrs={
                 "class": "form-control",
@@ -31,7 +31,7 @@ class VendorForm(forms.ModelForm):
         ),
     )
     url = forms.CharField(
-        help_text='The URL of the vendor',
+        help_text="The URL of the vendor",
         widget=forms.URLInput(
             attrs={
                 "class": "form-control",
@@ -39,8 +39,8 @@ class VendorForm(forms.ModelForm):
         ),
     )
     url_alt = forms.CharField(
-        help_text='An alternate URL, if one exists. Such as for a global site',
-        label='Alternative URL',
+        help_text="An alternate URL, if one exists. Such as for a global site",
+        label="Alternative URL",
         required=False,
         widget=forms.URLInput(
             attrs={
@@ -50,7 +50,7 @@ class VendorForm(forms.ModelForm):
         ),
     )
     description = forms.CharField(
-        help_text='Description of the vendor. Often pulled from about pages or Google summaries',
+        help_text="Description of the vendor. Often pulled from about pages or Google summaries",
         widget=forms.Textarea(
             attrs={
                 "class": "form-control",
@@ -61,7 +61,7 @@ class VendorForm(forms.ModelForm):
     )
     store_location = forms.ModelMultipleChoiceField(
         queryset=location.objects.all(),
-        help_text='Description of the vendor. Often pulled from about pages or Google summaries',
+        help_text="Description of the vendor. Often pulled from about pages or Google summaries",
         widget=forms.CheckboxSelectMultiple(),
     )
 
