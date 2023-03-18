@@ -65,7 +65,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",  # allauth Google
     "debug_toolbar",  # Django debug toolbar
-    "matomo",   # django-matomo
+    "request",  # django-request
     "tealist",
 ]
 
@@ -76,6 +76,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "request.middleware.RequestMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
@@ -177,8 +178,7 @@ if not DEBUG:
 else:
     SITE_ID = 3
 
-MATOMO_SITE_ID = 4
-MATOMO_URL = "https://tealist.fly.dev/matomo/"
+REQUEST_BASE_URL = "https://tealist.fly.dev/"
 
 LOGIN_REDIRECT_URL = "/"
 

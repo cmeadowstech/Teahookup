@@ -1,6 +1,5 @@
 {% load static %}
 {% load socialaccount %}
-{% load matomo_tags %}
 
 <!doctype html>
 <html lang="en">
@@ -53,8 +52,8 @@
           <a class="nav-item nav-link active" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
           <a class="nav-item nav-link" href="{% url 'vendors' %}">Tea List</a>
           {% if user.is_authenticated %}
-          <a class="nav-item nav-link btn btn-outline-primary" href="{% url 'account_logout' %}" hx-get="/accounts/logout/"
-            hx-target="#htmx-modal">Sign Out</a>
+          <a class="nav-item nav-link btn btn-outline-primary" href="{% url 'account_logout' %}"
+            hx-get="/accounts/logout/" hx-target="#htmx-modal">Sign Out</a>
           {% else %}
           <a class="nav-item nav-link btn btn-outline-primary" href="{% url 'account_login' %}">Sign In</a>
           {% endif %}
@@ -144,7 +143,6 @@
     }
   </script>
 
-  {% tracking_code %}
 </body>
 
 </html>
