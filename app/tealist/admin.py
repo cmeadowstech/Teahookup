@@ -6,6 +6,7 @@ from django.http import HttpResponse
 admin.site.register(location)
 admin.site.register(variety)
 
+
 class UpdateFeatured:
     def enable_featured(self, request, queryset):
         for Vendor in queryset:
@@ -16,9 +17,10 @@ class UpdateFeatured:
         for Vendor in queryset:
             Vendor.featured = False
             Vendor.save()
-    
+
     enable_featured.short_description = "Enable Featured"
     disable_featured.short_description = "Disabled Featured"
+
 
 class ExportCsvMixin:
     def export_as_csv(self, request, queryset):
@@ -40,7 +42,7 @@ class ExportCsvMixin:
 
 @admin.register(vendor)
 class VendorAdmin(admin.ModelAdmin, ExportCsvMixin, UpdateFeatured):
-    list_display = ("name", "url", "created", "featured", "rating")
+    list_display = ("name", "url", "created", "featured", "rating", "active")
     list_filter = ("store_location", "ship_to", "tea_source")
 
     filter_horizontal = ("variety",)
@@ -57,13 +59,17 @@ class VendorAdmin(admin.ModelAdmin, ExportCsvMixin, UpdateFeatured):
         ),
         (
             "Advanced",
-            {"classes": ("collapse",), "fields": [("featured", "established"), "slug", "rating"]},
+            {
+                "classes": ("collapse",),
+                "fields": [("featured", "established"), "slug", "rating", "active"],
+            },
         ),
     )
 
     actions = ["export_as_csv", "enable_featured", "disable_featured"]
 
+
 @admin.register(comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ("created_on", "vendor", "user", "value", "active")
-    search_fields = ['user__username', 'vendor__name']
+    search_fields = ["user__username", "vendor__name"]

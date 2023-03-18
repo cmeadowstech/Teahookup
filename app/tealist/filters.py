@@ -2,6 +2,7 @@ import django_filters
 from .models import vendor, location, variety
 from django import forms
 
+
 class VendorFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(
         lookup_expr="icontains",

@@ -58,6 +58,7 @@ class vendor(models.Model):
     created = models.DateField(auto_now_add=True)
     slug = models.SlugField(max_length=250, blank=True)
     rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, default=0.0)
+    active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -73,11 +74,11 @@ class vendor(models.Model):
 
 class comment(models.Model):
     RATING_CHOICES = (
-        (5, '5'),
-        (4, '4'),
-        (3, '3'),
-        (2, '2'),
-        (1, '1'),
+        (5, "5"),
+        (4, "4"),
+        (3, "3"),
+        (2, "2"),
+        (1, "1"),
     )
 
     vendor = models.ForeignKey(

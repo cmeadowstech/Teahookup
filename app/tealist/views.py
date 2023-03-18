@@ -12,6 +12,7 @@ from .forms import CommentForm, VendorForm
 
 env = environ.Env()
 
+
 def GetPages(qs, pagination, request):
     paginator = Paginator(qs, pagination)
     page = request.GET.get("page")
@@ -33,7 +34,7 @@ def GetParams(request):
 
 
 def GetVendorsContext(request):
-    f = VendorFilter(request.GET, queryset=vendor.objects.all())
+    f = VendorFilter(request.GET, queryset=vendor.objects.all().exclude(active=False))
     locations = location.objects.all()
 
     response = GetPages(f.qs, 6, request)
@@ -54,9 +55,9 @@ def GetVendorsContext(request):
 
 def index(request):
     Featured = vendor.objects.filter(featured=True)
-    Recent = vendor.objects.all().order_by('created')[:5]
+    Recent = vendor.objects.all().order_by("created")[:5]
 
-    context = {"Featured" : Featured, "Recent": Recent}
+    context = {"Featured": Featured, "Recent": Recent}
 
     return render(request, "index.html", context)
 
@@ -109,7 +110,9 @@ def CommentsView(request, slug):
                 )
                 Comment.save()
 
-                response = "Thanks for sharing your thoughts! Refresh to see your comment."
+                response = (
+                    "Thanks for sharing your thoughts! Refresh to see your comment."
+                )
                 return HttpResponse(response)
     else:
         cf = CommentForm()
@@ -118,14 +121,15 @@ def CommentsView(request, slug):
 
     return render(request, "comments_partial.html", context)
 
+
 def ReleaseHistory(request):
     url = "https://api.github.com/repos/cmeadowstech/tea-list/releases"
 
-    payload={}
+    payload = {}
     headers = {
-        'Authorization': 'Bearer ' + env('GH_API_TOKEN'),
-        'Accept': 'application/vnd.github+json',
-        'X-GitHub-Api-Version': '2022-11-28'
+        "Authorization": "Bearer " + env("GH_API_TOKEN"),
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
     }
 
     response = requests.request("GET", url, headers=headers, data=payload)
@@ -135,26 +139,25 @@ def ReleaseHistory(request):
 
     return render(request, "release_history.html", context)
 
-def ProfileView(request):
 
+def ProfileView(request):
     return render(request, "profile.html")
 
+
 def VendorSubmitView(request):
-    # if this is a POST request we need to process the form data
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
+
+    if request.method == "POST":
         form = VendorForm(request.POST)
-        # check whether it's valid:
         if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            return HttpResponse('/thanks/')
+            Vendor = form.save()
+
+            return HttpResponse(f'Thanks for submitting { Vendor.name }. Once it is approved by an admin, it will be become available on the site.')
+        else:
+            return HttpResponse('The vendor name or url you submitted already exists in our database. Or, we ran into some other error.')
 
     # if a GET (or any other method) we'll create a blank form
     else:
         form = VendorForm()
-
 
     context = {"vendor_form": form}
 

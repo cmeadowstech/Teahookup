@@ -1,5 +1,5 @@
 from django import forms
-from .models import comment, vendor
+from .models import comment, vendor, location
 
 
 class CommentForm(forms.ModelForm):
@@ -14,16 +14,71 @@ class CommentForm(forms.ModelForm):
             }
         ),
     )
-    value = forms.ChoiceField(label="Rating", choices = comment.value.field.choices)
+    value = forms.ChoiceField(label="Rating", choices=comment.value.field.choices)
 
     class Meta:
         model = comment
         fields = ["content", "value"]
 
+
 class VendorForm(forms.ModelForm):
-    
+    name = forms.CharField(
+        help_text='The business name of the vendor',
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control",
+            }
+        ),
+    )
+    url = forms.CharField(
+        help_text='The URL of the vendor',
+        widget=forms.URLInput(
+            attrs={
+                "class": "form-control",
+            }
+        ),
+    )
+    url_alt = forms.CharField(
+        help_text='An alternate URL, if one exists. Such as for a global site',
+        label='Alternative URL',
+        required=False,
+        widget=forms.URLInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Optional",
+            }
+        ),
+    )
+    description = forms.CharField(
+        help_text='Description of the vendor. Often pulled from about pages or Google summaries',
+        widget=forms.Textarea(
+            attrs={
+                "class": "form-control",
+                "rows": 4,
+                "cols": 50,
+            }
+        ),
+    )
+    store_location = forms.ModelMultipleChoiceField(
+        queryset=location.objects.all(),
+        help_text='Description of the vendor. Often pulled from about pages or Google summaries',
+        widget=forms.CheckboxSelectMultiple(),
+    )
 
     class Meta:
         model = vendor
-        fields = ["name", "description", "store_location"]
-        widgets = {'store_location': forms.CheckboxSelectMultiple}
+        fields = [
+            "name",
+            "description",
+            "store_location",
+            "ship_to",
+            "tea_source",
+            "url",
+            "url_alt",
+            "variety",
+        ]
+        widgets = {
+            "ship_to": forms.CheckboxSelectMultiple,
+            "tea_source": forms.CheckboxSelectMultiple,
+            "variety": forms.CheckboxSelectMultiple,
+        }

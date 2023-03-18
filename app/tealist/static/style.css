@@ -24,6 +24,10 @@ body {
   max-width: 1399px;
 }
 
+.vendorlist {
+  margin: auto;
+}
+
 .home-header {
   max-width: 700px;
 }
@@ -161,7 +165,7 @@ h4 a:hover {
 
 /* Buttons and more */
 
-.filter-form input[type="checkbox"], .list-group-item input[type="checkbox"] {
+.filter-form input[type="checkbox"], .no-tick input[type="checkbox"] {
   /* Add if not using autoprefixer */
   -webkit-appearance: none;
   appearance: none;
@@ -213,6 +217,7 @@ input[type=submit]:hover {
 input[type=text],
 input[type=password],
 input[type=email],
+input[type=url],
 textarea {
   background-color: #283618 !important;
   border: none !important;
@@ -223,6 +228,7 @@ textarea {
 input[type=text]:focus,
 input[type=password]:focus,
 input[type=email]:focus,
+input[type=url]:focus,
 textarea:focus {
   outline: none;
   color: white !important;
@@ -237,7 +243,7 @@ select {
 }
 
 .btn-link {
-  color: #c5d3a0 !important;
+  color: white !important;
 }
 
 .card {

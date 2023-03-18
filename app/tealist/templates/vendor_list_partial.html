@@ -1,3 +1,4 @@
+{% load static %}
 {% if filter %}
 {% for vendor in filter %}
 <li class="list-group-item mt-1 mb-1 mr-2 border-bottom">
@@ -13,9 +14,13 @@
             <i class="material-symbols-outlined">public</i>
         </a>
         {% endif %}
+
         {% if vendor.rating %}
         <span class="badge badge-primary float-right">{{ vendor.rating }}</span>
         {% endif %}
+        <a href="{{ vendor.get_absolute_url }}">
+            <img src="{% static 'share.svg' %}" class="float-right mr-2" width="26">
+        </a>
     </h4>
     <div>
         {% for variety in vendor.variety.all %}
