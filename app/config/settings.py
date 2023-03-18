@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",  # allauth Google
     "debug_toolbar",  # Django debug toolbar
+    "matomo",   # django-matomo
     "tealist",
 ]
 
@@ -175,6 +176,9 @@ if not DEBUG:
     SITE_ID = 4
 else:
     SITE_ID = 3
+
+MATOMO_SITE_ID = 4
+MATOMO_URL = "https://tealist.fly.dev/matomo/"
 
 LOGIN_REDIRECT_URL = "/"
 

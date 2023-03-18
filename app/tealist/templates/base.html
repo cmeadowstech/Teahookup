@@ -1,5 +1,6 @@
 {% load static %}
 {% load socialaccount %}
+{% load matomo_tags %}
 
 <!doctype html>
 <html lang="en">
@@ -142,6 +143,8 @@
       }, 200)
     }
   </script>
+
+  {% tracking_code %}
 </body>
 
 </html>
