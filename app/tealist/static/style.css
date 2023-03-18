@@ -1,3 +1,5 @@
+/* Global */
+
 html {
   font-size: 14px;
   overflow-x: hidden;
@@ -12,9 +14,11 @@ html {
 body {
   color: white;
   overflow-x: hidden;
+  background: #283618;
+  background-image: linear-gradient(90deg, rgba(36, 48, 22, 1) 0%, rgba(40, 54, 24, 1) 25%, rgba(40, 54, 24, 1) 75%, rgba(36, 48, 22, 1) 100%);
+  background-repeat: no-repeat;
+  background-position: top center;
 }
-
-/* Reset */
 
 .list-group-item {
   border: none;
@@ -24,24 +28,22 @@ body {
   max-width: 1399px;
 }
 
-.vendorlist {
-  margin: auto;
+a {
+  color: #bc6c25;
 }
 
-.home-header {
-  max-width: 700px;
+a:hover {
+  color: #2c600f;
 }
 
-.card-deck .card {
-  min-width: 220px;
-}
-
-body {
-  background: #283618;
-  background-image: linear-gradient(90deg, rgba(36, 48, 22, 1) 0%, rgba(40, 54, 24, 1) 25%, rgba(40, 54, 24, 1) 75%, rgba(36, 48, 22, 1) 100%);
+.featured-image {
+  background-size: cover;
   background-repeat: no-repeat;
-  background-position: top center;
+  background-position: center center;
+  min-height: 100px;
 }
+
+/* Header / NavBar */
 
 #header {
   background-color: #1a240c;
@@ -51,6 +53,50 @@ body {
 .navbar {
   max-width: 1399px;
 }
+
+h1,
+h4,
+h4 a,
+h4 a:hover {
+  color: #dda15e;
+  font-family: 'Alice', serif;
+}
+
+.badge-success {
+  background-color: #2c600f;
+}
+
+/* Modals */
+
+.modal-content {
+  border: 1px solid #4a5e13 !important;
+}
+
+.modal {
+  overflow-y: auto !important;
+}
+
+.modal-footer,
+.modal-header,
+.border-bottom,
+.border-right,
+.border-left {
+  border-color: #4a5e13 !important;
+}
+
+.locations {
+  color: #c5d3a0;
+}
+
+.text-large {
+  font-size: 80%;
+}
+
+.card {
+  border-bottom: 1px solid #4a5e13 !important;
+}
+
+/* Index */
 
 .home-bg-image {
   position: absolute;
@@ -94,6 +140,14 @@ body {
 
 /* Vendor list */
 
+.vendorlist {
+  margin: auto;
+}
+
+.card-deck .card {
+  min-width: 220px;
+}
+
 .list-group-item,
 .card,
 .modal-content,
@@ -108,30 +162,6 @@ body {
 .material-symbols-outlined {
   font-size: 16px !important;
   color: #bc6c25 !important;
-}
-
-h1,
-h4,
-h4 a,
-h4 a:hover {
-  color: #dda15e;
-  font-family: 'Alice', serif;
-}
-
-.badge-success {
-  background-color: #2c600f;
-}
-
-.modal-footer,
-.modal-header,
-.border-bottom,
-.border-right,
-.border-left {
-  border-color: #4a5e13 !important;
-}
-
-.locations {
-  color: #c5d3a0;
 }
 
 .page-nav {
@@ -150,10 +180,6 @@ h4 a:hover {
   transition: background-color .5s;
 }
 
-.text-large {
-  font-size: 80%;
-}
-
 .rounded {
   border-radius: .5rem !important;
 }
@@ -163,7 +189,7 @@ h4 a:hover {
   border-radius: 0 !important;
 }
 
-/* Buttons and more */
+/* Forms and buttons */
 
 .filter-form input[type="checkbox"], .no-tick input[type="checkbox"] {
   /* Add if not using autoprefixer */
@@ -246,30 +272,8 @@ select {
   color: white !important;
 }
 
-.card {
-  border-bottom: 1px solid #4a5e13 !important;
-}
-
 #id_o {
   width: 100%
-}
-
-a {
-  color: #bc6c25;
-}
-
-a:hover {
-  color: #2c600f;
-}
-
-/* Modals */
-
-.modal-content {
-  border: 1px solid #4a5e13 !important;
-}
-
-.modal {
-  overflow-y: auto !important;
 }
 
 /* Vendor Detail */
@@ -306,11 +310,4 @@ a:hover {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-}
-
-.featured-image {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  min-height: 100px;
 }

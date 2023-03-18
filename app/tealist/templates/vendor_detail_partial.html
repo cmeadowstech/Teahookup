@@ -1,16 +1,18 @@
+{% load static %}
+
 <div id="modal-backdrop" class="modal-backdrop fade show" style="display:block;"></div>
 <div id="modal" class="modal fade show" tabindex="-1" style="display:block;">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-body">
         <h4 class="modal-title mb-2">{{ vendor.name }}
-        {% if vendor.rating %}
-        <span class="badge badge-primary ml-1">{{ vendor.rating }}</span>
-        {% endif %}
-        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" onclick="closeModal()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </h4>
+          {% if vendor.rating %}
+          <span class="badge badge-primary float-right">{{ vendor.rating }}</span>
+          {% endif %}
+          <a href="{{ vendor.get_absolute_url }}">
+            <img src="{% static 'share.svg' %}" class="float-right mr-2" width="26">
+          </a>
+        </h4>
         <div class="row pb-3 mb-2 border-bottom">
           <div class="col-md-6 locations">
             <i class="material-symbols-outlined">open_in_new</i> Main Site: <a href="{{ vendor.url }}"
