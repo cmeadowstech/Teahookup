@@ -1,5 +1,5 @@
 from django import forms
-from .models import comment, vendor, location
+from .models import comment, vendor, location, variety
 
 
 class CommentForm(forms.ModelForm):
@@ -71,8 +71,13 @@ class VendorForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple(),
     )
     tea_source = forms.ModelMultipleChoiceField(
-        help_text="What sort of teas does this vendor sell?",
+        help_text="Where does this vendor source its tea from?",
         queryset=location.objects.all().exclude(tea_source__isnull=True),
+        widget=forms.CheckboxSelectMultiple(),
+    )
+    tea_source = forms.ModelMultipleChoiceField(
+        help_text="What sort of teas does this vendor sell?",
+        queryset=variety.objects.all(),
         widget=forms.CheckboxSelectMultiple(),
     )
 
@@ -88,6 +93,3 @@ class VendorForm(forms.ModelForm):
             "url_alt",
             "variety",
         ]
-        widgets = {
-            "variety": forms.CheckboxSelectMultiple,
-        }
