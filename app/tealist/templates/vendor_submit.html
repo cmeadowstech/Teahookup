@@ -10,6 +10,17 @@
         <div class="col-md-8 text-white login">
             <div class="card-body">
                 <h4 class="pb-2 card-title">Submit a new vendor</h4>
+                {% if messages %}
+
+                {% for message in messages %}
+                {% if 'signed' not in message|safe %}
+                <div class="alert alert-success {{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+                {% endif %}
+                {% endfor %}
+
+                {% endif %}
                 {% if user.is_authenticated %}
                 <fieldset>
                     {% else %}
@@ -18,28 +29,38 @@
                             Please login to submit a vendor.
                         </div>
                         {% endif %}
-                        <div id="comment-error" class="alert alert-warning mt-4 mb-0" role="alert"></div>
-                        <form hx-post="{% url 'vendors_submit' %}">
+
+                        <form action="{% url 'vendors_submit' %}" method="post">
                             {% csrf_token %}
 
                             <div class="form-group" id="{{ vendor_form.name.label }}" class="form-group">
                                 <label for="{{ vendor_form.name.id_for_label }}">{{ vendor_form.name.label }}</label>
+
                                 {{vendor_form.name}}
-                                <small id="emailHelp"
+                                <p class="text-danger">
+                                    {{ vendor_form.name.errors.as_text }}
+                                </p>
+                                <small id="form-help"
                                     class="form-text text-muted">{{ vendor_form.name.help_text }}</small>
                             </div>
                             <div class="form-row">
                                 <div class="col">
                                     <label for="{{ vendor_form.url.id_for_label }}">{{ vendor_form.url.label }}</label>
                                     {{vendor_form.url}}
-                                    <small id="emailHelp"
+                                    <p class="text-danger">
+                                        {{ vendor_form.url.errors.as_text }}
+                                    </p>
+                                    <small id="form-help"
                                         class="form-text text-muted">{{ vendor_form.url.help_text }}</small>
                                 </div>
                                 <div class="col">
                                     <label
                                         for="{{ vendor_form.url_alt.id_for_label }}">{{ vendor_form.url_alt.label }}</label>
                                     {{vendor_form.url_alt}}
-                                    <small id="emailHelp"
+                                    <p class="text-danger">
+                                        {{ vendor_form.url_alt.errors.as_text }}
+                                    </p>
+                                    <small id="form-help"
                                         class="form-text text-muted">{{ vendor_form.url_alt.help_text }}</small>
                                 </div>
                             </div>
@@ -47,7 +68,7 @@
                                 <label
                                     for="{{ vendor_form.description.id_for_label }}">{{ vendor_form.description.label }}</label>
                                 {{vendor_form.description}}
-                                <small id="emailHelp"
+                                <small id="form-help"
                                     class="form-text text-muted">{{ vendor_form.description.help_text }}</small>
                             </div>
 
@@ -72,6 +93,8 @@
                                                 {{ v.choice_label }}
                                             </label>
                                             {% endfor %}
+                                            <small id="form-help"
+                                                class="form-text text-muted">{{ vendor_form.ship_to.help_text }}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -96,6 +119,8 @@
                                                 {{ v.choice_label }}
                                             </label>
                                             {% endfor %}
+                                            <small id="form-help"
+                                                class="form-text text-muted">{{ vendor_form.store_location.help_text }}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -120,6 +145,8 @@
                                                 {{ v.choice_label }}
                                             </label>
                                             {% endfor %}
+                                            <small id="form-help"
+                                                class="form-text text-muted">{{ vendor_form.tea_source.help_text }}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -144,6 +171,8 @@
                                                 {{ v.choice_label }}
                                             </label>
                                             {% endfor %}
+                                            <small id="form-help"
+                                                class="form-text text-muted">{{ vendor_form.variety.help_text }}</small>
                                         </div>
                                     </div>
                                 </div>

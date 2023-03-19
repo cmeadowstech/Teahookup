@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib import messages
 import requests, json
 import environ
 
@@ -145,18 +146,16 @@ def ProfileView(request):
 
 
 def VendorSubmitView(request):
+    
     if request.method == "POST":
         form = VendorForm(request.POST)
         if form.is_valid():
             Vendor = form.save()
-
-            return HttpResponse(
-                f"Thanks for submitting { Vendor.name }. Once it is approved by an admin, it will be become available on the site."
-            )
+            messages.success(request, f"Thanks for submitting { Vendor.name }. Once it is approved by an admin, it will be become available on the site.")
+            
+            context = {"vendor_form": form}
         else:
-            return HttpResponse(
-                "The vendor name or url you submitted already exists in our database. Or, we ran into some other error."
-            )
+            context = {"vendor_form": form}
 
     # if a GET (or any other method) we'll create a blank form
     else:

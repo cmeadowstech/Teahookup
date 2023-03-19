@@ -59,9 +59,20 @@ class VendorForm(forms.ModelForm):
             }
         ),
     )
+    ship_to = forms.ModelMultipleChoiceField(
+        label="Ships to",
+        help_text="Where does this vendor ship to?",
+        queryset=location.objects.all().exclude(ship_to__isnull=True),
+        widget=forms.CheckboxSelectMultiple(),
+    )
     store_location = forms.ModelMultipleChoiceField(
-        queryset=location.objects.all(),
-        help_text="Description of the vendor. Often pulled from about pages or Google summaries",
+        queryset=location.objects.all().exclude(store_location__isnull=True),
+        help_text="Where does this vendor ship from?",
+        widget=forms.CheckboxSelectMultiple(),
+    )
+    tea_source = forms.ModelMultipleChoiceField(
+        help_text="What sort of teas does this vendor sell?",
+        queryset=location.objects.all().exclude(tea_source__isnull=True),
         widget=forms.CheckboxSelectMultiple(),
     )
 
@@ -78,7 +89,5 @@ class VendorForm(forms.ModelForm):
             "variety",
         ]
         widgets = {
-            "ship_to": forms.CheckboxSelectMultiple,
-            "tea_source": forms.CheckboxSelectMultiple,
             "variety": forms.CheckboxSelectMultiple,
         }

@@ -30,10 +30,12 @@ body {
 
 a {
   color: #bc6c25;
+  transition: background-color .5s;
 }
 
 a:hover {
   color: #2c600f;
+  transition: background-color .5s;
 }
 
 .featured-image {
@@ -46,12 +48,21 @@ a:hover {
 /* Header / NavBar */
 
 #header {
-  background-color: #1a240c;
+  background-color: #141c09;;
   opacity: 0.8;
 }
 
 .navbar {
   max-width: 1399px;
+}
+
+.navbar a {
+  color: white;
+  font-weight: bold;
+}
+
+.navbar a:hover {
+  background-color: #2c600f;
 }
 
 h1,
@@ -140,10 +151,6 @@ h4 a:hover {
 
 /* Vendor list */
 
-.vendorlist {
-  margin: auto;
-}
-
 .card-deck .card {
   min-width: 220px;
 }
@@ -152,7 +159,7 @@ h4 a:hover {
 .card,
 .modal-content,
 .filter-form {
-  background-color: #1a240c;
+  background-color: #141c09;;
 }
 
 .filter-form {

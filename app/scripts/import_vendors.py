@@ -16,6 +16,7 @@ def run():
                 name=row[2],
                 featured=False,
                 description=row[7],
+                active=True,
             )
 
             new_vendor.save()

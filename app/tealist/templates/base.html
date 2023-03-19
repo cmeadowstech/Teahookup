@@ -37,7 +37,7 @@
 
   <div id="header">
     <nav class="navbar navbar-expand-md mx-auto">
-      <a class="navbar-brand mr-auto" href="{% url 'index' %}">
+      <a class="navbar-brand mr-auto rounded" href="{% url 'index' %}">
         <img src="{% static 'tea-leaves.svg' %}" alt="" width="24" height="24">
         TeaList
       </a>
@@ -49,13 +49,13 @@
       </button>
       <div class="navbar-collapse collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ml-auto">
-          <a class="nav-item nav-link active" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
-          <a class="nav-item nav-link" href="{% url 'vendors' %}">Tea List</a>
+          <a class="nav-item nav-link rounded ml-2" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link rounded ml-2" href="{% url 'vendors' %}">Tea List</a>
           {% if user.is_authenticated %}
-          <a class="nav-item nav-link btn btn-outline-primary" href="{% url 'account_logout' %}"
+          <a class="nav-item nav-link btn btn-outline-primary rounded ml-2" href="{% url 'account_logout' %}"
             hx-get="/accounts/logout/" hx-target="#htmx-modal">Sign Out</a>
           {% else %}
-          <a class="nav-item nav-link btn btn-outline-primary" href="{% url 'account_login' %}">Sign In</a>
+          <a class="nav-item nav-link btn btn-outline-primary rounded ml-2" href="{% url 'account_login' %}">Sign In</a>
           {% endif %}
         </div>
       </div>
