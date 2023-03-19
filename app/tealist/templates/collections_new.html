@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="card">
+    <div class="row no-gutters">
+        <div class="col-md-4 featured-image" style="background-image: url({% static 'tea-login-hero.jpg' %})">
+
+        </div>
+        <div class="col-md-8 text-white login">
+            <div class="card-body">
+                <h4 class="pb-2 card-title">Submit a new vendor</h4>
+                {% if messages %}
+
+                {% for message in messages %}
+                {% if 'signed' not in message|safe %}
+                <div class="alert alert-success {{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+                {% endif %}
+                {% endfor %}
+
+                {% endif %}
+                {% if user.is_authenticated %}
+                <fieldset>
+                    {% else %}
+                    <fieldset disabled>
+                        <div class="alert alert-warning" role="alert">
+                            Please login to submit a vendor.
+                        </div>
+                        {% endif %}
+
+                        <form action="{% url 'collections_new' %}" method="post">
+                            {% csrf_token %}
+
+                            {{ form.as_p}}
+
+                            <input type="submit" value="Submit Vendor" class="w-100 p-1 submit-filters" />
+                    </fieldset>
+                    </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    new TomSelect("#input-vendors",{
+        persist: false,
+        createOnBlur: true,
+        create: false
+    });
+</script>
+
+{% endblock %}

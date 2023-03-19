@@ -110,3 +110,13 @@ class comment(models.Model):
                 fields=["vendor", "user"], name="One comment per user per vendor"
             )
         ]
+
+class collection(models.Model):
+    vendors = models.ManyToManyField(
+        vendor,
+        help_text="Which vendors belong to this collection",
+    )
+    private = models.BooleanField(default=True)
+    content = models.TextField(help_text="Info about this collection", blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    active = models.BooleanField(default=True)

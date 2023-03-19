@@ -7,7 +7,7 @@ import environ
 
 from .models import *
 from .filters import *
-from .forms import CommentForm, VendorForm
+from .forms import *
 
 # Helper logic
 
@@ -164,3 +164,10 @@ def VendorSubmitView(request):
     context = {"vendor_form": form}
 
     return render(request, "vendor_submit.html", context)
+
+def CollectionNewView(request):
+    
+    form = CollectionForm()
+    context = {"form": form}
+
+    return render(request, "collections_new.html", context)

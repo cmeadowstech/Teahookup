@@ -30,6 +30,10 @@
   <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
   <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 
+  <!-- Tom Select -->
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+
 </head>
 
 <body>
@@ -49,7 +53,8 @@
       </button>
       <div class="navbar-collapse collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ml-auto">
-          <a class="nav-item nav-link rounded ml-2" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link rounded ml-2" href="{% url 'index' %}">Home <span
+              class="sr-only">(current)</span></a>
           <a class="nav-item nav-link rounded ml-2" href="{% url 'vendors' %}">Tea List</a>
           {% if user.is_authenticated %}
           <a class="nav-item nav-link btn btn-outline-primary rounded ml-2" href="{% url 'account_logout' %}"
