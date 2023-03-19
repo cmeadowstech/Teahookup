@@ -75,7 +75,7 @@ class VendorForm(forms.ModelForm):
         queryset=location.objects.all().exclude(tea_source__isnull=True),
         widget=forms.CheckboxSelectMultiple(),
     )
-    tea_source = forms.ModelMultipleChoiceField(
+    variety = forms.ModelMultipleChoiceField(
         help_text="What sort of teas does this vendor sell?",
         queryset=variety.objects.all(),
         widget=forms.CheckboxSelectMultiple(),
