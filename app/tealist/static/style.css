@@ -251,10 +251,12 @@ input[type=text],
 input[type=password],
 input[type=email],
 input[type=url],
+.ts-control,
+.CodeMirror,
 textarea {
   background-color: #283618 !important;
   border: none !important;
-  color: white;
+  color: white !important;
   padding: .75rem 1.25rem;
 }
 
@@ -281,6 +283,38 @@ select {
 
 #id_o {
   width: 100%
+}
+
+.ts-dropdown {
+  background-color: #141c09;
+  color: white;
+  border-color: #283618;
+}
+
+.ts-dropdown .active { 
+  background-color: #283618;
+  color: white;
+}
+
+.ts-dropdown, .ts-control, .ts-control input {
+  color: white;
+}
+
+.editor-toolbar {
+  border-color: #283618 !important;
+}
+
+.editor-toolbar a {
+  color: #9dd02d !important;
+}
+
+.editor-toolbar i.separator {
+  border-color: #283618 !important;
+}
+
+.editor-toolbar a.active, .editor-toolbar a:hover {
+  background-color: #283618 !important;
+  border: none;
 }
 
 /* Vendor Detail */
@@ -317,4 +351,20 @@ select {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+}
+
+ul {
+  --icon-size: .8em;
+  --gutter: .5em;
+  padding: 0 0 0 var(--icon-size);
+}
+
+ul li {
+  padding-left: var(--gutter);
+}
+
+ul li::marker {
+  content: "\e123"; /* FontAwesome Unicode */
+  font-family: 'Material Symbols Outlined';
+  font-size: var(--icon-size);
 }

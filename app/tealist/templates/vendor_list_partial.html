@@ -3,7 +3,7 @@
 {% for vendor in filter %}
 <li class="list-group-item mt-1 mb-1 mr-2 border-bottom">
     <h4>
-        <a href="#" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx-modal" hx-trigger="click">
+        <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx-modal" hx-trigger="click">
             {{ vendor.name }}
         </a>
         <a href="{{ vendor.url }}" class="link-primary" target="_blank">

@@ -94,29 +94,40 @@ class VendorForm(forms.ModelForm):
             "variety",
         ]
 
+
 class CollectionForm(forms.ModelForm):
+    name = forms.CharField(
+        help_text="What do you want to call this collection?",
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control",
+            }
+        ),
+    )
     vendors = forms.ModelMultipleChoiceField(
-        help_text="What sort of teas does this vendor sell?",
+        help_text="Choose the vendors to add to this collection - up to 10.",
         queryset=vendor.objects.all().exclude(active=False),
         widget=forms.SelectMultiple(
             attrs={
-                    "id": "input-vendors",
-                    "autocomplete":"off"
-                }
+                "id": "input-vendors",
+                "placeholder": "Please pick at least three vendors.",
+                "autocomplete": "off",
+            }
         ),
     )
     content = forms.CharField(
         label="",
         widget=forms.Textarea(
             attrs={
+                "id": "SimpleMDE",
                 "class": "form-control",
-                "placeholder": "Please share your thoughts...",
+                "placeholder": "Some additional context for this collection, if necessary.",
                 "rows": 4,
                 "cols": 50,
             }
         ),
-    )    
+    )
 
     class Meta:
         model = collection
-        fields = ["vendors", "content", "private"]
+        fields = ["name", "vendors", "content"]

@@ -73,3 +73,8 @@ class VendorAdmin(admin.ModelAdmin, ExportCsvMixin, UpdateFeatured):
 class CommentAdmin(admin.ModelAdmin):
     list_display = ("created_on", "vendor", "user", "value", "active")
     search_fields = ["user__username", "vendor__name"]
+
+
+@admin.register(collection)
+class CollectionAdmin(admin.ModelAdmin):
+    list_display = ("name", "user")

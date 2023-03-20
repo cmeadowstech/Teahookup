@@ -193,14 +193,16 @@ LOGGING = {
         "superverbose": {
             "format": "%(levelname)s %(asctime)s %(module)s:%(lineno)d %(process)d %(thread)d %(message)s"
         },
-        "verbose": {"format": "%(levelname)s %(asctime)s %(module)s:%(lineno)d %(message)s"},
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s:%(lineno)d %(message)s"
+        },
         "simple": {"format": "%(levelname)s %(message)s"},
     },
     "handlers": {
         "file": {
             "class": "logging.FileHandler",
             "filename": "general.log",
-            'formatter': 'superverbose',
+            "formatter": "superverbose",
         }
     },
     "loggers": {

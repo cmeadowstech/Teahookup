@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+import uuid
 
 
 class location(models.Model):
@@ -111,12 +112,33 @@ class comment(models.Model):
             )
         ]
 
+
 class collection(models.Model):
+    unique_id = models.CharField(max_length=6, default=str(uuid.uuid4())[:4], editable=False)
+    name = models.CharField(
+        max_length=40, help_text="What do you want to call this vendor"
+    )
     vendors = models.ManyToManyField(
         vendor,
         help_text="Which vendors belong to this collection",
+        related_name="collection_vendors"
     )
     private = models.BooleanField(default=True)
     content = models.TextField(help_text="Info about this collection", blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="collection_owner"
+    )
     active = models.BooleanField(default=True)
+    rating = models.ManyToManyField(User, related_name="collection_voters", blank=True)
+    slug = models.SlugField(max_length=250, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return "/collections/%s/" % self.slug
+
+    def save(self, *args, **kwargs):
+        value = f"{self.name}-{self.unique_id}"
+        self.slug = slugify(value, allow_unicode=True)
+        super().save(*args, **kwargs)

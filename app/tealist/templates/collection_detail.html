@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load markdown_extras %}
+{% load static %}
+
+{% block content %}
+
+<div class="card mb-3 mt-3">
+    <div class="card-body">
+        <h4 class="pb-2 card-title">{{ collection.name }}</h4>
+
+        {% if collection.vendors %}
+        <ul class="">
+            {% for vendor in collection.vendors.all %}
+            <li class="">
+                <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx-modal"
+                    hx-trigger="click">
+                    {{ vendor.name }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {{ collection.content|markdown|safe }}
+    </div>
+</div>
+
+{% endblock %}

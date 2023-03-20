@@ -4,12 +4,9 @@
 
 <div class="card">
     <div class="row no-gutters">
-        <div class="col-md-4 featured-image" style="background-image: url({% static 'tea-login-hero.jpg' %})">
-
-        </div>
-        <div class="col-md-8 text-white login">
+        <div class="col-md-6 text-white login">
             <div class="card-body">
-                <h4 class="pb-2 card-title">Submit a new vendor</h4>
+                <h4 class="pb-2 card-title">Create a new collection</h4>
                 {% if messages %}
 
                 {% for message in messages %}
@@ -34,20 +31,45 @@
                             {% csrf_token %}
 
                             {{ form.as_p}}
-
+                            <button class="btn btn-primary rounded-0 w-100 p-1 submit-filters" hx-post="{% url 'collections_new_preview' %}"
+                                hx-target=".preview" />Preview</button>
                             <input type="submit" value="Submit Vendor" class="w-100 p-1 submit-filters" />
                     </fieldset>
                     </form>
+            </div>
+        </div>
+        <div class="col-md-6 preview">
+            <div class="card-body">
+                <h4 class="pb-2 card-title">Preview</h4>
+                <p class="text-white">Hit 'Preview' to see what this collection will look like once submitted</p>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    new TomSelect("#input-vendors",{
+    new TomSelect("#input-vendors", {
+        plugins: {
+            remove_button:{
+                title:'Remove this item',
+            }
+        },
         persist: false,
         createOnBlur: true,
-        create: false
+        create: false,
+        maxItems: 10
+    });
+</script>
+
+<script>
+    var simplemde = new SimpleMDE({
+        element: document.getElementById("SimpleMDE"),
+        autosave: {
+            enabled: true,
+            uniqueId: "SimpleMDE-UID",
+            delay: 1000,
+        },
+        forceSync: true
     });
 </script>
 

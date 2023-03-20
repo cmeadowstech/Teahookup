@@ -146,13 +146,15 @@ def ProfileView(request):
 
 
 def VendorSubmitView(request):
-    
     if request.method == "POST":
         form = VendorForm(request.POST)
         if form.is_valid():
             Vendor = form.save()
-            messages.success(request, f"Thanks for submitting { Vendor.name }. Once it is approved by an admin, it will be become available on the site.")
-            
+            messages.success(
+                request,
+                f"Thanks for submitting { Vendor.name }. Once it is approved by an admin, it will be become available on the site.",
+            )
+
             context = {"vendor_form": form}
         else:
             context = {"vendor_form": form}
@@ -165,9 +167,45 @@ def VendorSubmitView(request):
 
     return render(request, "vendor_submit.html", context)
 
+
 def CollectionNewView(request):
-    
+    print(request.POST)
+    if request.method == "POST":
+        form = CollectionForm(request.POST)
+        print(form)
+        if form.is_valid():
+            Collection = form.save(commit=False)
+            Collection.user = request.user
+            Collection.save()
+            Collection.vendors.set(vendor.objects.filter(id__in=dict(request.POST)["vendors"]))
+            
+            messages.success(request, f"Thanks for submitting { Collection.name }!")
+
+            context = {"form": form}
+        else:
+            context = {"form": form}
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = CollectionForm()
+
     form = CollectionForm()
     context = {"form": form}
 
     return render(request, "collections_new.html", context)
+
+
+def CollectionPreviewView(request):
+    Vendors = vendor.objects.filter(id__in=dict(request.POST)["vendors"])
+    Name = request.POST["name"]
+    Content = request.POST["content"]
+    context = {"vendors": Vendors, "name": Name, "content": Content}
+
+    return render(request, "collections_new_preview.html", context)
+
+def CollectionDetailView(request, slug):
+    Collection = get_object_or_404(collection, slug=slug)
+
+    context = {"collection": Collection}
+
+    return render(request, "collection_detail.html", context)
