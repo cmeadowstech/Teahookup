@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load markdown_extras %}
+{% load static %}
+
+{% block content %}
+
+<div class="card mb-3 mt-3">
+    <div class="card-body">
+        <div class="card-title d-flex justify-content-between align-items-center">
+            <div id="collection-title">
+                <h4 class="mb-0">{{ collection.name }}</h4>
+                <small class="text-muted">By {{ collection.user.username }} on
+                    {{ collection.created_on|date:"D, F jS" }}</small>
+            </div>
+            <button type="button" class="btn btn-primary" hx-target="#rating" hx-post="{{ vendor.get_absolute_url }}rate" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                Votes <span id="rating" class="badge badge-light">+{{ collection.rating.all.count }}</span>
+            </button>
+        </diV>
+
+        {% if collection.vendors %}
+        <ul class="pt-4 pb-4">
+            {% for vendor in collection.vendors.all %}
+            <li class="border-bottom">
+                <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx-modal"
+                    hx-trigger="click">
+                    {{ vendor.name }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <p class="">{{ collection.content|markdown|safe }}<p>
+    </div>
+</div>
+
+{% endblock %}

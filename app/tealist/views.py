@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
+from django.db.models import Count
 import requests, json
 import environ
 
@@ -45,6 +46,38 @@ def GetVendorsContext(request):
         "filter": response,
         "filter_form": f,
         "locations": locations,
+        "parameters": parameters,
+    }
+
+    return context
+
+
+def GetCollectionsContext(request):
+    f = CollectionFilter(request.GET, queryset=collection.objects.all())
+
+    response = GetPages(f.qs, 6, request)
+    parameters = GetParams(request)
+
+    context = {
+        "filter": response,
+        "filter_form": f,
+        "parameters": parameters,
+    }
+
+    topCollections = (
+        collection.objects.all()
+        .annotate(num_rating=Count("rating"))
+        .order_by("-num_rating")[:5]
+    )
+    userCollections = collection.objects.filter(user=request.user).order_by(
+        "-created_on"
+    )[:5]
+
+    context = {
+        "topCollections": topCollections,
+        "userCollections": userCollections,
+        "filter": response,
+        "filter_form": f,
         "parameters": parameters,
     }
 
@@ -169,16 +202,18 @@ def VendorSubmitView(request):
 
 
 def CollectionNewView(request):
-    print(request.POST)
+    
     if request.method == "POST":
         form = CollectionForm(request.POST)
-        print(form)
+        
         if form.is_valid():
             Collection = form.save(commit=False)
             Collection.user = request.user
             Collection.save()
-            Collection.vendors.set(vendor.objects.filter(id__in=dict(request.POST)["vendors"]))
-            
+            Collection.vendors.set(
+                vendor.objects.filter(id__in=dict(request.POST)["vendors"])
+            )
+
             messages.success(request, f"Thanks for submitting { Collection.name }!")
 
             context = {"form": form}
@@ -192,7 +227,18 @@ def CollectionNewView(request):
     form = CollectionForm()
     context = {"form": form}
 
-    return render(request, "collections_new.html", context)
+    return render(request, "collections/collections_new.html", context)
+
+
+def CollectionListView(request):
+    context = GetCollectionsContext(request)
+
+    if request.htmx:
+        template = "collections/collections_list_partial.html"
+    else:
+        template = "collections/collections_list.html"
+
+    return render(request, template, context)
 
 
 def CollectionPreviewView(request):
@@ -201,11 +247,23 @@ def CollectionPreviewView(request):
     Content = request.POST["content"]
     context = {"vendors": Vendors, "name": Name, "content": Content}
 
-    return render(request, "collections_new_preview.html", context)
+    return render(request, "collections/collections_new_preview.html", context)
+
 
 def CollectionDetailView(request, slug):
     Collection = get_object_or_404(collection, slug=slug)
 
     context = {"collection": Collection}
 
-    return render(request, "collection_detail.html", context)
+    return render(request, "collections/collection_detail.html", context)
+
+
+def CollectionRating(request, slug):
+    Collection = collection.objects.get(slug=slug)
+
+    if request.user in Collection.rating.all():
+        Collection.rating.remove(request.user)
+    else:
+        Collection.rating.add(request.user)
+
+    return HttpResponse(f"+{Collection.rating.all().count()}")

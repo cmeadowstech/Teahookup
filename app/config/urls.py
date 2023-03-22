@@ -26,13 +26,17 @@ urlpatterns = [
     path("vendors/submit/", views.VendorSubmitView, name="vendors_submit"),
     path("vendors/<str:slug>/", views.VendorDetailView, name="vendor-detail"),
     path("vendors/<str:slug>/comments/", views.CommentsView, name="comments"),
+    path("collections/list/", views.CollectionListView, name="collections"),
     path("collections/new/", views.CollectionNewView, name="collections_new"),
     path(
         "collections/new/preview/",
         views.CollectionPreviewView,
         name="collections_new_preview",
     ),
-    path("collections/<str:slug>/", views.CollectionDetailView, name="collection-detail"),
+    path(
+        "collections/<str:slug>/", views.CollectionDetailView, name="collection-detail"
+    ),
+    path("collections/<str:slug>/rate", views.CollectionRating, name="collection-rate"),
     path("releases/", views.ReleaseHistory, name="releases"),
     path("accounts/", include("allauth.urls")),  # Used by django-allauth
     path("accounts/profile/", views.ProfileView, name="profile"),

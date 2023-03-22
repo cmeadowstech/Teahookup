@@ -114,14 +114,16 @@ class comment(models.Model):
 
 
 class collection(models.Model):
-    unique_id = models.CharField(max_length=6, default=str(uuid.uuid4())[:4], editable=False)
+    unique_id = models.CharField(
+        max_length=6, default=str(uuid.uuid4())[:4], editable=False
+    )
     name = models.CharField(
         max_length=40, help_text="What do you want to call this vendor"
     )
     vendors = models.ManyToManyField(
         vendor,
         help_text="Which vendors belong to this collection",
-        related_name="collection_vendors"
+        related_name="collection_vendors",
     )
     private = models.BooleanField(default=True)
     content = models.TextField(help_text="Info about this collection", blank=True)
@@ -131,6 +133,7 @@ class collection(models.Model):
     active = models.BooleanField(default=True)
     rating = models.ManyToManyField(User, related_name="collection_voters", blank=True)
     slug = models.SlugField(max_length=250, blank=True)
+    created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
