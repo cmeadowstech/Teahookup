@@ -18,7 +18,7 @@
         </diV>
 
         {% if collection.vendors %}
-        <ul class="pt-4 pb-4">
+        <ul class="pt-4 pb-4 tea-marker">
             {% for vendor in collection.vendors.all %}
             <li class="border-bottom">
                 <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx-modal"

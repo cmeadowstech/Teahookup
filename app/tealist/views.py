@@ -114,6 +114,9 @@ def VendorListView(request):
 def VendorDetailView(request, slug):
     Vendor = get_object_or_404(vendor, slug=slug)
     Comments = Vendor.comments.filter(active=True)
+    Regional_Vendors = vendor.objects.filter(
+        tea_source__id__in=Vendor.tea_source.all()
+    ).exclude(id=Vendor.id)[:5]
     cf = CommentForm()
 
     if request.htmx:
@@ -121,7 +124,12 @@ def VendorDetailView(request, slug):
     else:
         template = "vendor_detail.html"
 
-    context = {"vendor": Vendor, "comments": Comments, "comment_form": cf}
+    context = {
+        "vendor": Vendor,
+        "comments": Comments,
+        "comment_form": cf,
+        "Regional_Vendors": Regional_Vendors,
+    }
 
     return render(request, template, context)
 
@@ -175,7 +183,13 @@ def ReleaseHistory(request):
 
 
 def ProfileView(request):
-    return render(request, "profile.html")
+    userCollections = collection.objects.filter(user=request.user).order_by(
+        "-created_on"
+    )
+
+    context = {"userCollections": userCollections}
+
+    return render(request, "profile.html", context)
 
 
 def VendorSubmitView(request):
@@ -202,10 +216,9 @@ def VendorSubmitView(request):
 
 
 def CollectionNewView(request):
-    
     if request.method == "POST":
         form = CollectionForm(request.POST)
-        
+
         if form.is_valid():
             Collection = form.save(commit=False)
             Collection.user = request.user
