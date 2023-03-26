@@ -78,3 +78,5 @@ class CommentAdmin(admin.ModelAdmin):
 @admin.register(collection)
 class CollectionAdmin(admin.ModelAdmin):
     list_display = ("name", "user")
+
+admin.site.register(Profile)

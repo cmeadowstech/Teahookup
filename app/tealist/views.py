@@ -3,6 +3,7 @@ from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from django.db.models import Count
+from django.contrib.auth.decorators import login_required
 import requests, json
 import environ
 
@@ -36,8 +37,7 @@ def GetParams(request):
 
 
 def GetVendorsContext(request):
-    f = VendorFilter(request.GET, queryset=vendor.objects.all().exclude(active=False))
-    locations = location.objects.all()
+    f = VendorFilter(request.GET, queryset=vendor.objects.prefetch_related('tea_source','ship_to','variety','store_location').all().exclude(active=False))
 
     response = GetPages(f.qs, 6, request)
     parameters = GetParams(request)
@@ -45,7 +45,6 @@ def GetVendorsContext(request):
     context = {
         "filter": response,
         "filter_form": f,
-        "locations": locations,
         "parameters": parameters,
     }
 
@@ -53,7 +52,7 @@ def GetVendorsContext(request):
 
 
 def GetCollectionsContext(request):
-    f = CollectionFilter(request.GET, queryset=collection.objects.all())
+    f = CollectionFilter(request.GET, queryset=collection.objects.prefetch_related('rating').select_related('user').all())
 
     response = GetPages(f.qs, 6, request)
     parameters = GetParams(request)
@@ -65,11 +64,11 @@ def GetCollectionsContext(request):
     }
 
     topCollections = (
-        collection.objects.all()
+        collection.objects.prefetch_related('rating').select_related('user').all()
         .annotate(num_rating=Count("rating"))
         .order_by("-num_rating")[:5]
     )
-    userCollections = collection.objects.filter(user=request.user).order_by(
+    userCollections = collection.objects.select_related('user').filter(user=request.user).order_by(
         "-created_on"
     )[:5]
 
@@ -113,23 +112,22 @@ def VendorListView(request):
 
 def VendorDetailView(request, slug):
     Vendor = get_object_or_404(vendor, slug=slug)
-    Comments = Vendor.comments.filter(active=True)
-    Regional_Vendors = vendor.objects.filter(
+    context = {}
+    context["vendor"] = Vendor
+
+    context["related_collections"] = collection.objects.filter(vendors__id=Vendor.id)[
+        :5
+    ]
+
+    context["regional_vendors"] = vendor.objects.filter(
         tea_source__id__in=Vendor.tea_source.all()
     ).exclude(id=Vendor.id)[:5]
-    cf = CommentForm()
+    context["comment_form"] = CommentForm()
 
     if request.htmx:
         template = "vendor_detail_partial.html"
     else:
         template = "vendor_detail.html"
-
-    context = {
-        "vendor": Vendor,
-        "comments": Comments,
-        "comment_form": cf,
-        "Regional_Vendors": Regional_Vendors,
-    }
 
     return render(request, template, context)
 
@@ -181,7 +179,7 @@ def ReleaseHistory(request):
 
     return render(request, "release_history.html", context)
 
-
+@login_required
 def ProfileView(request):
     userCollections = collection.objects.filter(user=request.user).order_by(
         "-created_on"
@@ -264,9 +262,14 @@ def CollectionPreviewView(request):
 
 
 def CollectionDetailView(request, slug):
-    Collection = get_object_or_404(collection, slug=slug)
-
-    context = {"collection": Collection}
+    context = {}
+    Collection = get_object_or_404(collection.objects.select_related('user'), slug=slug)
+    context["collection"] = Collection
+    location_count = location.objects.prefetch_related('vendor').filter(
+        tea_source__in=Collection.vendors.all()
+    ).annotate(location_count=Count("tea_source"))
+    location_count = json.dumps(list(location_count.values('name','location_count')))
+    context["location_count"] = location_count
 
     return render(request, "collections/collection_detail.html", context)
 

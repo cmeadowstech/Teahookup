@@ -1,17 +1,17 @@
 {% load static %}
 {% if filter %}
 {% for vendor in filter %}
-<li class="list-group-item mb-2 border-bottom">
+<li class="list-group-item mb-2 border">
     <h4>
         <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx-modal" hx-trigger="click">
             {{ vendor.name }}
         </a>
         <a href="{{ vendor.url }}" class="link-primary" target="_blank">
-            <i class="material-symbols-outlined">open_in_new</i>
+            <i class="material-symbols-outlined material-small">open_in_new</i>
         </a>
         {% if vendor.url_alt %}
         <a href="/{{ vendor.url_alt }}" class="link-primary" target="_blank">
-            <i class="material-symbols-outlined">public</i>
+            <i class="material-symbols-outlined material-small">public</i>
         </a>
         {% endif %}
 
@@ -37,17 +37,17 @@
     <div class="row locations">
         <div class="col-4 col-md border-right pt-1">
             <small>
-                <i class="material-symbols-outlined">local_shipping</i> Ships To: {{ vendor.ship_to.all|join:", " }}
+                <i class="material-symbols-outlined material-small">local_shipping</i> Ships To: {{ vendor.ship_to.all|join:", " }}
             </small>
         </div>
         <div class="col-4 col-md border-right pt-1">
             <small>
-                <i class="material-symbols-outlined">home</i> Ships From: {{ vendor.store_location.all|join:", " }}
+                <i class="material-symbols-outlined material-small">home</i> Ships From: {{ vendor.store_location.all|join:", " }}
             </small>
         </div>
         <div class="col-4 col-md pt-1">
             <small>
-                <i class="material-symbols-outlined">map</i> Sources From: {{ vendor.tea_source.all|join:", " }}
+                <i class="material-symbols-outlined material-small">map</i> Sources From: {{ vendor.tea_source.all|join:", " }}
             </small>
         </div>
     </div>
@@ -57,7 +57,7 @@
 <!-- If there are no results matching the filter -->
 
 {% else %}
-<li class="list-group-item mt-1 mb-1 border-bottom">
+<li class="list-group-item mt-1 mb-1 border">
     <p>There are no vendors that match your criteria.</p>
 </li>
 {% endif %}

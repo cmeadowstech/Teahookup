@@ -45,6 +45,10 @@ a:hover {
   min-height: 100px;
 }
 
+.detail {
+  margin: 0 -15px;
+}
+
 /* Bootstrap RFS */
 
 @media (max-width: 1200px) {
@@ -138,6 +142,7 @@ h4 a:hover {
 .modal-header,
 .border-bottom,
 .border-right,
+.border,
 .border-left {
   border-color: #4a5e13 !important;
 }
@@ -209,9 +214,13 @@ h4 a:hover {
   background-color: #141c09;;
 }
 
-.material-symbols-outlined {
+.material-small {
   font-size: 16px !important;
   color: #bc6c25 !important;
+}
+
+.material-xs {
+  font-size: 80% !important;
 }
 
 .page-nav {
@@ -410,4 +419,13 @@ select {
   content: "\e123"; /* FontAwesome Unicode */
   font-family: 'Material Symbols Outlined';
   font-size: var(--icon-size);
+}
+
+.arc text {
+  font: 10px sans-serif;
+  text-anchor: middle;
+}
+
+.arc path {
+  stroke: #fff;
 }

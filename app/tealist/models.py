@@ -4,6 +4,12 @@ from django.utils.text import slugify
 from django.contrib.auth.models import User
 import uuid
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE) # Delete profile when user is deleted
+    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+
+    def __str__(self):
+        return f'{self.user.username} Profile' #show how we want it to be displayed
 
 class location(models.Model):
     name = models.CharField(max_length=30, help_text="Country/region name", unique=True)
@@ -98,7 +104,7 @@ class comment(models.Model):
         for c in Comments:
             avg += float(c.value)
 
-        avg += self.value
+        avg += float(self.value)
         avg = avg / (len(Comments) + 1)
         Vendor.rating = avg
         Vendor.save()

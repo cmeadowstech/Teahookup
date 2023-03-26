@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="row">
-  <div class="card mb-3 mt-3 col-8">
+  <div class="card border shadow-sm mb-3 pt-3 col-md-8 col-12">
     <div class="card-body">
 
       <h1>{{ vendor.name }}
@@ -19,13 +19,13 @@
 
       <div class="locations pt-3 mb-4">
         <h6 class="">
-          <i class="material-symbols-outlined">open_in_new</i> Main Site: <a href="{{ vendor.url }}"
+          <i class="material-symbols-outlined material-small">open_in_new</i> Main Site: <a href="{{ vendor.url }}"
             class="link-primary" target="_blank">{{ vendor.url }}
           </a>
         </h6>
         {% if vendor.url_alt %}
         <h6 class="">
-          <i class="material-symbols-outlined">public</i> Global Site: <a href="{{ vendor.url_alt }}"
+          <i class="material-symbols-outlined material-small">public</i> Global Site: <a href="{{ vendor.url_alt }}"
             class="link-primary" target="_blank">{{ vendor.url_alt }}
           </a>
         </h6>
@@ -73,30 +73,41 @@
       </div>
 
 
-      {% include 'comments_partial.html' %}
+      <div id="comments"><a href="{{ vendor.get_absolute_url }}comments/" class="text-center d-block w-100 pt-4"
+          hx-get="{{ vendor.get_absolute_url }}comments/" hx-target="#comments">Show Comments</a></div>
 
 
 
     </div>
   </div>
-  <div class="col-4">
-    <div class="card mb-3 mt-3">
+  <div class="col-md-4 col-12">
+    <div class="card border shadow-smmb-3 mb-3">
       <div class="card-body">
         <h4>Related Collections</h4>
+        <ul class="tea-marker">
+          {% for collection in related_collections %}
+          <li class="border-bottom">
+            <a href="{{ collection.get_absolute_url }}" hx-get="{{ collection.get_absolute_url }}" hx-target="#htmx-modal"
+              hx-trigger="click">
+              {{ collection.name }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
       </div>
     </div>
-    <div class="card mb-3 mt-3">
+    <div class="card border shadow-smmb-3 mb-3">
       <div class="card-body">
         <h6 class="border-bottom pb-2">From the region</h6>
         <ul class="tea-marker">
-          {% for vendor in Regional_Vendors %}
-            <li class="border-bottom">
-                <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx-modal"
-                    hx-trigger="click">
-                    {{ vendor.name }}
-                </a>
-            </li>
-            {% endfor %}
+          {% for vendor in regional_vendors %}
+          <li class="border-bottom">
+            <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx-modal"
+              hx-trigger="click">
+              {{ vendor.name }}
+            </a>
+          </li>
+          {% endfor %}
         </ul>
       </div>
     </div>

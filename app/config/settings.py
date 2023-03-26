@@ -43,7 +43,7 @@ CSRF_TRUSTED_ORIGINS = ["https://*.tealist.fly.dev"]
 
 INTERNAL_IPS = [
     env("MY_PUBLIC_IP"),
-    # "127.0.0.1",
+    "127.0.0.1",
 ]
 
 # Application definition
@@ -165,6 +165,11 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "static/"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# Media files
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Directory where uploaded media is saved.
+MEDIA_URL = '/media/' # Public URL at the browser
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
