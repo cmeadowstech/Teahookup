@@ -1,0 +1,21 @@
+{% load markdown_extras %}
+{% load static %}
+
+<div class="card-body">
+    <h4 class="pb-2 card-title">{{ name }}</h4>
+
+    {% if vendors %}
+    <ul class="">
+        {% for vendor in vendors %}
+        <li class="">
+            <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx-modal" hx-trigger="click">
+                {{ vendor.name }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {{ content|markdown|safe }}
+</div>
+

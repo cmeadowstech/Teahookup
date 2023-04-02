@@ -17,7 +17,7 @@
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
   <!-- Custom styles for this template -->
-  <link href="{% static 'style.css' %}" rel="stylesheet">
+  
   <link rel="shortcut icon" type="image/svg" href="{% static 'tea-leaves.svg' %}" />
 
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
@@ -30,6 +30,15 @@
   <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
   <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 
+  <!-- Tom Select -->
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+
+  <!-- SimpleMDE -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+  <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+
+  <link href="{% static 'style.css' %}" rel="stylesheet">
 </head>
 
 <body>
@@ -43,14 +52,16 @@
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
         aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="material-symbols-outlined">
+        <span class="material-symbols-outlined text-white">
           menu
         </span>
       </button>
       <div class="navbar-collapse collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ml-auto">
-          <a class="nav-item nav-link rounded ml-2" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link rounded ml-2" href="{% url 'index' %}">Home <span
+              class="sr-only">(current)</span></a>
           <a class="nav-item nav-link rounded ml-2" href="{% url 'vendors' %}">Tea List</a>
+          <a class="nav-item nav-link rounded ml-2" href="{% url 'collections' %}">Collections</a>
           {% if user.is_authenticated %}
           <a class="nav-item nav-link btn btn-outline-primary rounded ml-2" href="{% url 'account_logout' %}"
             hx-get="/accounts/logout/" hx-target="#htmx-modal">Sign Out</a>
@@ -141,6 +152,12 @@
         container.removeChild(modal)
       }, 200)
     }
+  </script>
+
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
   </script>
 
 </body>

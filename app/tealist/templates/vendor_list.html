@@ -2,15 +2,16 @@
 
 {% block content %}
 
-  <div class="row vendorlist">
-    <ul class="vendors vendor-list list-group col-12 col-md-9 order-2 order-md-1 text-white pr-0">
-      {% include 'vendor_list_partial.html' %}
-    </ul>
+<div class="row">
+  <ul class="list-group col-12 col-md-9 order-2 order-md-1 text-white px-1">
+    {% include 'vendor_list_partial.html' %}
+  </ul>
 
-    <!-- Form for filtering results -->
+  <!-- Form for filtering results -->
 
-    <form class="filter-form col-12 col-md-3 order-1 order-md-2 text-dark pt-3 pb-3 mt-1" hx-get="{% url 'vendors' %}" hx-target=".vendors" hx-push-url="true">
-
+  <form class="col-12 col-md-3 order-1 order-md-2 p-0 px-1" hx-get="{% url 'vendors' %}"
+    hx-target=".list-group" hx-push-url="true">
+    <fieldset class="filter-form p-3 border">
       {{ filter_form.form.name }}
       {{ filter_form.form.o }}
 
@@ -47,7 +48,8 @@
           <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
             <div class="card-body">
               {% for v in filter_form.form.ship_to %}
-              {{ v.tag }}<label for="{{ v.id_for_label }}" class="badge badge-success label-for-check text-large text-large">
+              {{ v.tag }}<label for="{{ v.id_for_label }}"
+                class="badge badge-success label-for-check text-large text-large">
                 {{ v.choice_label }}
               </label>
               {% endfor %}
@@ -66,7 +68,8 @@
           <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
             <div class="card-body">
               {% for v in filter_form.form.tea_source %}
-              {{ v.tag }}<label for="{{ v.id_for_label }}" class="badge badge-success label-for-check text-large text-large">
+              {{ v.tag }}<label for="{{ v.id_for_label }}"
+                class="badge badge-success label-for-check text-large text-large">
                 {{ v.choice_label }}
               </label>
               {% endfor %}
@@ -85,7 +88,8 @@
           <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
             <div class="card-body">
               {% for v in filter_form.form.variety %}
-              {{ v.tag }}<label for="{{ v.id_for_label }}" class="badge badge-success label-for-check text-large text-large">
+              {{ v.tag }}<label for="{{ v.id_for_label }}"
+                class="badge badge-success label-for-check text-large text-large">
                 {{ v.choice_label }}
               </label>
               {% endfor %}
@@ -95,32 +99,32 @@
       </div>
 
       <input type="submit" value="Apply Filters" class="w-100 p-1 m-0 submit-filters" />
+    </fieldset>
+  </form>
+</div>
 
-    </form>
-  </div>
+<script>
+  var elements = document.getElementsByTagName("INPUT");
+  for (var inp of elements) {
+    if (inp.type === "checkbox")
+      inp.checked = false;
+  }
+</script>
 
-  <script>
-    var elements = document.getElementsByTagName("INPUT");
-    for (var inp of elements) {
-      if (inp.type === "checkbox")
-        inp.checked = false;
-    }
-  </script>
+<script>
+  function closeModal() {
+    var container = document.getElementById("vendor-modal")
+    var backdrop = document.getElementById("modal-backdrop")
+    var modal = document.getElementById("modal")
 
-  <script>
-    function closeModal() {
-      var container = document.getElementById("vendor-modal")
-      var backdrop = document.getElementById("modal-backdrop")
-      var modal = document.getElementById("modal")
+    modal.classList.remove("show")
+    backdrop.classList.remove("show")
 
-      modal.classList.remove("show")
-      backdrop.classList.remove("show")
+    setTimeout(function () {
+      container.removeChild(backdrop)
+      container.removeChild(modal)
+    }, 200)
+  }
+</script>
 
-      setTimeout(function() {
-        container.removeChild(backdrop)
-        container.removeChild(modal)
-      }, 200)
-    }
-  </script>
-
-  {% endblock %}
+{% endblock %}

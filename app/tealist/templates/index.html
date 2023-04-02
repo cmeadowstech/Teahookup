@@ -12,7 +12,6 @@
     background-repeat: no-repeat;
     background-position: top center;
   }
-
 </style>
 
 <div class="hero text-left p-3 col-12 col-md-6">
@@ -33,39 +32,39 @@
   <footer class="blockquote-footer locations">William Ewart Gladstone</footer>
 </div>
 
-<div id="tea_map"></div>
-
-<div class="card mb-3">
-  <div class="row no-gutters">
-    <div class="col-md-7 order-2 order-md-1">
-      <div class="card-body">
-        <ul class="list-group index-card-list">
-          <h4>Featured Vendors</h4>
-          {% for vendor in Featured %}
-          <li class="list-group-item p-0">
-            <p class="text-white border-bottom"><a href="{{ vendor.get_absolute_url }}">{{ vendor.name }}</a> <span
-                class="material-symbols-outlined">
-                psychiatry
-              </span> <span class="locations">Teas from: {{ vendor.tea_source.all|join:", " }}</span></p>
-          </li>
-          {% endfor %}
-          <h4>Recent Vendors</h4>
-          {% for vendor in Recent %}
-          <li class="list-group-item p-0">
-            <p class="text-white border-bottom"><a href="{{ vendor.get_absolute_url }}">{{ vendor.name }}</a> <span
-                class="material-symbols-outlined">
-                psychiatry
-              </span> <span class="locations">Teas from: {{ vendor.tea_source.all|join:", " }}</span></p>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-    <div class="col-md-5 d-flex order-1 order-md-2 featured-image" style="background-image: url({% static 'tea-2.jpg' %})">
+<div class="row d-flex">
+  <!-- <div id="tea_map" class="col-8"></div> -->
+  <div class="col-12 col-md-8">
+    <div class="hero text-left p-3">
+      <h1>Not sure where to start?</h1>
+      <p class="lead text-white">View our user created collections! </p>
+      <a href="{% url 'collections' %}" class="btn btn-primary text-right">Collections</a>
     </div>
   </div>
-</div>
 
+  <div id="carouselExampleControls" class="carousel slide col-12 col-md-4 align-self-center h-100" data-ride="carousel">
+    <div class="card d-flex justify-content-between align-items-center border p-3">
+      <h4 class="card-title">Recent Vendors</h4>
+      <div class="carousel-inner w-75">
+        {% for vendor in Recent %}
+        <div class="carousel-item card-body{% if forloop.first %} active{% endif %}">
+          <a href="{{ vendor.get_absolute_url }}">{{ vendor.name }}</a>
+          <p><small class="locations">Teas from: {{ vendor.tea_source.all|join:", " }}</small></p>
+          <p>{{ vendor.description|truncatechars:128 }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
 
 <script>
   // Size ?

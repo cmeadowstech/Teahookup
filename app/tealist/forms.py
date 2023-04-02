@@ -1,5 +1,5 @@
 from django import forms
-from .models import comment, vendor, location, variety
+from .models import *
 
 
 class CommentForm(forms.ModelForm):
@@ -93,3 +93,41 @@ class VendorForm(forms.ModelForm):
             "url_alt",
             "variety",
         ]
+
+
+class CollectionForm(forms.ModelForm):
+    name = forms.CharField(
+        help_text="What do you want to call this collection?",
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control",
+            }
+        ),
+    )
+    vendors = forms.ModelMultipleChoiceField(
+        help_text="Choose the vendors to add to this collection - up to 10.",
+        queryset=vendor.objects.all().exclude(active=False),
+        widget=forms.SelectMultiple(
+            attrs={
+                "id": "input-vendors",
+                "placeholder": "Please pick at least three vendors.",
+                "autocomplete": "off",
+            }
+        ),
+    )
+    content = forms.CharField(
+        label="",
+        widget=forms.Textarea(
+            attrs={
+                "id": "SimpleMDE",
+                "class": "form-control",
+                "placeholder": "Some additional context for this collection, if necessary.",
+                "rows": 4,
+                "cols": 50,
+            }
+        ),
+    )
+
+    class Meta:
+        model = collection
+        fields = ["name", "vendors", "content"]

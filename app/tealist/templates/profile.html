@@ -13,15 +13,43 @@
 
                 <div class="accordion" id="formAccordian">
                     <div class="card border-0">
-                        <div class="card-header pl-0" id="headingOne">
+                        <div class="card-header pl-0" id="heading_user_collections">
                             <h6 class="mb-0">
                                 <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
-                                    data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    data-target="#collapse_user_collections" aria-expanded="true"
+                                    aria-controls="collapse_user_collections">
+                                    Your Collections
+                                </button>
+                            </h6>
+                        </div>
+                        <div id="collapse_user_collections" class="collapse" aria-labelledby="heading_user_collections"
+                            data-parent="#formAccordian">
+                            <div class="card-body no-tick">
+                                <ul class="pt-4 pb-4 tea-marker">
+                                    {% for collection in userCollections %}
+                                    <li class="border-bottom">
+                                        <a href="{{ collection.get_absolute_url }}">
+                                            {{ collection.name }}
+                                        </a>
+                                        <small class="text-muted">{{ collection.created_on }}</small>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border-0">
+                        <div class="card-header pl-0" id="heading_change_password">
+                            <h6 class="mb-0">
+                                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                    data-target="#collapse_change_password" aria-expanded="true"
+                                    aria-controls="collapse_change_password">
                                     Manage Password
                                 </button>
                             </h6>
                         </div>
-                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                        <div id="collapse_change_password" class="collapse" aria-labelledby="heading_change_password"
                             data-parent="#formAccordian">
                             <div class="card-body no-tick" hx-get="{% url 'account_change_password' %}"
                                 hx-trigger="load">
@@ -30,24 +58,24 @@
                     </div>
 
                     <div class="card border-0">
-                        <div class="card-header pl-0" id="headingTwo">
+                        <div class="card-header pl-0" id="heading_account_email">
                             <h6 class="mb-0">
                                 <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
-                                    data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                    data-target="#collapse_account_email" aria-expanded="true"
+                                    aria-controls="collapse_account_email">
                                     Manage Email
                                 </button>
                             </h6>
                         </div>
-                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                        <div id="collapse_account_email" class="collapse" aria-labelledby="heading_account_email"
                             data-parent="#formAccordian">
-                            <div class="card-body no-tick" hx-get="{% url 'account_email' %}"
-                                hx-trigger="load">
+                            <div class="card-body no-tick" hx-get="{% url 'account_email' %}" hx-trigger="load">
                             </div>
                         </div>
                     </div>
                 </div>
 
-                
+
 
             </div>
         </div>

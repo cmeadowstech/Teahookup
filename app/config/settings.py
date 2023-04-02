@@ -166,6 +166,11 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "static/"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+# Media files
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Directory where uploaded media is saved.
+MEDIA_URL = '/media/' # Public URL at the browser
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -193,14 +198,16 @@ LOGGING = {
         "superverbose": {
             "format": "%(levelname)s %(asctime)s %(module)s:%(lineno)d %(process)d %(thread)d %(message)s"
         },
-        "verbose": {"format": "%(levelname)s %(asctime)s %(module)s:%(lineno)d %(message)s"},
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s:%(lineno)d %(message)s"
+        },
         "simple": {"format": "%(levelname)s %(message)s"},
     },
     "handlers": {
         "file": {
             "class": "logging.FileHandler",
             "filename": "general.log",
-            'formatter': 'superverbose',
+            "formatter": "superverbose",
         }
     },
     "loggers": {

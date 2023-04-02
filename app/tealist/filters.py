@@ -1,5 +1,5 @@
 import django_filters
-from .models import vendor, location, variety
+from .models import *
 from django import forms
 
 
@@ -35,3 +35,20 @@ class VendorFilter(django_filters.FilterSet):
     class Meta:
         model = vendor
         fields = ["name", "store_location", "ship_to", "tea_source", "variety"]
+
+
+class CollectionFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(
+        lookup_expr="icontains",
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Search...",
+                "class": "vendor-search w-100",
+                "autocomplete": "off",
+            }
+        ),
+    )
+
+    class Meta:
+        model = collection
+        fields = ["name"]
