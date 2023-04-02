@@ -1,7 +1,7 @@
-<ul>
+<ul class="p-0">
     {% if filter %}
     {% for collection in filter %}
-    <li class="list-group-item mt-1 mb-1 mr-2 border-bottom">
+    <li class="list-group-item mt-0 mb-2 border">
         <div class="card-title d-flex justify-content-between align-items-center">
             <div id="collection-title">
                 <h4 class="mb-0"><a href="{{ collection.get_absolute_url }}">

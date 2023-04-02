@@ -2,7 +2,8 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
-import uuid
+import uuid, json
+from django.db.models import Count
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE) # Delete profile when user is deleted
@@ -146,6 +147,11 @@ class collection(models.Model):
 
     def get_absolute_url(self):
         return "/collections/%s/" % self.slug
+
+    def get_location_stats(self):
+        location_count = location.objects.prefetch_related('vendor').filter(tea_source__in=self.vendors.all()).annotate(location_count=Count("tea_source"))
+
+        return json.dumps(list(location_count.values('name','location_count')))
 
     def save(self, *args, **kwargs):
         value = f"{self.name}-{self.unique_id}"

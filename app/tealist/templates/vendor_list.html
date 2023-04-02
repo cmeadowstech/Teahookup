@@ -3,13 +3,13 @@
 {% block content %}
 
 <div class="row">
-  <ul class="list-group col-12 col-md-9 order-2 order-md-1 text-white px-1 mt-2">
+  <ul class="list-group col-12 col-md-9 order-2 order-md-1 text-white px-1">
     {% include 'vendor_list_partial.html' %}
   </ul>
 
   <!-- Form for filtering results -->
 
-  <form class="col-12 col-md-3 order-1 order-md-2 p-0 px-1 mt-2" hx-get="{% url 'vendors' %}"
+  <form class="col-12 col-md-3 order-1 order-md-2 p-0 px-1" hx-get="{% url 'vendors' %}"
     hx-target=".list-group" hx-push-url="true">
     <fieldset class="filter-form p-3 border">
       {{ filter_form.form.name }}

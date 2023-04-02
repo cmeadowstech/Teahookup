@@ -429,3 +429,22 @@ select {
 .arc path {
   stroke: #fff;
 }
+
+/* Collections */
+
+#collection-rating:hover {
+  text-decoration: none;
+}
+
+.rating-img {
+  width: 32px;
+  height: 32px;
+  background-image: url('/static/gaiwan.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.rating-img:hover {
+  background-image: url('/static/gaiwan-hover.png');
+  transition: all .5s;
+}

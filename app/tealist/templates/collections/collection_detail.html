@@ -13,10 +13,20 @@
                     <small class="text-muted">By {{ collection.user.username }} on
                         {{ collection.created_on|date:"D, F jS" }}</small>
                 </div>
-                <button type="button" class="btn btn-primary" hx-target="#rating"
-                    hx-post="{{ vendor.get_absolute_url }}rate" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-                    Votes <span id="rating" class="badge badge-light">+{{ collection.rating.all.count }}</span>
-                </button>
+                <a id="collection-rating" class=""
+                    {% if user.is_authenticated %}
+                    href="{{ collection.get_absolute_url }}rate" hx-target="#rating"
+                    hx-post="{{ collection.get_absolute_url }}rate" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                    data-toggle="tooltip" data-placement="top" title="Like this collection"
+                    {% else %}
+                    data-toggle="tooltip" data-placement="top" title="Login to like this collection"
+                    {% endif %}>
+                    <span id="rating" class="d-flex flex-column align-items-center text-white text-center">
+                        +{{ collection.rating.all.count }}
+                    </span>
+                    <div class="rating-img pt-1"></div>
+
+                </a>
             </diV>
 
             {% if collection.vendors %}
@@ -38,7 +48,8 @@
     <div class="col-md-4 col-12">
         <div class="card border shadow-smmb-3 mb-3">
             <div class="card-body d-flex flex-column align-items-center">
-                <img class="rounded-circle img-fluid w-50 account-img pb-3" src="{{ collection.user.profile.image.url }}" />
+                <img class="rounded-circle img-fluid w-50 account-img pb-3"
+                    src="{{ collection.user.profile.image.url }}" />
                 <h4 class="mb-0">{{ collection.user.first_name }} {{ collection.user.last_name }}</h4>
                 <h6>{{ collection.user.username }}</h6>
                 <small class="text-muted">
@@ -62,7 +73,7 @@
     </div>
 </div>
 
-{{ location_count|json_script:"location_data" }}
+{{ collection.get_location_stats|json_script:"location_data" }}
 
 <script>
     var customData = JSON.parse(JSON.parse((document.getElementById('location_data').textContent)));
@@ -129,7 +140,7 @@
             var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
             return (midangle < Math.PI ? 'start' : 'end')
         })
-        .style('font-size', '1.5em')
+        .style('font-size', '1.5rem')
 
     function type(d) {
         d.location_count = +d.location_count;

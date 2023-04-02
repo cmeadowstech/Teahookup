@@ -3,17 +3,22 @@
 {% block content %}
 
 <div class="row">
-    <div id="collections-list" class="col pr-0">
+    <div id="collections-list" class="col-12 col-md-9 order-2 order-md-1 px-0">
         {% include 'collections/collections_list_partial.html' %}
     </div>
-    <div class="col-md-4">
-        <form class="" hx-get="{% url 'collections' %}" hx-target="#collections-list" hx-push-url="true">
-            {{ filter_form.form.name }}
+    <div class="col-12 col-md-3 order-1 order-md-2">
+        <div class="card mb-3 mb-3 border">
+            <div class="card-body">
+                <form class="" hx-get="{% url 'collections' %}" hx-target="#collections-list" hx-push-url="true">
+                    {{ filter_form.form.name }}
+                </form>
+                <a href="{% url 'collections_new' %}" class="btn btn-primary rounded-0 w-100 mx-0">Create a new
+                    collection</a>
+            </div>
+        </div>
         </form>
-        <a href="{% url 'collections_new' %}" class="btn btn-primary rounded-0 w-100">Create a new collection</a>
-        
-        </form>
-        <div class="card mb-3 mt-3">
+        {% if user.is_authenticated %}
+        <div class="card mb-3 mt-3 border">
             <div class="card-body">
                 <h4 class="mb-0">Your Collections</h4>
                 <ul class="pt-4 pb-4 tea-marker">
@@ -28,7 +33,8 @@
                 </ul>
             </div>
         </div>
-        <div class="card mb-3 mt-3">
+        {% endif %}
+        <div class="card mb-3 mt-3 border">
             <div class="card-body">
                 <h4 class="mb-0">Top Collections</h4>
                 <ul class="pt-4 pb-4 tea-marker">

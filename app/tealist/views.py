@@ -68,9 +68,12 @@ def GetCollectionsContext(request):
         .annotate(num_rating=Count("rating"))
         .order_by("-num_rating")[:5]
     )
-    userCollections = collection.objects.select_related('user').filter(user=request.user).order_by(
-        "-created_on"
-    )[:5]
+    if request.user.is_authenticated:
+        userCollections = collection.objects.select_related('user').filter(user=request.user).order_by(
+            "-created_on"
+        )[:5]
+    else:
+        userCollections = None
 
     context = {
         "topCollections": topCollections,
@@ -265,11 +268,6 @@ def CollectionDetailView(request, slug):
     context = {}
     Collection = get_object_or_404(collection.objects.select_related('user'), slug=slug)
     context["collection"] = Collection
-    location_count = location.objects.prefetch_related('vendor').filter(
-        tea_source__in=Collection.vendors.all()
-    ).annotate(location_count=Count("tea_source"))
-    location_count = json.dumps(list(location_count.values('name','location_count')))
-    context["location_count"] = location_count
 
     return render(request, "collections/collection_detail.html", context)
 
