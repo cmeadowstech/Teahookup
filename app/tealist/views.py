@@ -91,7 +91,7 @@ def GetCollectionsContext(request):
 
 def index(request):
     Featured = vendor.objects.filter(featured=True)
-    Recent = vendor.objects.all().order_by("created")[:5]
+    Recent = vendor.objects.all().order_by("created")[:3]
 
     context = {"Featured": Featured, "Recent": Recent}
 

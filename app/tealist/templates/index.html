@@ -4,67 +4,62 @@
 {% block content %}
 
 <!-- <img class="home-bg-image" src="{% static 'tea-5.png' %}" alt="background image"> -->
-<style>
-  body {
-    background: #283618;
-    background-image: url('/static/tea-5.png');
-    background-image: url('/static/tea-5.png'), linear-gradient(90deg, rgba(36, 48, 22, 1) 0%, rgba(40, 54, 24, 1) 25%, rgba(40, 54, 24, 1) 75%, rgba(36, 48, 22, 1) 100%);
-    background-repeat: no-repeat;
-    background-position: top center;
-  }
-</style>
 
-<div class="hero text-left p-3 col-12 col-md-6">
-  <h1>Find your new favorite vendor</h1>
-  <p class="lead text-white">The internet and globalization has allowed small tea vendors across the world
-    access to new markets. Finding these vendors can be a challenge, but I hope this tool allows you to explore
-    these new options.</p>
-  <a href="{% url 'vendors' %}" class="btn btn-primary text-right">Start your search</a>
-</div>
-
-<div class="hero text-right quote p-5 col-12 col-md-6 ml-auto">
-  <h4>
-    “If you are cold, tea will warm you;
-    if you are too heated, it will cool you;
-    If you are depressed, it will cheer you;
-    If you are excited, it will calm you.”
-  </h4>
-  <footer class="blockquote-footer locations">William Ewart Gladstone</footer>
-</div>
-
-<div class="row d-flex">
-  <!-- <div id="tea_map" class="col-8"></div> -->
-  <div class="col-12 col-md-8">
-    <div class="hero text-left p-3">
-      <h1>Not sure where to start?</h1>
-      <p class="lead text-white">View our user created collections! </p>
-      <a href="{% url 'collections' %}" class="btn btn-primary text-right">Collections</a>
+<section class="page-section py-4" id="hero">
+  <div class="container">
+    <div class="row">
+      <div class="text-left text-secondary col-12 col-md-4 p-4">
+        <h1 class="display-4 my-5">Find your new favorite vendor</h1>
+        <p class="lead my-5">The internet and globalization has allowed small tea vendors across the world
+          access to new markets. Finding these vendors can be a challenge, but I hope this tool allows you to explore
+          these new options.</p>
+        <a href="{% url 'vendors' %}" class="btn btn-secondary m-0">Start your search</a>
+      </div>
+      <div class="col-12 col-md-8">
+        <img src="{% static 'hero-teapot.png' %}" class="img-fluid w-100" />
+      </div>
     </div>
   </div>
+</section>
 
-  <div id="carouselExampleControls" class="carousel slide col-12 col-md-4 align-self-center h-100" data-ride="carousel">
-    <div class="card d-flex justify-content-between align-items-center border p-3">
-      <h4 class="card-title">Recent Vendors</h4>
-      <div class="carousel-inner w-75">
+<section class="page-section" id="recent-vendors">
+  <div class="container">
+    <h1 class="text-white text-center pb-4 mb-4">Recent Vendors</h4>
+      <div class="row pt-4 mt-4">
         {% for vendor in Recent %}
-        <div class="carousel-item card-body{% if forloop.first %} active{% endif %}">
-          <a href="{{ vendor.get_absolute_url }}">{{ vendor.name }}</a>
-          <p><small class="locations">Teas from: {{ vendor.tea_source.all|join:", " }}</small></p>
-          <p>{{ vendor.description|truncatechars:128 }}</p>
+        <div class="col-12 col-md-4 my-4">
+          <div class="card border-0 shadow p-2 text-center">
+            <div class="card-body">
+              <a href="{{ vendor.get_absolute_url }}">
+                <h4>{{ vendor.name }}</h4>
+              </a>
+              <p><small class="locations">Teas from: {{ vendor.tea_source.all|join:", " }}</small></p>
+              <p>{{ vendor.description|truncatechars:256 }}</p>
+            </div>
+          </div>
         </div>
         {% endfor %}
       </div>
-    </div>
-    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
   </div>
-</div>
+</section>
+
+
+<section class="page-section" id="hero-collections">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <img src="{% static 'hero-gaiwan.png' %}" class="img-fluid" />
+      </div>
+      <div class="text-right text-white col-12 col-md-6 p-4">
+        <h1 class="display-4 my-5">Not sure where to start?</h1>
+        <p class="lead my-5">View our user created collections to give you an idea of what’s popular.</p>
+        <a href="{% url 'vendors' %}" class="btn btn-primary">Collections</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
 <script>
   // Size ?

@@ -1,7 +1,7 @@
 {% load static %}
 {% if filter %}
 {% for vendor in filter %}
-<li class="list-group-item mb-2 border">
+<li class="list-group-item mb-2 border-0 shadow">
     <h4>
         <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx-modal" hx-trigger="click">
             {{ vendor.name }}
@@ -57,7 +57,7 @@
 <!-- If there are no results matching the filter -->
 
 {% else %}
-<li class="list-group-item mt-1 mb-1 border">
+<li class="list-group-item mt-1 mb-1 border-0 shadow">
     <p>There are no vendors that match your criteria.</p>
 </li>
 {% endif %}

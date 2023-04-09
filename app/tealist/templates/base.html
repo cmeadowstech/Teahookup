@@ -17,13 +17,14 @@
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
   <!-- Custom styles for this template -->
-  
+
   <link rel="shortcut icon" type="image/svg" href="{% static 'tea-leaves.svg' %}" />
 
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Alice&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:ital@0;1&display=swap"
+    rel="stylesheet">
 
   <!-- Load d3.js -->
   <script src="https://d3js.org/d3.v4.js"></script>
@@ -44,7 +45,7 @@
 <body>
 
 
-  <div id="header">
+  <div id="header" class="my-3">
     <nav class="navbar navbar-expand-md mx-auto">
       <a class="navbar-brand mr-auto rounded" href="{% url 'index' %}">
         <img src="{% static 'tea-leaves.svg' %}" alt="" width="24" height="24">
@@ -58,28 +59,29 @@
       </button>
       <div class="navbar-collapse collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ml-auto">
-          <a class="nav-item nav-link rounded ml-2" href="{% url 'index' %}">Home <span
-              class="sr-only">(current)</span></a>
-          <a class="nav-item nav-link rounded ml-2" href="{% url 'vendors' %}">Tea List</a>
-          <a class="nav-item nav-link rounded ml-2" href="{% url 'collections' %}">Collections</a>
+          <a class="nav-item nav-link rounded mx-2" href="{% url 'index' %}">Home</a>
+          <a class="nav-item nav-link rounded mx-2" href="{% url 'vendors' %}">Tea List</a>
+          <a class="nav-item nav-link rounded mx-2" href="{% url 'collections' %}">Collections</a>
           {% if user.is_authenticated %}
-          <a class="nav-item nav-link btn btn-outline-primary rounded ml-2" href="{% url 'account_logout' %}"
+          <a class="nav-item nav-link link-important rounded mx-2" href="{% url 'account_logout' %}"
             hx-get="/accounts/logout/" hx-target="#htmx-modal">Sign Out</a>
           {% else %}
-          <a class="nav-item nav-link btn btn-outline-primary rounded ml-2" href="{% url 'account_login' %}">Sign In</a>
+          <a class="nav-item nav-link link-important rounded mx-2" href="{% url 'account_login' %}">Sign In</a>
           {% endif %}
         </div>
       </div>
     </nav>
   </div>
 
-  <div class="container mt-3">
 
-    <div id="htmx-modal"></div>
 
-    {% block content %}{% endblock %}
+  <div id="htmx-modal"></div>
 
-    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+  {% block content %}{% endblock %}
+
+
+  <footer class="py-5 mt-5 shadow">
+    <div class="container">
       <div class="row">
         <div class="col-12 col-md">
           <img class="mb-2" src="{% static 'tea-leaves.svg' %}" alt="" width="24" height="24">
@@ -110,8 +112,9 @@
           </ul>
         </div>
       </div>
-    </footer>
-  </div>
+    </div>
+  </footer>
+
 
 
   <!-- Bootstrap core JavaScript
