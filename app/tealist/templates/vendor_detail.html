@@ -73,11 +73,7 @@
         </div>
       </div>
 
-      <!-- Need to redo comment and rating system
-      <div id="comments"><a href="{{ vendor.get_absolute_url }}comments/" class="text-center d-block w-100 pt-4"
-          hx-get="{{ vendor.get_absolute_url }}comments/" hx-target="#comments">Show Comments</a></div>
-      -->
-
+      {% include 'comments_partial.html' with object=vendor %}
 
     </div>
   </div>
