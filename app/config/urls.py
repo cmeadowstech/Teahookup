@@ -41,8 +41,9 @@ urlpatterns = [
     path("collections/<str:slug>/rate", views.CollectionRating, name="collection-rate"),
     path("releases/", views.ReleaseHistory, name="releases"),
     path("accounts/", include("allauth.urls")),  # Used by django-allauth
+    path(r'comments/', include('django_comments_xtd.urls')), # Used by django-comments-xtd
     path("accounts/profile/", views.ProfileView, name="profile"),
-    path("__debug__/", include("debug_toolbar.urls")),  # Used by Django debug doolbat
+    path("__debug__/", include("debug_toolbar.urls")),  # Used by Django debug toolbar
 ]
 
 # Only add this when we are in debug mode.
