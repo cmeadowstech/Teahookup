@@ -1,27 +1,29 @@
-<!--- Comments -->
+{% load comments %}
+{% load comments_xtd %}
 
-
-{% if user.is_authenticated %}
-<div id="comment-error" class="alert alert-warning mt-4 mb-0" role="alert"></div>
-<form hx-post="{{ vendor.get_absolute_url }}comments/" hx-target="#comment-error" class="pt-4">
-    {% csrf_token %}
-    {{comment_form.as_p}}
-    <input type="submit" value="Post Comment" class="w-100 p-1 submit-filters" />
-</form>
-{% endif %}
-
-{% if comments %}
-<ul class="list-group">
-    {% for comment in vendor.comments.all %}
-    <li class="list-group-item border-bottom mb-2 pb-2 comment">
-        <p>{{ comment.content|linebreaks }}</p>
-        <footer class="blockquote-footer text-right"><span
-                class="badge badge-primary comment-user">{{ comment.user.username }}</span><span
-                class="badge badge-success badge-pill ml-1">{{ comment.value }} <i class="material-symbols-outlined">
-                    star
-                </i></span> |
-            <small class="locations">{{ comment.created_on|date:"D, F jS" }}</small></footer>
-    </li>
-    {% endfor %}
-</ul>
-{% endif %}
+<div id="comments">
+    {% get_comment_count for object as comment_count %}
+    <div class="py-4 text-center">
+        <i class="material-symbols-outlined material-small">chat</i>
+        {{ comment_count }} comment{{ comment_count|pluralize }}
+        ha{{ comment_count|pluralize:"s,ve" }} been posted
+    </div>
+    {% if user.is_authenticated %}
+    <div class="card card-block border-0 mb-5">
+        <div class="card-body">
+            <h4 class="card-title text-center pb-3">Post your comment</h4>
+            {% render_comment_form for object %}
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-warning text-center" role="alert">
+        Please <a href="{% url 'account_login' %}">login</a> to post a comment.
+    </div>
+    {% endif %}
+    {% if comment_count %}
+    <hr />
+    <ul class="media-list p-0">
+        {% render_xtdcomment_tree for object allow_flagging allow_feedback show_feedback %}
+    </ul>
+    {% endif %}
+</div>

@@ -44,27 +44,7 @@
 
                 <p class="">{{ collection.content|markdown|safe }}<p>
 
-                        {% get_comment_count for collection as comment_count %}
-                        <div class="py-4 text-center">
-                            <i class="material-symbols-outlined material-small">chat</i>
-                            {{ comment_count }} comment{{ comment_count|pluralize }}
-                            ha{{ comment_count|pluralize:"s,ve" }} been posted | 
-                            <a href="">Show comments</a>
-                        </div>
-                        {% if comment_count %}
-                        <hr />
-                        <ul class="media-list p-0">
-                            {% render_xtdcomment_tree for collection allow_flagging allow_feedback show_feedback %}
-                        </ul>
-                        {% endif %}
-                        {% if user.is_authenticated %}
-                        <div class="card card-block border-0 mb-5">
-                            <div class="card-body">
-                                <h4 class="card-title text-center pb-3">Post your comment</h4>
-                                {% render_comment_form for collection %}
-                            </div>
-                        </div>
-                        {% endif %}
+                {% include 'comments_partial.html' with object=collection %}
                         
             </div>
         </div>
