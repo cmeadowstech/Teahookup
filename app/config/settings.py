@@ -112,24 +112,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if not DEBUG:
-    DJANGO_DB = env.db()
-else:
-    DJANGO_DB = {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-    }
 
+DJANGO_DB = env.db()
 DATABASES = {"default": env.db()}
-
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-"""
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -169,6 +154,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+# django_storages auth
+
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -178,6 +166,15 @@ STATIC_URL = "static/"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Media files
+
+if env("STORAGE_ACCOUNT_KEY"):
+    AZURE_ACCOUNT_NAME = "thstorage981357"
+    AZURE_CONTAINER = 'files'
+    AZURE_ACCOUNT_KEY = env("STORAGE_ACCOUNT_KEY")
+    AZURE_OVERWRITE_FILES = 'True'
+
+    INSTALLED_APPS.append("storages")
+    DEFAULT_FILE_STORAGE = "storages.backends.azure_storage.AzureStorage"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Directory where uploaded media is saved.
 MEDIA_URL = '/media/' # Public URL at the browser
