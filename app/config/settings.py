@@ -39,7 +39,7 @@ DEBUG = env("DJANGO_DEBUG") != "False"
 
 ALLOWED_HOSTS = ["*"]
 
-CSRF_TRUSTED_ORIGINS = ["https://*.tealist.fly.dev"]
+CSRF_TRUSTED_ORIGINS = ["https://*.tealist.fly.dev","https://*teahookup.com"]
 
 INTERNAL_IPS = [
     env("MY_PUBLIC_IP"),
