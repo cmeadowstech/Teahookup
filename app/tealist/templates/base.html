@@ -52,8 +52,7 @@
   <div id="header" class="my-3">
     <nav class="navbar navbar-expand-md mx-auto">
       <a class="navbar-brand mr-auto rounded" href="{% url 'index' %}">
-        <img src="{% static 'tea-leaves.svg' %}" alt="" width="24" height="24">
-        TeaList
+        <h4><img src="{% static 'tea-leaves.svg' %}" alt="" width="24" height="24"> Tea Hookup</h4>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
         aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +63,7 @@
       <div class="navbar-collapse collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ml-auto">
           <a class="nav-item nav-link rounded mx-2" href="{% url 'index' %}">Home</a>
-          <a class="nav-item nav-link rounded mx-2" href="{% url 'vendors' %}">Tea List</a>
+          <a class="nav-item nav-link rounded mx-2" href="{% url 'vendors' %}">Vendors</a>
           <a class="nav-item nav-link rounded mx-2" href="{% url 'collections' %}">Collections</a>
           {% if user.is_authenticated %}
           <a class="nav-item nav-link link-important rounded mx-2" href="{% url 'account_logout' %}"
@@ -89,7 +88,7 @@
       <div class="row">
         <div class="col-12 col-md">
           <img class="mb-2" src="{% static 'tea-leaves.svg' %}" alt="" width="24" height="24">
-          <small class="d-block mb-3 text-white">&copy; 2023</small>
+          <small class="d-block mb-3 text-white">&copy; Tea Hookup 2023</small>
         </div>
         <div class="col-6 col-md">
           <h5 class="text-white">Features</h5>
