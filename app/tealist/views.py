@@ -37,7 +37,7 @@ def GetParams(request):
 
 
 def GetVendorsContext(request):
-    f = VendorFilter(request.GET, queryset=vendor.objects.prefetch_related('tea_source','ship_to','variety','store_location').all().exclude(active=False))
+    f = VendorFilter(request.GET, queryset=vendor.objects.prefetch_related('tea_source','ship_to','variety','store_location').all().exclude(active=False).order_by('created','id'))
 
     response = GetPages(f.qs, 6, request)
     parameters = GetParams(request)
