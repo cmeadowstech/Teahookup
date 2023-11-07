@@ -44,6 +44,7 @@
   {% endif %}
 
   <link href="{% static 'style.css' %}" rel="stylesheet">
+  {% load matomo_tags %}
 </head>
 
 <body>
@@ -166,6 +167,7 @@
     })
   </script>
 
+  {% tracking_code %}
 </body>
 
 </html>

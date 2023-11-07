@@ -44,3 +44,52 @@ resource "azurerm_storage_container" "container" {
   storage_account_name = azurerm_storage_account.storage.name
   container_access_type = "blob"
 }
+
+#############################################################################################
+#                                                                                           #
+# CDN Endpoint for Storage Account                                                          #
+# https://ssmertin.com/articles/exposing-azure-storage-on-domain-apex-with-letsencrypt-ssl/ #
+#                                                                                           #
+# NOTE: Need to test SSL before deploying to prod                                           #
+#                                                                                           #
+#############################################################################################
+
+/*
+
+resource "azurerm_cdn_profile" "cdn-p" {
+  name = "${var.prefix}-cdn"
+  resource_group_name = azurerm_resource_group.rg.name
+  location = azurerm_resource_group.rg.location
+  tags = azurerm_resource_group.rg.tags
+  sku = "Standard_Microsoft"
+}
+
+resource "azurerm_cdn_endpoint" "cdn-ep" {
+  name = "${var.prefix}-edge"
+  profile_name = azurerm_cdn_profile.cdn-p.name
+  location = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  origin_host_header = azurerm_storage_account.storage.primary_web_host
+
+  origin {
+    name = "origin"
+    host_name = azurerm_storage_account.storage.primary_web_host
+  }
+
+  delivery_rule {
+    name  = "EnforceHTTPS"
+    order = 1
+
+    request_scheme_condition {
+      operator = "Equal"
+      match_values = ["HTTP"]
+    }
+
+    url_redirect_action {
+      redirect_type = "Found"
+      protocol = "Https"
+    }
+  }
+}
+
+*/
