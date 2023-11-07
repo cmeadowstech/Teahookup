@@ -253,4 +253,7 @@ MATOMO_SITE_ID = 2
 MATOMO_URL = "https://analytics.teahookup.com/"
 
 # Sentry
-sentry_sdk.init("https://36d2d8f9b9074df79566511da2c40b18@sentry.teahookup.com/2")
+sentry_sdk.init(
+    dsn="https://36d2d8f9b9074df79566511da2c40b18@sentry.teahookup.com/2",
+    enable_tracing=True,
+)
