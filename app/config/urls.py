@@ -40,6 +40,7 @@ urlpatterns = [
     ),
     path("collections/<str:slug>/rate", views.CollectionRating, name="collection-rate"),
     path("releases/", views.ReleaseHistory, name="releases"),
+    path("error/", views.returnError, name="error"),
     path("accounts/", include("allauth.urls")),  # Used by django-allauth
     path(r'comments/', include('django_comments_xtd.urls')), # Used by django-comments-xtd
     path("accounts/profile/", views.ProfileView, name="profile"),

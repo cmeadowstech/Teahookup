@@ -281,3 +281,7 @@ def CollectionRating(request, slug):
         Collection.rating.add(request.user)
 
     return HttpResponse(f"+{Collection.rating.all().count()}")
+
+def returnError(request):
+    division_by_zero = 1 / 0
+    return division_by_zero
