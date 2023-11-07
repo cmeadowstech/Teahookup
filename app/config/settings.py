@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 import environ
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 env = environ.Env(
     DJANGO_SECRET_KEY=(
@@ -250,3 +252,12 @@ COMMENTS_XTD_APP_MODEL_OPTIONS = {
 
 MATOMO_SITE_ID = 2
 MATOMO_URL = "https://analytics.teahookup.com/"
+
+# Glitchtip
+
+sentry_sdk.init(
+    dsn="https://77fa51e202684ed4a5310e0d20d2a7b4@glitchtip.teahookup.com/1",
+    integrations=[DjangoIntegration()],
+    auto_session_tracking=False,
+    traces_sample_rate=0
+)
