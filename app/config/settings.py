@@ -248,5 +248,5 @@ COMMENTS_XTD_APP_MODEL_OPTIONS = {
 
 # django-matomo
 
-MATOMO_SITE_ID = 5
+MATOMO_SITE_ID = 2
 MATOMO_URL = "https://analytics.teahookup.com/"
