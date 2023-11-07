@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     "request",  # django-request
     "django_comments_xtd", #django_comments_xtd
     "django_comments", #django_comments_xtd
+    "matomo", # django-matomo
     "tealist",
 ]
 
@@ -187,7 +188,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # allauth settings
 
 if not DEBUG:
-    SITE_ID = 4
+    SITE_ID = 5
 else:
     SITE_ID = 3
 
@@ -245,3 +246,7 @@ COMMENTS_XTD_APP_MODEL_OPTIONS = {
     }
 }
 
+# django-matomo
+
+MATOMO_SITE_ID = 5
+MATOMO_URL = "https://analytics.teahookup.com/"
