@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 import environ
-import sentry_sdk
 
 env = environ.Env(
     DJANGO_SECRET_KEY=(
@@ -251,9 +250,3 @@ COMMENTS_XTD_APP_MODEL_OPTIONS = {
 
 MATOMO_SITE_ID = 2
 MATOMO_URL = "https://analytics.teahookup.com/"
-
-# Sentry
-sentry_sdk.init(
-    dsn="https://36d2d8f9b9074df79566511da2c40b18@sentry.teahookup.com/2",
-    enable_tracing=True,
-)
