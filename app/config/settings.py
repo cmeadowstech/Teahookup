@@ -37,14 +37,14 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 # SECRET_KEY = 'django-insecure-7g7e&!bdy!f7i+2roz@c&rrabdpq#0r)pc6fohmy$j-66y_%v_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env("DJANGO_DEBUG") != "False"
+DEBUG = env.bool("DJANGO_DEBUG", True)
 
 ALLOWED_HOSTS = ["*"]
 
 CSRF_TRUSTED_ORIGINS = ["https://*.tealist.fly.dev","https://*teahookup.com"]
 
 INTERNAL_IPS = [
-    env("MY_PUBLIC_IP"),
+    env.str("MY_PUBLIC_IP", default=""),
     # "127.0.0.1",
 ]
 
@@ -115,9 +115,19 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+DATABASES = {
+    # read os.environ['DATABASE_URL'] and raises
+    # ImproperlyConfigured exception if not found
+    #
+    # The db() method is an alias for db_url().
+    'default': env.db(default=""),
 
-DJANGO_DB = env.db()
-DATABASES = {"default": env.db()}
+    # read os.environ['SQLITE_URL']
+    'extra': env.db_url(
+        'SQLITE_URL',
+        default='sqlite:////tmp/my-tmp-sqlite.db'
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -170,7 +180,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Media files
 
-if env("STORAGE_ACCOUNT_KEY"):
+try:
     AZURE_ACCOUNT_NAME = "thstorage981357"
     AZURE_CONTAINER = 'files'
     AZURE_ACCOUNT_KEY = env("STORAGE_ACCOUNT_KEY")
@@ -178,6 +188,8 @@ if env("STORAGE_ACCOUNT_KEY"):
 
     INSTALLED_APPS.append("storages")
     DEFAULT_FILE_STORAGE = "storages.backends.azure_storage.AzureStorage"
+except:
+    pass
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Directory where uploaded media is saved.
 MEDIA_URL = '/media/' # Public URL at the browser

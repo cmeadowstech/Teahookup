@@ -1,0 +1,29 @@
+---
+name: 'Dokku Deploy'
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cloning repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to dokku
+        uses: dokku/github-action@master
+        with:
+          git_remote_url: 'ssh://dokku@23.239.17.96:22/~/teahookup' # https://github.com/dokku/github-action/issues/15
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          branch: 'dev'
+      
+      - name: Create pull request
+        run: gh pr create -B master -H dev --title 'Merge dev into master' --body 'Created by Github action'
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
