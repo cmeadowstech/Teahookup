@@ -19,7 +19,7 @@ jobs:
       - name: Push to dokku
         uses: dokku/github-action@master
         with:
-          git_remote_url: 'ssh://dokku@23.239.17.96:teahookup'
+          git_remote_url: 'ssh://dokku@23.239.17.96:22/teahookup'
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           branch: 'dev'
       
