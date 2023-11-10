@@ -1,6 +1,5 @@
 ---
 name: Dokku Deploy - Dev
-name: Dokku Deploy - Dev
 
 on:
   push:
@@ -23,7 +22,3 @@ jobs:
         with:
           git_remote_url: 'ssh://dokku@23.239.17.96:22/~/teahookup' # https://github.com/dokku/github-action/issues/15
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-          branch: 'dev'
-          branch: 'dev'
-
-          branch: 'dev'
