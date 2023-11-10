@@ -287,4 +287,4 @@ def returnError(request):
     return division_by_zero
 
 def helloWorld(request):
-    return HttpResponse("Hello world!")
+    return HttpResponse("Hello, world!")
