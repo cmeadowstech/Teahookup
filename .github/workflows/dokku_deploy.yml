@@ -4,7 +4,7 @@ name: Dokku Deploy - Dev
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - 'app/**'
 
