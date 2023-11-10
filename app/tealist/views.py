@@ -285,3 +285,6 @@ def CollectionRating(request, slug):
 def returnError(request):
     division_by_zero = 1 / 0
     return division_by_zero
+
+def helloWorld(request):
+    return HttpResponse("Hello, world!")
