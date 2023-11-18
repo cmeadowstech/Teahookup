@@ -1,15 +1,20 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from django.views import generic
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_page
 import requests, json
 import environ
 
 from .models import *
 from .filters import *
 from .forms import *
+
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 # Helper logic
 
@@ -88,7 +93,7 @@ def GetCollectionsContext(request):
 
 # Views
 
-
+@cache_page(CACHE_TTL)
 def index(request):
     Featured = vendor.objects.filter(featured=True)
     Recent = vendor.objects.all().order_by("created")[:3]
@@ -112,7 +117,7 @@ def VendorListView(request):
         context,
     )
 
-
+@cache_page(CACHE_TTL)
 def VendorDetailView(request, slug):
     Vendor = get_object_or_404(vendor, slug=slug)
     context = {}
@@ -164,7 +169,7 @@ def CommentsView(request, slug):
 
     return render(request, "comments_partial.html", context)
 
-
+@cache_page(CACHE_TTL)
 def ReleaseHistory(request):
     url = "https://api.github.com/repos/cmeadowstech/tea-list/releases"
 
@@ -254,7 +259,7 @@ def CollectionListView(request):
 
     return render(request, template, context)
 
-
+@cache_page(CACHE_TTL)
 def CollectionPreviewView(request):
     Vendors = vendor.objects.filter(id__in=dict(request.POST)["vendors"])
     Name = request.POST["name"]
@@ -263,7 +268,7 @@ def CollectionPreviewView(request):
 
     return render(request, "collections/collections_new_preview.html", context)
 
-
+@cache_page(CACHE_TTL)
 def CollectionDetailView(request, slug):
     context = {}
     Collection = get_object_or_404(collection.objects.select_related('user'), slug=slug)
