@@ -44,8 +44,7 @@ ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = ["https://*.tealist.fly.dev","https://*teahookup.com"]
 
 INTERNAL_IPS = [
-    env.str("MY_PUBLIC_IP", default=""),
-    # "127.0.0.1",
+    env.str("DEBUG_IP", default=""),
 ]
 
 # Application definition
@@ -273,3 +272,10 @@ sentry_sdk.init(
     auto_session_tracking=False,
     traces_sample_rate=0
 )
+
+# Cache 
+
+CACHE_TTL = 60 * 60
+CACHES = {
+    'default': env.cache(default="")  # default = 'CACHE_URL' environmennt variable
+}
