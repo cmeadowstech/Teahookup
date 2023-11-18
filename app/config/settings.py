@@ -277,5 +277,5 @@ sentry_sdk.init(
 
 CACHE_TTL = 60 * 60
 CACHES = {
-    'default': env.cache(default="")  # default = 'CACHE_URL' environmennt variable
+    'default': env.cache(default="rediscache://:@:6379/1/?key_prefix=teahookup")  # default = 'CACHE_URL' environmennt variable
 }
