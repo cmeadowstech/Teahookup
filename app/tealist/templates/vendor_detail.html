@@ -1,6 +1,9 @@
 {% extends "base.html" %}
+{% load cache %}
+
 
 {% block content %}
+{% cache 360 vendor_detail %}
 <div class="container">
 <div class="row">
   <div class="card border-0 shadow mb-3 pt-3 col-md-8 col-12">
@@ -111,5 +114,5 @@
   </div>
 </div>
 </div>
-
+{% endcache %}
 {% endblock %}

@@ -1,4 +1,6 @@
 {% load static %}
+{% load cache %}
+{% cache 360 vendor_detail_partial %}
 
 <div id="modal-backdrop" class="modal-backdrop fade show" style="display:block;"></div>
 <div id="modal" class="modal fade show" tabindex="-1" style="display:block;">
@@ -84,3 +86,5 @@
   </div>
 </div>
 </div>
+
+{% endcache %}

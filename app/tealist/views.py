@@ -117,7 +117,7 @@ def VendorListView(request):
         context,
     )
 
-@cache_page(CACHE_TTL)
+
 def VendorDetailView(request, slug):
     Vendor = get_object_or_404(vendor, slug=slug)
     context = {}
