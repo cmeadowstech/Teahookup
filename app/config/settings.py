@@ -205,9 +205,19 @@ if not DEBUG:
 else:
     SITE_ID = 3
 
-REQUEST_BASE_URL = "https://tealist.fly.dev/"
-
+REQUEST_BASE_URL = "https://teahookup.com/"
 LOGIN_REDIRECT_URL = "/"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 587 
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = env("SENDGRID_API_KEY", default="")
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "mail@teahookup.com"
+
 
 # Miscellaneous
 

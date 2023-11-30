@@ -40,6 +40,7 @@ urlpatterns = [
     ),
     path("collections/<str:slug>/rate", views.CollectionRating, name="collection-rate"),
     path("releases/", views.ReleaseHistory, name="releases"),
+    path("privacy/", views.PrivacyPolicy, name="privacy"),
     path("error/", views.returnError, name="error"),
     path("helloWorld/", views.helloWorld, name="helloWorld"),
     path("accounts/", include("allauth.urls")),  # Used by django-allauth

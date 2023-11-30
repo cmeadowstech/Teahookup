@@ -93,7 +93,7 @@ def GetCollectionsContext(request):
 
 # Views
 
-@cache_page(CACHE_TTL)
+# @cache_page(CACHE_TTL)
 def index(request):
     Featured = vendor.objects.filter(featured=True)
     Recent = vendor.objects.all().order_by("created")[:3]
@@ -186,6 +186,10 @@ def ReleaseHistory(request):
     context = {"Releases": Releases}
 
     return render(request, "release_history.html", context)
+
+# @cache_page(CACHE_TTL)
+def PrivacyPolicy(request):
+    return render(request, "privacy_policy.html")
 
 @login_required
 def ProfileView(request):
