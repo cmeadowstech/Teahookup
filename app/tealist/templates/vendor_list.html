@@ -2,103 +2,77 @@
 
 {% block content %}
 
-<div class="container">
-<div class="row">
-  <ul class="list-group col-12 col-md-9 order-2 order-md-1 text-white px-1">
+<div class="container mx-auto">
+<div class="grid grid-cols-4 grid-rows-1">
+  <div class="list-group col-span-3 text-white px-1">
     {% include 'vendor_list_partial.html' %}
-  </ul>
+  </div>
 
   <!-- Form for filtering results -->
 
-  <form class="col-12 col-md-3 order-1 order-md-2 p-0 px-1" hx-get="{% url 'vendors' %}"
+  <form class="col-start-4 p-0 px-1" hx-get="{% url 'vendors' %}"
     hx-target=".list-group" hx-push-url="true">
     <fieldset class="filter-form p-3 border-0 shadow">
       {{ filter_form.form.name }}
       {{ filter_form.form.o }}
 
       <div id="accordion" class="text-white">
-        <div class="card border-0 rounded-0">
-          <div class="card-header" id="headingOne">
-            <h5 class="d-flex justify-content-between align-items-center mb-0 py-2">
-              <button type="button" class="btn btn-link collapsed text-white p-0" data-toggle="collapse"
-                data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                Store Location 
-              </button>
-              <i class="material-symbols-outlined material-small float-right">home</i>
-            </h5>
+        <div class="collapse collapse-arrow">
+          <input type="radio" name="my-accordion-2"/> 
+          <div class="collapse-title text-xl font-medium">
+            Store Location 
           </div>
+          <div class="collapse-content"> 
+            {% for v in filter_form.form.store_location %}
+              {{ v.tag }}<label for="{{ v.id_for_label }}" class="badge badge-success label-for-check font-bold">
+                {{ v.choice_label }}
+              </label>
+            {% endfor %}
+          </div>
+        </div>
 
-          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-            <div class="card-body">
-              {% for v in filter_form.form.store_location %}
-              {{ v.tag }}<label for="{{ v.id_for_label }}" class="badge badge-success label-for-check text-large">
+        <div class="collapse collapse-arrow">
+          <input type="radio" name="my-accordion-2"/> 
+          <div class="collapse-title text-xl font-medium">
+            Ships To 
+          </div>
+          <div class="collapse-content"> 
+            {% for v in filter_form.form.ship_to %}
+              {{ v.tag }}<label for="{{ v.id_for_label }}"
+                class="badge badge-success label-for-check font-bold">
                 {{ v.choice_label }}
               </label>
-              {% endfor %}
-            </div>
+            {% endfor %}
           </div>
         </div>
-        <div class="card border-0 rounded-0">
-          <div class="card-header" id="headingTwo">
-            <h5 class="d-flex justify-content-between align-items-center mb-0 py-2">
-              <button type="button" class="btn btn-link collapsed text-white pl-0" data-toggle="collapse"
-                data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                Ships To
-              </button>
-              <i class="material-symbols-outlined material-small">local_shipping</i> 
-            </h5>
+
+        <div class="collapse collapse-arrow">
+          <input type="radio" name="my-accordion-2"/> 
+          <div class="collapse-title text-xl font-medium">
+            Sources From
           </div>
-          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-            <div class="card-body">
-              {% for v in filter_form.form.ship_to %}
+          <div class="collapse-content"> 
+            {% for v in filter_form.form.tea_source %}
               {{ v.tag }}<label for="{{ v.id_for_label }}"
-                class="badge badge-success label-for-check text-large text-large">
+                class="badge badge-success label-for-check font-bold">
                 {{ v.choice_label }}
               </label>
-              {% endfor %}
-            </div>
+            {% endfor %}
           </div>
         </div>
-        <div class="card border-0 rounded-0">
-          <div class="card-header" id="headingThree">
-            <h5 class="d-flex justify-content-between align-items-center mb-0 py-2">
-              <button type="button" class="btn btn-link collapsed text-white pl-0" data-toggle="collapse"
-                data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                Sources From
-              </button>
-              <i class="material-symbols-outlined material-small">map</i>
-            </h5>
+
+        <div class="collapse collapse-arrow">
+          <input type="radio" name="my-accordion-2"/> 
+          <div class="collapse-title text-xl font-medium">
+            Varities
           </div>
-          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-            <div class="card-body">
-              {% for v in filter_form.form.tea_source %}
+          <div class="collapse-content"> 
+            {% for v in filter_form.form.variety %}
               {{ v.tag }}<label for="{{ v.id_for_label }}"
-                class="badge badge-success label-for-check text-large text-large">
+                class="badge badge-success label-for-check font-bold">
                 {{ v.choice_label }}
               </label>
               {% endfor %}
-            </div>
-          </div>
-        </div>
-        <div class="card border-0 rounded-0">
-          <div class="card-header" id="headingFour">
-            <h5 class="d-flex justify-content-between align-items-center mb-0 py-2">
-              <button type="button" class="btn btn-link collapsed text-white pl-0" data-toggle="collapse"
-                data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                Varities
-              </button>
-              <i class="material-symbols-outlined material-small locations">eco</i>
-            </h5>
-          </div>
-          <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
-            <div class="card-body">
-              {% for v in filter_form.form.variety %}
-              {{ v.tag }}<label for="{{ v.id_for_label }}"
-                class="badge badge-success label-for-check text-large text-large">
-                {{ v.choice_label }}
-              </label>
-              {% endfor %}
-            </div>
           </div>
         </div>
       </div>

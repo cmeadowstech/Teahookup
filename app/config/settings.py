@@ -70,7 +70,10 @@ INSTALLED_APPS = [
     "django_comments_xtd", #django_comments_xtd
     "django_comments", #django_comments_xtd
     "matomo", # django-matomo
+    "tailwind", # django-tailwind
+    'django_browser_reload', # django-tailwind[reload]
     "tealist",
+    "theme"
 ]
 
 MIDDLEWARE = [
@@ -85,6 +88,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",  # Django debug toolbar
+    "django_browser_reload.middleware.BrowserReloadMiddleware", # django-tailwind[reload]
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -287,5 +291,12 @@ sentry_sdk.init(
 
 CACHE_TTL = 60 * 60
 CACHES = {
-    'default': env.cache(default="rediscache://:@:6379/1/?key_prefix=teahookup")  # default = 'CACHE_URL' environmennt variable
+    # 'default': env.cache(default="rediscache://:@:6379/1/?key_prefix=teahookup")  # default = 'CACHE_URL' environmennt variable
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
 }
+
+# Tailwind
+
+TAILWIND_APP_NAME = 'theme'
