@@ -9,32 +9,46 @@ class VendorFilter(django_filters.FilterSet):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Search...",
-                "class": "vendor-search w-100",
+                "class": "input w-full max-w-xs",
                 "autocomplete": "off",
             }
         ),
     )
     store_location = django_filters.ModelMultipleChoiceFilter(
         queryset=location.objects.exclude(store_location__isnull=True),
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "peer hidden"}),
     )
     ship_to = django_filters.ModelMultipleChoiceFilter(
         queryset=location.objects.exclude(ship_to__isnull=True),
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "peer hidden"}),
     )
     tea_source = django_filters.ModelMultipleChoiceFilter(
         queryset=location.objects.exclude(tea_source__isnull=True),
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "peer hidden"}),
     )
     variety = django_filters.ModelMultipleChoiceFilter(
-        queryset=variety.objects.all(), widget=forms.CheckboxSelectMultiple
+        queryset=variety.objects.all(),
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "peer hidden"}),
     )
 
-    o = django_filters.OrderingFilter(fields=(("name", "rating")))
+    o = django_filters.OrderingFilter(
+        fields=(("name", "rating")),
+        widget=forms.Select,
+    )
 
     class Meta:
         model = vendor
         fields = ["name", "store_location", "ship_to", "tea_source", "variety"]
+        
+    # https://stackoverflow.com/questions/68381768/how-to-set-class-of-orderingfilters-widget-in-django
+        
+    def __init__(self, data=None, queryset=None, request=None, prefix=None, *args, **kwargs):
+        super().__init__(*args, request=request, data=data, **kwargs)
+
+        o = self.form.fields["o"]
+        o.widget.attrs = {
+            'class': 'select w-full max-w-xs'
+        }
 
 
 class CollectionFilter(django_filters.FilterSet):
@@ -43,7 +57,7 @@ class CollectionFilter(django_filters.FilterSet):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Search...",
-                "class": "vendor-search w-100",
+                "class": "input w-full max-w-xs",
                 "autocomplete": "off",
             }
         ),

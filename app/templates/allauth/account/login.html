@@ -6,17 +6,16 @@
   {% trans "Sign In" %}
 {% endblock %}
 {% block content %}
-  <div class="container">
+  <div class="container mx-auto">
     <div class="alert alert-warning" role="alert">
       Note: This site is currently in alpha. While user functionality works, I cannot gaurantee persistence of data.
     </div>
-    <div class="card">
-      <div class="row no-gutters">
-        <div class="col-md-4 featured-image"
-             style="background-image: url({% static 'tea-login-hero.jpg' %})"></div>
-        <div class="col-md-8 text-white login">
+    <div class="card card-side bg-base-300 shadow-xl">
+      <div class="grid grid-cols-3">
+        <figure><img src="{% static 'tea-login-hero.jpg' %}" alt="Gaiwan with tea"/></figure>
+        <div class="col-span-2 text-white login">
           <div class="card-body">
-            <h4 class="pb-2 card-title">{% trans "Sign into your account" %}</h4>
+            <h4 class="font-serif font-bold text-3xl pb-2 card-title">{% trans "Sign into your account" %}</h4>
             {% get_providers as socialaccount_providers %}
             {% if socialaccount_providers %}
               {% include "socialaccount/snippets/login_extra.html" %}

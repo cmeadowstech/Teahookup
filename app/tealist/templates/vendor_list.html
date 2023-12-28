@@ -14,7 +14,9 @@
     hx-target=".list-group" hx-push-url="true">
     <fieldset class="filter-form p-3 border-0 shadow">
       {{ filter_form.form.name }}
+      <div class="mt-2">
       {{ filter_form.form.o }}
+      </div>
 
       <div id="accordion" class="text-white">
         <div class="collapse collapse-arrow">
@@ -24,9 +26,10 @@
           </div>
           <div class="collapse-content"> 
             {% for v in filter_form.form.store_location %}
-              {{ v.tag }}<label for="{{ v.id_for_label }}" class="badge badge-success label-for-check font-bold">
-                {{ v.choice_label }}
-              </label>
+            <label for="{{ v.id_for_label }}">
+              {{ v.tag }}
+              <div class="badge badge-success peer-checked:badge-primary hover:badge-primary font-bold">{{ v.choice_label }}</div>
+            </label>
             {% endfor %}
           </div>
         </div>
@@ -38,10 +41,10 @@
           </div>
           <div class="collapse-content"> 
             {% for v in filter_form.form.ship_to %}
-              {{ v.tag }}<label for="{{ v.id_for_label }}"
-                class="badge badge-success label-for-check font-bold">
-                {{ v.choice_label }}
-              </label>
+            <label for="{{ v.id_for_label }}">
+              {{ v.tag }}
+              <div class="badge badge-success peer-checked:badge-primary hover:badge-primary font-bold">{{ v.choice_label }}</div>
+            </label>
             {% endfor %}
           </div>
         </div>
@@ -53,9 +56,9 @@
           </div>
           <div class="collapse-content"> 
             {% for v in filter_form.form.tea_source %}
-              {{ v.tag }}<label for="{{ v.id_for_label }}"
-                class="badge badge-success label-for-check font-bold">
-                {{ v.choice_label }}
+              <label for="{{ v.id_for_label }}">
+                {{ v.tag }}
+                <div class="badge badge-success peer-checked:badge-primary hover:badge-primary font-bold">{{ v.choice_label }}</div>
               </label>
             {% endfor %}
           </div>
@@ -68,16 +71,16 @@
           </div>
           <div class="collapse-content"> 
             {% for v in filter_form.form.variety %}
-              {{ v.tag }}<label for="{{ v.id_for_label }}"
-                class="badge badge-success label-for-check font-bold">
-                {{ v.choice_label }}
+              <label for="{{ v.id_for_label }}">
+                {{ v.tag }}
+                <div class="badge badge-success peer-checked:badge-primary hover:badge-primary font-bold">{{ v.choice_label }}</div>
               </label>
               {% endfor %}
           </div>
         </div>
       </div>
 
-      <input type="submit" value="Apply Filters" class="w-100 p-2 m-0 submit-filters" />
+      <input type="submit" value="Apply Filters" class="btn btn-primary hover:btn-secondary w-full p-2 m-0 font-serif" />
     </fieldset>
   </form>
 </div>

@@ -61,34 +61,34 @@
           </div>
           <ul tabindex="0"
             class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-lime-500">
-            <li><a class="" href="{% url 'index' %}">Home</a></li>
-            <li><a class="" href="{% url 'vendors' %}">Vendors</a></li>
-            <li><a class="" href="{% url 'collections' %}">Collections</a></li>
+            <li><a class="border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'index' %}">Home</a></li>
+            <li><a class="border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'vendors' %}">Vendors</a></li>
+            <li><a class="border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'collections' %}">Collections</a></li>
             <li class="text-primary">
               {% if user.is_authenticated %}
-              <a class="" href="{% url 'account_logout' %}" hx-get="/accounts/logout/" hx-target="#htmx-modal">Sign
+              <a class="border-b border-transparent hover:border-b hover:border-primary transition ease-in-out" href="{% url 'account_logout' %}" hx-get="/accounts/logout/" hx-target="#htmx-modal">Sign
                 Out</a>
               {% else %}
-              <a class="" href="{% url 'account_login' %}">Sign In</a>
+              <a class="border-b border-transparent hover:border-b hover:border-primary transition ease-in-out" href="{% url 'account_login' %}">Sign In</a>
               {% endif %}
             </li>
           </ul>
         </div>
         <a class="btn btn-ghost text-xl">
-          <h4>Tea Hookup</h4>
+          <h4 class="font-serif font-bold text-2xl">Tea Hookup</h4>
         </a>
       </div>
       <div class="navbar-end hidden lg:flex">
-        <ul class="menu menu-horizontal px-1">
-          <li><a class="nav-item nav-link rounded mx-2" href="{% url 'index' %}">Home</a></li>
-          <li><a class="nav-item nav-link rounded mx-2" href="{% url 'vendors' %}">Vendors</a></li>
-          <li><a class="nav-item nav-link rounded mx-2" href="{% url 'collections' %}">Collections</a></li>
+        <ul class="menu menu-horizontal px-1 font-bold">
+          <li><a class="nav-item nav-link mx-2 border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'index' %}">Home</a></li>
+          <li><a class="nav-item nav-link mx-2 border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'vendors' %}">Vendors</a></li>
+          <li><a class="nav-item nav-link mx-2 border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'collections' %}">Collections</a></li>
           <li class="text-primary">
             {% if user.is_authenticated %}
-            <a class="nav-item nav-link link-important rounded mx-2" href="{% url 'account_logout' %}"
+            <a class="nav-item nav-link link-important mx-2 border-b border-transparent hover:border-b hover:border-primary transition ease-in-out" href="{% url 'account_logout' %}"
               hx-get="/accounts/logout/" hx-target="#htmx-modal">Sign Out</a>
             {% else %}
-            <a class="nav-item nav-link link-important rounded mx-2" href="{% url 'account_login' %}">Sign In</a>
+            <a class="nav-item nav-link link-important mx-2 border-b border-transparent hover:border-b hover:border-primary transition ease-in-out" href="{% url 'account_login' %}">Sign In</a>
             {% endif %}
           </li>
         </ul>

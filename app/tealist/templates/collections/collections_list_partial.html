@@ -1,26 +1,29 @@
-<ul class="p-0">
+<div class="p-0">
     {% if filter %}
     {% for collection in filter %}
-    <li class="list-group-item mt-0 mb-2 border-0 shadow">
-        <div class="card-title d-flex justify-content-between align-items-center">
-            <div id="collection-title">
-                <h4 class="mb-0"><a href="{{ collection.get_absolute_url }}">
-                        {{ collection.name }}
-                    </a></h4>
-                <small class="text-muted">By {{ collection.user.username }} on
-                    {{ collection.created_on|date:"D, F jS" }}</small>
+    <div class="card bg-base-300 mt-0 mb-2 border-0 shadow-xl">
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <div class="card-title flex justify-between">
+                <div id="card-headline" class="w-fit">
+                    <h4 class="font-serif font-bold text-2xl text-secondary">
+                        <a href="{{ collection.get_absolute_url }}" class="border-0 border-transparent hover:border-b hover:border-secondary transition ease-in-out">
+                            {{ collection.name }}
+                        </a>
+                    </h4>
+                    <small class="text-accent">By {{ collection.user.username }} on
+                        {{ collection.created_on|date:"D, F jS" }}
+                    </small>
+                </div>
+                <span class="badge badge-success justify-end font-serif font-bold">+{{ collection.rating.all.count }}</span>
             </div>
-            <span class="badge badge-success float-right text-large">+{{ collection.rating.all.count }}</span>
-        </diV>
-
 
         {% if collection.content %}
         <div class="pt-4 pb-4">
             {{ collection.content|truncatewords:64 }}
         </div>
         {% endif %}
-
-    </li>
+        </diV>
+    </div>
     {% endfor %}
 
     <!-- If there are no results matching the filter -->
@@ -32,20 +35,15 @@
     {% endif %}
 
     <!-- Pagination -->
-    <li class="list-group-item mt-1 mb-1 mr-2 p-0 page-nav">
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-end">
-                {% if filter.has_previous %}
-                <li class="page-item w-50"><a class="page-link"
-                        hx-get="{% url 'collections' %}?page={{ filter.previous_page_number }}&{{ parameters }}"
-                        hx-target="#collections-list" hx-push-url="true">Previous</a></li>
-                {% endif %}
-                {% if filter.has_next %}
-                <li class="page-item w-50 text-right"><a class="page-link"
-                        hx-get="{% url 'collections' %}?page={{ filter.next_page_number }}&{{ parameters }}"
-                        hx-target="#collections-list" hx-push-url="true">Next</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-    </li>
-</ul>
+
+    <div class="join grid grid-cols-2">
+        {% if filter.has_previous %}
+        <button class="join-item btn btn-success hover:btn-secondary" hx-get="{% url 'collections' %}?page={{ filter.previous_page_number }}&{{ parameters }}"
+        hx-target="#collections-list" hx-push-url="true">Previous page</button>
+        {% endif %}
+        {% if filter.has_next %}
+        <button class="join-item btn btn-success hover:btn-secondary" hx-get="{% url 'collections' %}?page={{ filter.next_page_number }}&{{ parameters }}"
+        hx-target="#collections-list" hx-push-url="true">Next</button>
+        {% endif %}
+    </div>
+</div>

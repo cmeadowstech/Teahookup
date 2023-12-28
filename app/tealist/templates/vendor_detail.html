@@ -4,12 +4,12 @@
 
 {% block content %}
 {% cache 360 vendor_detail %}
-<div class="container">
-<div class="row">
-  <div class="card border-0 shadow mb-3 pt-3 col-md-8 col-12">
+<div class="container mx-auto">
+<div class="grid grid-cols-4 gap-3">
+  <div class="card col-span-3 bg-base-300 drop-shadow-xl">
     <div class="card-body">
 
-      <h1>{{ vendor.name }}
+      <h1 class="font-serif font-bold text-4xl mb-3">{{ vendor.name }}
 
         {% if vendor.rating %}
         <span class="badge badge-primary ml-2 mb-2 float-right">{{ vendor.rating }}</span>
@@ -17,26 +17,32 @@
       </h1>
       <div>
         {% for variety in vendor.variety.all %}
-        <span class="badge badge-success badge-pill text-large">{{ variety }}</span>
+        <span class="badge badge-success font-bold">{{ variety }}</span>
         {% endfor %}
       </div>
-
+      
       <div class="locations pt-3 mb-4">
-        <h6 class="">
-          <i class="material-symbols-outlined material-small">open_in_new</i> Main Site: <a href="{{ vendor.url }}"
-            class="link-primary" target="_blank">{{ vendor.url }}
+        <h6 class="text-accent flex gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+          </svg>
+          Main Site: <a href="{{ vendor.url }}"
+            class="text-secondary border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out" target="_blank">{{ vendor.url }}
           </a>
         </h6>
         {% if vendor.url_alt %}
-        <h6 class="">
-          <i class="material-symbols-outlined material-small">public</i> Global Site: <a href="{{ vendor.url_alt }}"
-            class="link-primary" target="_blank">{{ vendor.url_alt }}
+        <h6 class="text-accent flex gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
+          </svg>  
+          Global Site: <a href="{{ vendor.url_alt }}"
+            class="text-secondary border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out" target="_blank">{{ vendor.url_alt }}
           </a>
         </h6>
         {% endif %}
       </div>
-
-
+      
+      
       {% if vendor.description %}
       <div class="py-4">
         <p>
@@ -44,14 +50,14 @@
         </p>
       </div>
       {% endif %}
-
+      
       <div class="mt-4">
         <h5 class="m-0 pb-2">
           Ships To
         </h5>
         <div>
           {% for location in vendor.ship_to.all %}
-          <span class="badge badge-info text-large">{{ location }}</span>
+          <span class="badge badge-accent font-bold">{{ location }}</span>
           {% endfor %}
         </div>
       </div>
@@ -61,17 +67,17 @@
         </h5>
         <div>
           {% for location in vendor.store_location.all %}
-          <span class="badge badge-info text-large">{{ location }}</span>
+          <span class="badge badge-accent font-bold">{{ location }}</span>
           {% endfor %}
         </div>
       </div>
-      <div class="my-4">
+      <div class="mt-4">
         <h5 class="m-0 pb-2">
           Sources From
         </h5>
         <div>
           {% for location in vendor.tea_source.all %}
-          <span class="badge badge-info  text-large">{{ location }}</span>
+          <span class="badge badge-accent  font-bold">{{ location }}</span>
           {% endfor %}
         </div>
       </div>
@@ -81,14 +87,14 @@
     </div>
   </div>
   <div class="col-md-4 col-12">
-    <div class="card border-0 shadow mb-3 mb-3">
+    <div class="card bg-base-300 drop-shadow-xl mb-3">
       <div class="card-body">
-        <h4>Related Collections</h4>
+        <h4 class="font-serif font-bold text-2xl">Related Collections</h4>
         <ul class="tea-marker">
           {% for collection in related_collections %}
-          <li class="border-bottom">
+          <li class="border-b border-success text-secondary">
             <a href="{{ collection.get_absolute_url }}" hx-get="{{ collection.get_absolute_url }}" hx-target="#htmx-modal"
-              hx-trigger="click">
+              hx-trigger="click" class="border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out">
               {{ collection.name }}
             </a>
           </li>
@@ -96,14 +102,14 @@
         </ul>
       </div>
     </div>
-    <div class="card border-0 shadow mb-3 mb-3">
+    <div class="card bg-base-300 drop-shadow-xl mb-3">
       <div class="card-body">
-        <h6 class="border-bottom pb-2">From the region</h6>
+        <h6 class="border-b border-success font-serif font-bold text-2xl">From the region</h6>
         <ul class="tea-marker">
           {% for vendor in regional_vendors %}
-          <li class="border-bottom">
+          <li class="border-b border-success text-secondary">
             <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx-modal"
-              hx-trigger="click">
+              hx-trigger="click" class="border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out">
               {{ vendor.name }}
             </a>
           </li>

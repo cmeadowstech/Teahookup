@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-<ul class="list-group">
+<div class="container mx-auto">
+<div class="card bg-base-300">
     {% for release in Releases %}
-    <li class="list-group-item p-3">
-        <h4 class="border-bottom pb-2">{{ release.tag_name }} | <small class="locations">{{ release.created_at }}</small></h4>
+    <div class="card-body">
+        <h4 class="font-serif font-bold text-2xl border-b border-success pb-2">{{ release.tag_name }} | <small class="text-accent">{{ release.created_at }}</small></h4>
         <p>{{ release.body|linebreaks }}</p>
-    </li>
+    </div>
     {% endfor %}
-</ul>
+</div>
 </div>
 {% endblock %}

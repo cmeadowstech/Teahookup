@@ -11,7 +11,7 @@
         access to new markets. Finding these vendors can be a challenge, but I hope this tool allows you to explore
         these new options.</p>
       <div class="card-actions justify-start">
-        <button class="btn btn-primary">Start your search</button>
+        <button class="btn btn-primary font-serif hover:btn-secondary">Start your search</button>
       </div>
     </div>
     <figure><img src="{% static 'hero-teapot.webp' %}"/></figure>
@@ -25,7 +25,7 @@
       {% for vendor in Recent %}
       <div class="card bg-base-300 shadow-xl">
         <div class="card-body text-center">
-          <a href="{{ vendor.get_absolute_url }}" class="text-secondary">
+          <a href="{{ vendor.get_absolute_url }}" class="text-secondary border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out">
             <h4 class="font-serif text-3xl">{{ vendor.name }}</h4>
           </a>
           <p><small class="text-accent">Teas from: {{ vendor.tea_source.all|join:", " }}</small></p>
@@ -47,7 +47,7 @@
         access to new markets. Finding these vendors can be a challenge, but I hope this tool allows you to explore
         these new options.</p>
       <div class="card-actions justify-end">
-        <button class="btn btn-primary">Start your search</button>
+        <button class="btn btn-primary font-serif hover:btn-secondary">See popular collections</button>
       </div>
     </div>
   </div>
