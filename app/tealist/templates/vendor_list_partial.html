@@ -1,7 +1,7 @@
 {% load static %}
 {% if filter %}
 {% for vendor in filter %}
-<div class="card bg-base-300 mb-2">
+<div class="card bg-base-300 mb-2 shadow-xl">
     <div class="card-body">
         <div class="card-title flex justify-between">
             <h4 class="font-serif text-secondary text-2xl flex justify-center items-center gap-1">
@@ -80,9 +80,11 @@
 <!-- If there are no results matching the filter -->
 
 {% else %}
-<li class="list-group-item mt-1 mb-1 border-0 shadow">
-    <p>There are no vendors that match your criteria.</p>
-</li>
+<div class="card bg-base-300 shadow-xl">
+    <div class="card-body">
+        <p>There are no vendors that match your criteria.</p>
+    </div>
+</div>
 {% endif %}
 
 <!-- Pagination -->
@@ -92,7 +94,7 @@
     hx-target=".list-group" hx-push-url="true">Previous page</button>
     {% endif %}
     {% if filter.has_next %}
-    <button class="join-item btn btn-success hover:btn-secondary" hx-get="{% url 'vendors' %}?page={{ filter.next_page_number }}&{{ parameters }}"
+    <button class="join-item btn btn-success hover:btn-secondary float-right col-start-2" hx-get="{% url 'vendors' %}?page={{ filter.next_page_number }}&{{ parameters }}"
     hx-target=".list-group" hx-push-url="true">Next</button>
     {% endif %}
 </div>

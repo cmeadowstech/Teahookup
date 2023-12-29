@@ -10,7 +10,7 @@
 
   <!-- Form for filtering results -->
 
-  <form class="col-start-4 p-0 px-1" hx-get="{% url 'vendors' %}"
+  <form class="bg-base-300 shadow-xl h-fit" hx-get="{% url 'vendors' %}"
     hx-target=".list-group" hx-push-url="true">
     <fieldset class="filter-form p-3 border-0 shadow">
       {{ filter_form.form.name }}

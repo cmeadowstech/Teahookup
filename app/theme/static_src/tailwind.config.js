@@ -73,6 +73,11 @@ module.exports = {
                     "--tab-radius": "0.5rem", // border radius of tabs
                 },
             },
+            "pastel"
+        ],
+        safelist: [
+            'text',
+            'textarea'
         ],
     },
     plugins: [

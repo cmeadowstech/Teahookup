@@ -2,48 +2,47 @@
 {% load static %}
 {% block content %}
 
-<div class="container">
-    <div class="card">
-        <div class="row no-gutters">
-            <div class="col-md-6 text-white login">
-                <div class="card-body">
-                    <h4 class="pb-2 card-title">Create a new collection</h4>
-                    {% if messages %}
-    
+<div class="container mx-auto card bg-base-300 shadow-xl">
+
+    <div class="grid grid-cols-2">
+        <div class="text-white login">
+            <div class="card-body">
+                <h4 class="font-serif font-bold text-3xl card-title">Create a new collection</h4>
+
+                {% if messages %}
                     {% for message in messages %}
-                    {% if 'signed' not in message|safe %}
-                    <div class="alert alert-success {{ message.tags }}" role="alert">
-                        {{ message }}
-                    </div>
-                    {% endif %}
+                        {% if 'signed' not in message|safe %}
+                        <div class="alert alert-success {{ message.tags }}" role="alert">
+                            {{ message }}
+                        </div>
+                        {% endif %}
                     {% endfor %}
-    
-                    {% endif %}
-                    {% if user.is_authenticated %}
-                    <fieldset>
-                        {% else %}
-                        <fieldset disabled>
-                            <div class="alert alert-warning" role="alert">
-                                Please login to create a collection.
-                            </div>
-                            {% endif %}
-    
-                            <form action="{% url 'collections_new' %}" method="post">
-                                {% csrf_token %}
-    
-                                {{ form.as_p}}
-                                <button class="btn btn-primary rounded-0 w-100 p-1 submit-filters" hx-post="{% url 'collections_new_preview' %}"
-                                    hx-target=".preview" />Preview</button>
-                                <input type="submit" value="Submit Vendor" class="w-100 p-1 submit-filters" />
-                        </fieldset>
-                        </form>
-                </div>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                <fieldset>
+
+                {% else %}
+                <fieldset disabled>
+                    <div class="alert alert-warning" role="alert">
+                        Please login to create a collection.
+                    </div>
+                {% endif %}
+                    <form action="{% url 'collections_new' %}" method="post" class="join join-vertical gap-4">
+                        {% csrf_token %}
+
+                        {{ form.as_p}}
+                        <button class="font-serif btn btn-primary hover:btn-secondary w-full mb-2" hx-post="{% url 'collections_new_preview' %}"
+                            hx-target=".preview" />Preview</button>
+                        <input type="submit" value="Submit Vendor" class="font-serif btn btn-primary hover:btn-secondary w-full" />
+                    </form>
+                </fieldset>
             </div>
-            <div class="col-md-6 preview">
-                <div class="card-body">
-                    <h4 class="pb-2 card-title">Preview</h4>
-                    <p class="text-white">Hit 'Preview' to see what this collection will look like once submitted</p>
-                </div>
+        </div>
+        <div class="preview">
+            <div class="card-body">
+                <h4 class="pb-2 card-title">Preview</h4>
+                <p class="text-white">Hit 'Preview' to see what this collection will look like once submitted</p>
             </div>
         </div>
     </div>

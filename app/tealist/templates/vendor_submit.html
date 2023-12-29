@@ -5,7 +5,8 @@
 
 <div class="container mx-auto card card-side bg-base-300 shadow-xl">
     <div class="grid grid-cols-3">
-        <figure class="col-span-1"><img src="{% static 'tea-login-hero.jpg' %}" alt="Gaiwan with tea"/></figure>
+        <figure style="background-image: url({% static 'tea-login-hero.jpg' %})" class="bg-center bg-cover rounded-lg">
+        </figure>
         <div class="col-span-2 text-white login">
             <div class="card-body">
                 <h4 class="font-serif font-bold text-3xl text-secondary pb-2 card-title">Submit a new vendor</h4>
@@ -29,10 +30,10 @@
                         </div>
                         {% endif %}
 
-                        <form action="{% url 'vendors_submit' %}" method="post">
+                        <form action="{% url 'vendors_submit' %}" method="post" class="join join-vertical gap-4">
                             {% csrf_token %}
 
-                            <div class="form-control" id="{{ vendor_form.name.label }}">
+                            <div class="join join-vertical gap-2 w-full" id="{{ vendor_form.name.label }}">
                                 <label for="{{ vendor_form.name.id_for_label }}">{{ vendor_form.name.label }}</label>
 
                                 {{vendor_form.name}}
@@ -40,19 +41,19 @@
                                     {{ vendor_form.name.errors.as_text }}
                                 </p>
                                 <small id="form-help"
-                                    class="form-text text-muted">{{ vendor_form.name.help_text }}</small>
+                                    class="text-accent">{{ vendor_form.name.help_text }}</small>
                             </div>
-                            <div class="form-row">
-                                <div class="col">
+                            <div class="grid grid-cols-2 w-full gap-2">
+                                <div class="join join-vertical gap-2">
                                     <label for="{{ vendor_form.url.id_for_label }}">{{ vendor_form.url.label }}</label>
                                     {{vendor_form.url}}
                                     <p class="text-danger">
                                         {{ vendor_form.url.errors.as_text }}
                                     </p>
                                     <small id="form-help"
-                                        class="form-text text-muted">{{ vendor_form.url.help_text }}</small>
+                                        class="text-accent">{{ vendor_form.url.help_text }}</small>
                                 </div>
-                                <div class="col">
+                                <div class="join join-vertical gap-2">
                                     <label
                                         for="{{ vendor_form.url_alt.id_for_label }}">{{ vendor_form.url_alt.label }}</label>
                                     {{vendor_form.url_alt}}
@@ -60,15 +61,15 @@
                                         {{ vendor_form.url_alt.errors.as_text }}
                                     </p>
                                     <small id="form-help"
-                                        class="form-text text-muted">{{ vendor_form.url_alt.help_text }}</small>
+                                        class="text-accent">{{ vendor_form.url_alt.help_text }}</small>
                                 </div>
                             </div>
-                            <div id="{{ vendor_form.description.label }}" class="form-control">
+                            <div id="{{ vendor_form.description.label }}" class="join join-vertical gap-2 w-full">
                                 <label
                                     for="{{ vendor_form.description.id_for_label }}">{{ vendor_form.description.label }}</label>
-                                {{vendor_form.description}}
+                                    <textarea name="{{ vendor_form.description.html_name }}" id="{{ vendor_form.description.id_for_label }}" cols="50" rows="4" class="textarea" required=""></textarea>
                                 <small id="form-help"
-                                    class="form-text text-muted">{{ vendor_form.description.help_text }}</small>
+                                    class="text-accent">{{ vendor_form.description.help_text }}</small>
                             </div>
 
 
@@ -135,7 +136,7 @@
 
                             </div>
 
-                            <input type="submit" value="Submit Vendor" class="w-100 p-1 submit-filters" />
+                            <input type="submit" value="Submit Vendor" class="font-serif w-100 btn btn-primary hover:btn-secondary" />
                     </fieldset>
                     </form>
             </div>

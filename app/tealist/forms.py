@@ -100,7 +100,7 @@ class CollectionForm(forms.ModelForm):
         help_text="What do you want to call this collection?",
         widget=forms.TextInput(
             attrs={
-                "class": "input",
+                "class": "input w-full",
             }
         ),
     )

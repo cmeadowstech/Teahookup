@@ -6,75 +6,75 @@
 
 {% block content %}
 
-<div class="container">
-    <div class="row">
-        <div class="card border-0 shadow mb-3 pt-3 col-md-8 col-12">
-            <div class="card-body">
-                <div class="card-title d-flex justify-content-between align-items-center">
-                    <div id="collection-title">
-                        <h4 class="mb-0">{{ collection.name }}</h4>
-                        <small class="text-muted">By {{ collection.user.username }} on
-                            {{ collection.created_on|date:"D, F jS" }}</small>
-                    </div>
-                    <a id="collection-rating" class="" {% if user.is_authenticated %}
-                        href="{{ collection.get_absolute_url }}rate" hx-target="#rating"
-                        hx-post="{{ collection.get_absolute_url }}rate" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                        data-toggle="tooltip" data-placement="top" title="Like this collection" {% else %}
-                        data-toggle="tooltip" data-placement="top" title="Login to like this collection" {% endif %}>
-                        <span id="rating" class="d-flex flex-column align-items-center text-white text-center">
-                            +{{ collection.rating.all.count }}
-                        </span>
-                        <div class="rating-img pt-1"></div>
+<div class="container mx-auto grid grid-cols-3 gap-2">
+    <div class="card bg-base-300 shadow-xl col-span-2">
+        <div class="card-body">
+            <div class="card-title flex justify-between">
+                <div id="collection-title">
+                    <h4 class="font-serif font-bold text-3xl">{{ collection.name }}</h4>
+                    <small class="text-accent text-xs">By {{ collection.user.username }} on
+                        {{ collection.created_on|date:"D, F jS" }}</small>
+                </div>
+                <a id="collection-rating" class="join join-vertical font-serif" {% if user.is_authenticated %}
+                    href="{{ collection.get_absolute_url }}rate" hx-target="#rating"
+                    hx-post="{{ collection.get_absolute_url }}rate" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                    data-toggle="tooltip" data-placement="top" title="Like this collection" {% else %}
+                    data-toggle="tooltip" data-placement="top" title="Login to like this collection" {% endif %}>
+                    <span id="rating" class="d-flex flex-column align-items-center text-white text-center">
+                        +{{ collection.rating.all.count }}
+                    </span>
+                    <div class="rating-img pt-1"></div>
+                    <img src="{% static 'gaiwan.webp' %}" alt="" width="32" height="32">
 
+                </a>
+            </diV>
+
+            {% if collection.vendors %}
+            <ul class="pt-4 pb-4 tea-marker">
+                {% for vendor in collection.vendors.all %}
+                <li class="text-secondary border-b border-success">
+                    <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}"
+                        hx-target="#htmx-modal" hx-trigger="click" class="border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out">
+                        {{ vendor.name }}
                     </a>
-                </diV>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
 
-                {% if collection.vendors %}
-                <ul class="pt-4 pb-4 tea-marker">
-                    {% for vendor in collection.vendors.all %}
-                    <li class="border-bottom">
-                        <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}"
-                            hx-target="#htmx-modal" hx-trigger="click">
-                            {{ vendor.name }}
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
+            <p class="">{{ collection.content|markdown|safe }}<p>
 
-                <p class="">{{ collection.content|markdown|safe }}<p>
-
-                {% include 'comments_partial.html' with object=collection %}
-                        
-            </div>
-        </div>
-        <div class="col-md-4 col-12">
-            <div class="card border-0 shadow mb-3 mb-3">
-                <div class="card-body d-flex flex-column align-items-center">
-                    <img class="rounded-circle img-fluid w-50 account-img pb-3"
-                        src="{{ collection.user.profile.image.url }}" />
-                    <h4 class="mb-0">{{ collection.user.first_name }} {{ collection.user.last_name }}</h4>
-                    <h6>{{ collection.user.username }}</h6>
-                    <small class="text-muted">
-                        <i class="material-symbols-outlined material-xs">
-                            library_books
-                        </i> Collections: {{ collection.user.collection_owner.all.count }}
-                        <i class="material-symbols-outlined material-xs">
-                            calendar_month
-                        </i> Joined: {{ collection.user.date_joined|date:"m/d/o" }}
-
-                    </small>
-                </div>
-            </div>
-            <div class="card border-0 shadow b-3 mb-3">
-                <div id="tea_source_donut" class="card-body text-white">
-                    <h4 class="pb-3">Vendor sourcing</h4>
-
-                </div>
-            </div>
-
+            {% include 'comments_partial.html' with object=collection %}
+                    
         </div>
     </div>
+    <div class="join join-vertical gap-2">
+        <div class="card bg-base-300 shadow-xl">
+            <div class="card-body join join-vertical items-center gap-2">
+                <img class="mask mask-squircle"
+                    src="{{ collection.user.profile.image.url }}" />
+                <h4 class="mb-0">{{ collection.user.first_name }} {{ collection.user.last_name }}</h4>
+                <h6>{{ collection.user.username }}</h6>
+                <small class="text-accent text-xs">
+                    <i class="material-symbols-outlined material-xs">
+                        library_books
+                    </i> Collections: {{ collection.user.collection_owner.all.count }}
+                    <i class="material-symbols-outlined material-xs">
+                        calendar_month
+                    </i> Joined: {{ collection.user.date_joined|date:"m/d/o" }}
+
+                </small>
+            </div>
+        </div>
+        <div class="card bg-base-300 shadow-xl">
+            <div id="tea_source_donut" class="card-body text-white">
+                <h4 class="pb-3">Vendor sourcing</h4>
+
+            </div>
+        </div>
+
+    </div>
+
 </div>
 
 {{ collection.get_location_stats|json_script:"location_data" }}
