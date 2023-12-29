@@ -3,11 +3,11 @@
 {% block content %}
 
 <div class="container mx-auto">
-<div class="grid grid-cols-4 gap-2">
-    <div id="collections-list" class="col-span-3 gap-2">
+<div class="grid md:grid-cols-4 gap-2">
+    <div id="collections-list" class="md:col-span-3 gap-2">
         {% include 'collections/collections_list_partial.html' %}
     </div>
-    <div class="">
+    <div class="order-first md:order-last">
         <div class="card bg-base-300 mb-3 border-0 drop-shadow-xl">
             <div class="card-body">
                 <form class="" hx-get="{% url 'collections' %}" hx-target="#collections-list" hx-push-url="true">
@@ -24,11 +24,11 @@
                 <h4 class="font-serif font-bold text-2xl mb-0">Your Collections</h4>
                 <ul class="pt-4 pb-4 tea-marker">
                     {% for collection in userCollections %}
-                    <li class="border-bottom">
-                        <a href="{{ collection.get_absolute_url }}" class="border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out">
+                    <li class="border-b border-success">
+                        <a href="{{ collection.get_absolute_url }}" class="border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out text-secondary">
                             {{ collection.name }}
                         </a>
-                        <small class="text-muted">{{ collection.created_on }}</small>
+                        <small class="text-accent">{{ collection.created_on }}</small>
                     </li>
                     {% endfor %}
                 </ul>

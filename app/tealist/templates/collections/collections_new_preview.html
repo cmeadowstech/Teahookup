@@ -8,7 +8,8 @@
     <ul class="">
         {% for vendor in vendors %}
         <li class="">
-            <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx-modal" hx-trigger="click">
+            <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx_modal" hx-trigger="click"
+            hx-on:click="daisy_modal.showModal()">
                 {{ vendor.name }}
             </a>
         </li>

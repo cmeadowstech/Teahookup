@@ -21,7 +21,7 @@
 <section class="page-section" id="recent-vendors">
   <div class="container mx-auto my-40">
     <h4 class="text-white text-center my-10 divider font-serif text-4xl">Recent Vendors</h4>
-    <div class="grid grid-cols-3 grid-flow-col gap-4 pt-4 mt-4">
+    <div class="grid lg:grid-cols-3 gap-4 pt-4 mt-4">
       {% for vendor in Recent %}
       <div class="card bg-base-300 shadow-xl">
         <div class="card-body text-center">
@@ -42,7 +42,7 @@
   <div class="card card-side container mx-auto my-40">
     <figure><img src="{% static 'hero-gaiwan.webp' %}"/></figure>
     <div class="card-body">
-      <h2 class="card-title">Find your new favorite vendor</h2>
+      <h2 class="card-title font-serif font-bold text-3xl">Find your new favorite vendor</h2>
       <p>The internet and globalization has allowed small tea vendors across the world
         access to new markets. Finding these vendors can be a challenge, but I hope this tool allows you to explore
         these new options.</p>

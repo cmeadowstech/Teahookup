@@ -21,7 +21,11 @@
               <i class="fas fa-flag text-danger" title="{% trans 'comment flagged' %}"></i>
             {% elif allow_flagging %}
               <a class="mutedlink"
-                 href="{% url 'comments-flag' item.comment.pk %}">
+                 href="{% url 'comments-flag' item.comment.pk %}"
+                 hx-get="{% url 'comments-flag' item.comment.pk %}"
+                 hx-target="#htmx_modal"
+                 hx-trigger="click"
+                 hx-on:click="daisy_modal.showModal()">
                 <i class="material-symbols-outlined material-small" title="{% trans 'flag comment' %}">flag</i>
               </a>
             {% endif %}

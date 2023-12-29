@@ -2,15 +2,15 @@
 
 {% block content %}
 
-<div class="container mx-auto">
-<div class="grid grid-cols-4 grid-rows-1">
-  <div class="list-group col-span-3 text-white px-1">
+
+<div class="container mx-auto grid md:grid-cols-4 grid-rows-1">
+  <div class="list-group md:col-span-3 text-white px-1">
     {% include 'vendor_list_partial.html' %}
   </div>
 
   <!-- Form for filtering results -->
 
-  <form class="bg-base-300 shadow-xl h-fit" hx-get="{% url 'vendors' %}"
+  <form class="bg-base-300 shadow-xl h-fit order-first md:order-last" hx-get="{% url 'vendors' %}"
     hx-target=".list-group" hx-push-url="true">
     <fieldset class="filter-form p-3 border-0 shadow">
       {{ filter_form.form.name }}
@@ -83,7 +83,6 @@
       <input type="submit" value="Apply Filters" class="btn btn-primary hover:btn-secondary w-full p-2 m-0 font-serif" />
     </fieldset>
   </form>
-</div>
 </div>
 
 <script>

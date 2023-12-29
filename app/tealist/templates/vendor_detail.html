@@ -5,8 +5,8 @@
 {% block content %}
 {% cache 360 vendor_detail %}
 <div class="container mx-auto">
-<div class="grid grid-cols-4 gap-3">
-  <div class="card col-span-3 bg-base-300 drop-shadow-xl">
+<div class="grid md:grid-cols-4 gap-3">
+  <div class="card md:col-span-3 bg-base-300 drop-shadow-xl">
     <div class="card-body">
 
       <h1 class="font-serif font-bold text-4xl mb-3">{{ vendor.name }}
@@ -93,8 +93,7 @@
         <ul class="tea-marker">
           {% for collection in related_collections %}
           <li class="border-b border-success text-secondary">
-            <a href="{{ collection.get_absolute_url }}" hx-get="{{ collection.get_absolute_url }}" hx-target="#htmx-modal"
-              hx-trigger="click" class="border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out">
+            <a href="{{ collection.get_absolute_url }}" class="border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out">
               {{ collection.name }}
             </a>
           </li>
@@ -108,8 +107,8 @@
         <ul class="tea-marker">
           {% for vendor in regional_vendors %}
           <li class="border-b border-success text-secondary">
-            <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx-modal"
-              hx-trigger="click" class="border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out">
+            <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx_modal" hx-trigger="click"
+            hx-on:click="daisy_modal.showModal()" class="border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out">
               {{ vendor.name }}
             </a>
           </li>

@@ -60,8 +60,7 @@
             </svg>
           </div>
           <ul tabindex="0"
-            class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-lime-500">
-            <li><a class="border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'index' %}">Home</a></li>
+            class="menu menu-lg dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-white">
             <li><a class="border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'vendors' %}">Vendors</a></li>
             <li><a class="border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'collections' %}">Collections</a></li>
             <li class="text-primary">
@@ -74,13 +73,12 @@
             </li>
           </ul>
         </div>
-        <a class="btn btn-ghost text-xl">
+        <a class="btn btn-ghost text-xl" href="{% url 'index' %}">
           <h4 class="font-serif font-bold text-2xl">Tea Hookup</h4>
         </a>
       </div>
       <div class="navbar-end hidden lg:flex">
         <ul class="menu menu-horizontal px-1 font-bold">
-          <li><a class="nav-item nav-link mx-2 border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'index' %}">Home</a></li>
           <li><a class="nav-item nav-link mx-2 border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'vendors' %}">Vendors</a></li>
           <li><a class="nav-item nav-link mx-2 border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'collections' %}">Collections</a></li>
           <li class="text-primary">
@@ -99,7 +97,7 @@
   
 
   <dialog class="modal" id="daisy_modal">
-    <div class="modal-box bg-base-300 w-8/12 max-w-5xl" id="htmx_modal">
+    <div class="modal-box bg-base-300 w-11/12 md:w-8/12 max-w-5xl" id="htmx_modal">
     </div>
   </dialog>
 

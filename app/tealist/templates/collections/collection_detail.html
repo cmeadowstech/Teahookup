@@ -6,8 +6,8 @@
 
 {% block content %}
 
-<div class="container mx-auto grid grid-cols-3 gap-2">
-    <div class="card bg-base-300 shadow-xl col-span-2">
+<div class="container mx-auto grid md:grid-cols-3 gap-2">
+    <div class="card bg-base-300 shadow-xl md:col-span-2">
         <div class="card-body">
             <div class="card-title flex justify-between">
                 <div id="collection-title">
@@ -34,7 +34,8 @@
                 {% for vendor in collection.vendors.all %}
                 <li class="text-secondary border-b border-success">
                     <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}"
-                        hx-target="#htmx-modal" hx-trigger="click" class="border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out">
+                    hx-target="#htmx_modal" hx-trigger="click"
+                    hx-on:click="daisy_modal.showModal()" class="border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out">
                         {{ vendor.name }}
                     </a>
                 </li>

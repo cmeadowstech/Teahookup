@@ -19,7 +19,9 @@
   href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"
   class="socialaccount_provider {{provider.id}} btn w-full"
   hx-get="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"
-  hx-target="#auth-modal">
+  hx-target="#htmx_modal"
+  hx-trigger="click"
+  hx-on:click="daisy_modal.showModal()">
   <img src="{% static provider.name|add:'.svg' %}" width="16" alt="{{provider.name}} logo">
   {{provider.name}}
 </button>
