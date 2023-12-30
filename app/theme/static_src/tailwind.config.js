@@ -39,7 +39,7 @@ module.exports = {
          * Python: If you use Tailwind CSS classes in Python, uncomment the following line
          * and make sure the pattern below matches your project structure.
          */
-        // '../../**/*.py'
+        '../../**/*.py'
     ],
     theme: {
         extend: {},
@@ -71,6 +71,10 @@ module.exports = {
                     "--border-btn": "1px", // border width of buttons
                     "--tab-border": "1px", // border width of tabs
                     "--tab-radius": "0.5rem", // border radius of tabs
+                    "body": {
+                        "background": "#202d1f",
+                        "background": "linear-gradient(180deg, #171d19 0%, #202d1f 100%)",
+                    }
                 },
                 tea_light: {
                     "primary": "#97d523",

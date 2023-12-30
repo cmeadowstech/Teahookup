@@ -5,7 +5,11 @@
 {% for item in comments %}
 <div class="media join content-start gap-4">
   <a id="c{{ item.comment.id }}"></a>
-  <img src="{{ item.comment.user_email|xtd_comment_gravatar_url }}" class="mask mask-squircle"/>
+  {% if item.comment.user.profile.image.url %}
+  <img class="mask mask-squircle" src="{{ item.comment.user.profile.image.url }}" width="64"/>
+  {% else %}
+  <img src="{{ item.comment.user_email|xtd_comment_gravatar_url }}" class="mask mask-squircle" width="64"/>
+  {% endif %}
   <div class="media-body">
     <div class="comment">
       <h6 class="text-accent text-sm">

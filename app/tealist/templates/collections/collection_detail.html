@@ -43,7 +43,7 @@
             </ul>
             {% endif %}
 
-            <p class="">{{ collection.content|markdown|safe }}<p>
+            <p class="markdown">{{ collection.content|markdown|safe }}<p>
 
             {% include 'comments_partial.html' with object=collection %}
                     
