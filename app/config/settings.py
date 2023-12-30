@@ -291,10 +291,8 @@ sentry_sdk.init(
 
 CACHE_TTL = 60 * 60
 CACHES = {
-    # 'default': env.cache(default="rediscache://:@:6379/1/?key_prefix=teahookup")  # default = 'CACHE_URL' environmennt variable
-    'default': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-    }
+    'default': env.cache(default="rediscache://:@:6379/1/?key_prefix=teahookup")  # default = 'CACHE_URL' environmennt variable
+    # 'default': {'BACKEND': 'django.core.cache.backends.dummy.DummyCache',}
 }
 
 # Tailwind
