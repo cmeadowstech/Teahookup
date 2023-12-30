@@ -14,7 +14,7 @@ from .models import *
 from .filters import *
 from .forms import *
 
-CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+CACHE_TTL = getattr(settings, "CACHE_TTL", DEFAULT_TIMEOUT)
 
 # Helper logic
 
@@ -42,7 +42,15 @@ def GetParams(request):
 
 
 def GetVendorsContext(request):
-    f = VendorFilter(request.GET, queryset=vendor.objects.prefetch_related('tea_source','ship_to','variety','store_location').all().exclude(active=False).order_by('created','id'))
+    f = VendorFilter(
+        request.GET,
+        queryset=vendor.objects.prefetch_related(
+            "tea_source", "ship_to", "variety", "store_location"
+        )
+        .all()
+        .exclude(active=False)
+        .order_by("created", "id"),
+    )
 
     response = GetPages(f.qs, 6, request)
     parameters = GetParams(request)
@@ -57,7 +65,12 @@ def GetVendorsContext(request):
 
 
 def GetCollectionsContext(request):
-    f = CollectionFilter(request.GET, queryset=collection.objects.prefetch_related('rating').select_related('user').all())
+    f = CollectionFilter(
+        request.GET,
+        queryset=collection.objects.prefetch_related("rating")
+        .select_related("user")
+        .all(),
+    )
 
     response = GetPages(f.qs, 6, request)
     parameters = GetParams(request)
@@ -69,14 +82,18 @@ def GetCollectionsContext(request):
     }
 
     topCollections = (
-        collection.objects.prefetch_related('rating').select_related('user').all()
+        collection.objects.prefetch_related("rating")
+        .select_related("user")
+        .all()
         .annotate(num_rating=Count("rating"))
         .order_by("-num_rating")[:5]
     )
     if request.user.is_authenticated:
-        userCollections = collection.objects.select_related('user').filter(user=request.user).order_by(
-            "-created_on"
-        )[:5]
+        userCollections = (
+            collection.objects.select_related("user")
+            .filter(user=request.user)
+            .order_by("-created_on")[:5]
+        )
     else:
         userCollections = None
 
@@ -92,6 +109,7 @@ def GetCollectionsContext(request):
 
 
 # Views
+
 
 # @cache_page(CACHE_TTL)
 def index(request):
@@ -169,6 +187,7 @@ def CommentsView(request, slug):
 
     return render(request, "comments_partial.html", context)
 
+
 @cache_page(CACHE_TTL)
 def ReleaseHistory(request):
     url = "https://api.github.com/repos/cmeadowstech/tea-list/releases"
@@ -187,9 +206,11 @@ def ReleaseHistory(request):
 
     return render(request, "release_history.html", context)
 
+
 # @cache_page(CACHE_TTL)
 def PrivacyPolicy(request):
     return render(request, "privacy_policy.html")
+
 
 @login_required
 def ProfileView(request):
@@ -263,7 +284,7 @@ def CollectionListView(request):
 
     return render(request, template, context)
 
-@cache_page(CACHE_TTL)
+
 def CollectionPreviewView(request):
     Vendors = vendor.objects.filter(id__in=dict(request.POST)["vendors"])
     Name = request.POST["name"]
@@ -272,10 +293,10 @@ def CollectionPreviewView(request):
 
     return render(request, "collections/collections_new_preview.html", context)
 
-@cache_page(CACHE_TTL)
+
 def CollectionDetailView(request, slug):
     context = {}
-    Collection = get_object_or_404(collection.objects.select_related('user'), slug=slug)
+    Collection = get_object_or_404(collection.objects.select_related("user"), slug=slug)
     context["collection"] = Collection
 
     return render(request, "collections/collection_detail.html", context)
@@ -291,9 +312,11 @@ def CollectionRating(request, slug):
 
     return HttpResponse(f"+{Collection.rating.all().count()}")
 
+
 def returnError(request):
     division_by_zero = 1 / 0
     return division_by_zero
+
 
 def helloWorld(request):
     return HttpResponse("Hello world!")

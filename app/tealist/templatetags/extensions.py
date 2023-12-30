@@ -3,12 +3,12 @@ from markdown.treeprocessors import Treeprocessor
 
 # https://www.mattlayman.com/blog/2023/python-markdown-tailwind-best-buds/
 
+
 class TailwindExtension(Extension):
     """An extension to add classes to tags"""
 
     def extendMarkdown(self, md):
-        md.treeprocessors.register(
-            TailwindTreeProcessor(md), "tailwind", 20)
+        md.treeprocessors.register(TailwindTreeProcessor(md), "tailwind", 20)
 
 
 class TailwindTreeProcessor(Treeprocessor):

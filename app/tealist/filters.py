@@ -39,16 +39,16 @@ class VendorFilter(django_filters.FilterSet):
     class Meta:
         model = vendor
         fields = ["name", "store_location", "ship_to", "tea_source", "variety"]
-        
+
     # https://stackoverflow.com/questions/68381768/how-to-set-class-of-orderingfilters-widget-in-django
-        
-    def __init__(self, data=None, queryset=None, request=None, prefix=None, *args, **kwargs):
+
+    def __init__(
+        self, data=None, queryset=None, request=None, prefix=None, *args, **kwargs
+    ):
         super().__init__(*args, request=request, data=data, **kwargs)
 
         o = self.form.fields["o"]
-        o.widget.attrs = {
-            'class': 'select w-full'
-        }
+        o.widget.attrs = {"class": "select w-full"}
 
 
 class CollectionFilter(django_filters.FilterSet):

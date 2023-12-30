@@ -79,4 +79,5 @@ class CommentAdmin(admin.ModelAdmin):
 class CollectionAdmin(admin.ModelAdmin):
     list_display = ("name", "user")
 
+
 admin.site.register(Profile)
