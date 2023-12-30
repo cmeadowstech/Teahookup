@@ -4,86 +4,57 @@
 
 {% block content %}
 
-<div class="container">
-<div class="card">
-    <div class="row no-gutters">
-
-        <div class="col-md-8 text-white login">
-            <div class="card-body">
-                <h4 class="pb-2 card-title">Welcome, {% user_display user %}</h4>
-
-                <div class="accordion" id="formAccordian">
-                    <div class="card border-0">
-                        <div class="card-header pl-0" id="heading_user_collections">
-                            <h6 class="mb-0">
-                                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
-                                    data-target="#collapse_user_collections" aria-expanded="true"
-                                    aria-controls="collapse_user_collections">
-                                    Your Collections
-                                </button>
-                            </h6>
-                        </div>
-                        <div id="collapse_user_collections" class="collapse" aria-labelledby="heading_user_collections"
-                            data-parent="#formAccordian">
-                            <div class="card-body no-tick">
-                                <ul class="pt-4 pb-4 tea-marker">
-                                    {% for collection in userCollections %}
-                                    <li class="border-bottom">
-                                        <a href="{{ collection.get_absolute_url }}">
-                                            {{ collection.name }}
-                                        </a>
-                                        <small class="text-muted">{{ collection.created_on }}</small>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card border-0">
-                        <div class="card-header pl-0" id="heading_change_password">
-                            <h6 class="mb-0">
-                                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
-                                    data-target="#collapse_change_password" aria-expanded="true"
-                                    aria-controls="collapse_change_password">
-                                    Manage Password
-                                </button>
-                            </h6>
-                        </div>
-                        <div id="collapse_change_password" class="collapse" aria-labelledby="heading_change_password"
-                            data-parent="#formAccordian">
-                            <div class="card-body no-tick" hx-get="{% url 'account_change_password' %}"
-                                hx-trigger="load">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card border-0">
-                        <div class="card-header pl-0" id="heading_account_email">
-                            <h6 class="mb-0">
-                                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
-                                    data-target="#collapse_account_email" aria-expanded="true"
-                                    aria-controls="collapse_account_email">
-                                    Manage Email
-                                </button>
-                            </h6>
-                        </div>
-                        <div id="collapse_account_email" class="collapse" aria-labelledby="heading_account_email"
-                            data-parent="#formAccordian">
-                            <div class="card-body no-tick" hx-get="{% url 'account_email' %}" hx-trigger="load">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
+<div class="container mx-auto">
+    <h4 class="font-serif font-bold text-3xl divider">Welcome, {% user_display user %}</h4>
+    <div class="grid md:grid-cols-2 gap-4">
+        <div class="card bg-base-300 shadow-xl">
+            <div class="card-body join join-vertical gap-2">
+                <h4 class="font-serif font-bold text-2xl card-title">Your Collections</h4>
+                <ul class="pt-4 pb-4 tea-marker">
+                    {% for collection in userCollections %}
+                    <li class="border-b border-success">
+                        <a href="{{ collection.get_absolute_url }}"
+                            class="text-secondary border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out">
+                            {{ collection.name }}
+                        </a>
+                        <small class="text-accent">{{ collection.created_on }}</small>
+                    </li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
-        <div class="col-md-4 featured-image" style="background-image: url({% static 'tea-login-hero.jpg' %})">
 
+        <div class="card bg-base-300 shadow-xl">
+            <div class="card-body join join-vertical items-center gap-2">
+                <img class="mask mask-squircle" src="{{ user.profile.image.url }}" />
+                <h4 class="font-serif font-bold text-2xl card-title">{{ user.username }}</h4>
+                <small class="flex flex-row justify-between items-center gap-2 text-accent text-xs">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path
+                            d="m3.196 12.87-.825.483a.75.75 0 0 0 0 1.294l7.25 4.25a.75.75 0 0 0 .758 0l7.25-4.25a.75.75 0 0 0 0-1.294l-.825-.484-5.666 3.322a2.25 2.25 0 0 1-2.276 0L3.196 12.87Z" />
+                        <path
+                            d="m3.196 8.87-.825.483a.75.75 0 0 0 0 1.294l7.25 4.25a.75.75 0 0 0 .758 0l7.25-4.25a.75.75 0 0 0 0-1.294l-.825-.484-5.666 3.322a2.25 2.25 0 0 1-2.276 0L3.196 8.87Z" />
+                        <path
+                            d="M10.38 1.103a.75.75 0 0 0-.76 0l-7.25 4.25a.75.75 0 0 0 0 1.294l7.25 4.25a.75.75 0 0 0 .76 0l7.25-4.25a.75.75 0 0 0 0-1.294l-7.25-4.25Z" />
+                    </svg>
+                    Collections: {{ user.collection_owner.all.count }}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path
+                            d="M5.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75V12ZM6 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H6ZM7.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H8a.75.75 0 0 1-.75-.75V12ZM8 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H8ZM9.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V10ZM10 11.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H10ZM9.25 14a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V14ZM12 9.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V10a.75.75 0 0 0-.75-.75H12ZM11.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H12a.75.75 0 0 1-.75-.75V12ZM12 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H12ZM13.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H14a.75.75 0 0 1-.75-.75V10ZM14 11.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H14Z" />
+                        <path fill-rule="evenodd"
+                            d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Joined: {{ user.date_joined|date:"m/d/o" }}
+                </small>
+            </div>
+        </div>
+
+        <div class="card bg-base-300 shadow-xl" hx-get="{% url 'account_change_password' %}" hx-trigger="load">
+        </div>
+
+        <div class="card bg-base-300 shadow-xl" hx-get="{% url 'account_email' %}" hx-trigger="load">
         </div>
     </div>
-</div>
 </div>
 {% endblock %}

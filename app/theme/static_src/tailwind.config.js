@@ -72,6 +72,31 @@ module.exports = {
                     "--tab-border": "1px", // border width of tabs
                     "--tab-radius": "0.5rem", // border radius of tabs
                 },
+                tea_light: {
+                    "primary": "#97d523",
+                    "secondary": "#051a0a",
+                    "accent": "#13391d",
+                    "neutral": "#151203",
+                    "base-100": "#f0e9db",
+                    "base-300": "#f3f4f6",
+                    "info": "#7fd3ff",
+                    "success": "#2c600f",
+                    "warning": "#fff3cd",
+                    "error": "#e11d48",
+                    "--rounded-box": "0.5rem", // border radius rounded-box utility class, used in card and other large boxes
+                    "--rounded-btn": "0.25rem", // border radius rounded-btn utility class, used in buttons and similar element
+                    "--rounded-badge": "1.9rem", // border radius rounded-badge utility class, used in badges and similar
+                    "--animation-btn": "0.25s", // duration of animation when you click on button
+                    "--animation-input": "0.2s", // duration of animation for inputs like checkbox, toggle, radio, etc
+                    "--btn-focus-scale": "0.95", // scale transform of button when you focus on it
+                    "--border-btn": "1px", // border width of buttons
+                    "--tab-border": "1px", // border width of tabs
+                    "--tab-radius": "0.5rem", // border radius of tabs
+                    "body": {
+                        "background": "rgb(243,244,246)",
+                        "background": "linear-gradient(180deg, rgba(243,244,246,1) 0%, rgba(240,233,219,1) 100%)",
+                    }
+                },
             },
             "pastel"
         ],

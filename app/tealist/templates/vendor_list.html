@@ -3,14 +3,14 @@
 {% block content %}
 
 
-<div class="container mx-auto grid md:grid-cols-4 grid-rows-1">
-  <div class="list-group md:col-span-3 text-white px-1">
+<div class="container mx-auto grid md:grid-cols-4 gap-2">
+  <div class="list-group md:col-span-3 px-1">
     {% include 'vendor_list_partial.html' %}
   </div>
 
   <!-- Form for filtering results -->
 
-  <form class="bg-base-300 shadow-xl h-fit order-first md:order-last" hx-get="{% url 'vendors' %}"
+  <form class="card bg-base-300 shadow-xl h-fit order-first md:order-last" hx-get="{% url 'vendors' %}"
     hx-target=".list-group" hx-push-url="true">
     <fieldset class="filter-form p-3 border-0 shadow">
       {{ filter_form.form.name }}
@@ -18,7 +18,7 @@
       {{ filter_form.form.o }}
       </div>
 
-      <div id="accordion" class="text-white">
+      <div id="accordion" class="">
         <div class="collapse collapse-arrow">
           <input type="radio" name="my-accordion-2"/> 
           <div class="collapse-title text-xl font-medium">

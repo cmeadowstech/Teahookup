@@ -47,7 +47,7 @@
   {% load matomo_tags %}
 </head>
 
-<body class="bg-gradient-to-b from-[#171d19] to-[#202d1f]">
+<body class="overflow-x-hidden">
 
   <section id="nav" class="bg-gradient from-base-100 to-base-300">
     <div class="navbar py-3 mb-4 container mx-auto">
@@ -60,7 +60,7 @@
             </svg>
           </div>
           <ul tabindex="0"
-            class="menu menu-lg dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-white">
+            class="menu menu-lg dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ">
             <li><a class="border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'vendors' %}">Vendors</a></li>
             <li><a class="border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'collections' %}">Collections</a></li>
             <li class="text-primary">

@@ -3,145 +3,79 @@
 {% block content %}
 
 
-<div class="container mx-auto card card-side bg-base-300 shadow-xl">
-    <div class="grid grid-cols-3">
-        <figure style="background-image: url({% static 'tea-login-hero.jpg' %})" class="bg-center bg-cover rounded-lg">
-        </figure>
-        <div class="col-span-2 text-white login">
-            <div class="card-body">
-                <h4 class="font-serif font-bold text-3xl text-secondary pb-2 card-title">Submit a new vendor</h4>
-                {% if messages %}
+<div class="container mx-auto">
 
-                {% for message in messages %}
-                {% if 'signed' not in message|safe %}
-                <div class="alert alert-success {{ message.tags }}" role="alert">
-                    {{ message }}
-                </div>
-                {% endif %}
-                {% endfor %}
+  <div class="card card-side bg-base-300 shadow-xl grid md:grid-cols-3">
 
-                {% endif %}
-                {% if user.is_authenticated %}
-                <fieldset>
-                    {% else %}
-                    <fieldset disabled>
-                        <div class="alert alert-warning" role="alert">
-                            Please login to submit a vendor.
-                        </div>
-                        {% endif %}
+    <figure style="background-image: url({% static 'tea-login-hero.jpg' %})" class="bg-center bg-cover rounded-lg">
+    </figure>
+    <div class="md:col-span-2  w-full">
+      <div class="card-body">
+        <h4 class="font-serif font-bold text-3xl text-secondary pb-2 card-title">Submit a new vendor</h4>
+        {% if messages %}
 
-                        <form action="{% url 'vendors_submit' %}" method="post" class="join join-vertical gap-4">
-                            {% csrf_token %}
-
-                            <div class="join join-vertical gap-2 w-full" id="{{ vendor_form.name.label }}">
-                                <label for="{{ vendor_form.name.id_for_label }}">{{ vendor_form.name.label }}</label>
-
-                                {{vendor_form.name}}
-                                <p class="text-danger">
-                                    {{ vendor_form.name.errors.as_text }}
-                                </p>
-                                <small id="form-help"
-                                    class="text-accent">{{ vendor_form.name.help_text }}</small>
-                            </div>
-                            <div class="grid grid-cols-2 w-full gap-2">
-                                <div class="join join-vertical gap-2">
-                                    <label for="{{ vendor_form.url.id_for_label }}">{{ vendor_form.url.label }}</label>
-                                    {{vendor_form.url}}
-                                    <p class="text-danger">
-                                        {{ vendor_form.url.errors.as_text }}
-                                    </p>
-                                    <small id="form-help"
-                                        class="text-accent">{{ vendor_form.url.help_text }}</small>
-                                </div>
-                                <div class="join join-vertical gap-2">
-                                    <label
-                                        for="{{ vendor_form.url_alt.id_for_label }}">{{ vendor_form.url_alt.label }}</label>
-                                    {{vendor_form.url_alt}}
-                                    <p class="text-danger">
-                                        {{ vendor_form.url_alt.errors.as_text }}
-                                    </p>
-                                    <small id="form-help"
-                                        class="text-accent">{{ vendor_form.url_alt.help_text }}</small>
-                                </div>
-                            </div>
-                            <div id="{{ vendor_form.description.label }}" class="join join-vertical gap-2 w-full">
-                                <label
-                                    for="{{ vendor_form.description.id_for_label }}">{{ vendor_form.description.label }}</label>
-                                    <textarea name="{{ vendor_form.description.html_name }}" id="{{ vendor_form.description.id_for_label }}" cols="50" rows="4" class="textarea" required=""></textarea>
-                                <small id="form-help"
-                                    class="text-accent">{{ vendor_form.description.help_text }}</small>
-                            </div>
-
-
-                            <div class="accordion" id="formAccordian">
-                                <div class="collapse collapse-arrow">
-                                    <input type="radio" name="my-accordion-2"/> 
-                                    <div class="collapse-title text-xl font-medium">
-                                      Store Location 
-                                    </div>
-                                    <div class="collapse-content"> 
-                                      {% for v in vendor_form.store_location %}
-                                      <label for="{{ v.id_for_label }}">
-                                        {{ v.tag }}
-                                        <div class="badge badge-success peer-checked:badge-primary hover:badge-primary font-bold">{{ v.choice_label }}</div>
-                                      </label>
-                                      {% endfor %}
-                                    </div>
-                                  </div>
-
-                                  <div class="collapse collapse-arrow">
-                                    <input type="radio" name="my-accordion-2"/> 
-                                    <div class="collapse-title text-xl font-medium">
-                                      Ships To 
-                                    </div>
-                                    <div class="collapse-content"> 
-                                      {% for v in vendor_form.ship_to %}
-                                      <label for="{{ v.id_for_label }}">
-                                        {{ v.tag }}
-                                        <div class="badge badge-success peer-checked:badge-primary hover:badge-primary font-bold">{{ v.choice_label }}</div>
-                                      </label>
-                                      {% endfor %}
-                                    </div>
-                                  </div>
-                          
-                                  <div class="collapse collapse-arrow">
-                                    <input type="radio" name="my-accordion-2"/> 
-                                    <div class="collapse-title text-xl font-medium">
-                                      Sources From
-                                    </div>
-                                    <div class="collapse-content"> 
-                                      {% for v in vendor_form.tea_source %}
-                                        <label for="{{ v.id_for_label }}">
-                                          {{ v.tag }}
-                                          <div class="badge badge-success peer-checked:badge-primary hover:badge-primary font-bold">{{ v.choice_label }}</div>
-                                        </label>
-                                      {% endfor %}
-                                    </div>
-                                  </div>
-                          
-                                  <div class="collapse collapse-arrow">
-                                    <input type="radio" name="my-accordion-2"/> 
-                                    <div class="collapse-title text-xl font-medium">
-                                      Varities
-                                    </div>
-                                    <div class="collapse-content"> 
-                                      {% for v in vendor_form.variety %}
-                                        <label for="{{ v.id_for_label }}">
-                                          {{ v.tag }}
-                                          <div class="badge badge-success peer-checked:badge-primary hover:badge-primary font-bold">{{ v.choice_label }}</div>
-                                        </label>
-                                        {% endfor %}
-                                    </div>
-                                  </div>
-
-                            </div>
-
-                            <input type="submit" value="Submit Vendor" class="font-serif w-100 btn btn-primary hover:btn-secondary" />
-                    </fieldset>
-                    </form>
-            </div>
+        {% for message in messages %}
+        {% if 'signed' not in message|safe %}
+        <div class="alert alert-success {{ message.tags }}" role="alert">
+          {{ message }}
         </div>
+        {% endif %}
+        {% endfor %}
+
+        {% endif %}
+        {% if user.is_authenticated %}
+        <fieldset>
+          {% else %}
+          <fieldset disabled>
+            <div class="alert alert-warning" role="alert">
+              Please login to submit a vendor.
+            </div>
+            {% endif %}
+
+            <form action="{% url 'vendors_submit' %}" method="post" class="join join-vertical gap-4 w-full">
+              {% csrf_token %}
+
+              <div class="join join-vertical gap-2 w-full" id="{{ vendor_form.name.label }}">
+                <label for="{{ vendor_form.name.id_for_label }}">{{ vendor_form.name.label }}</label>
+
+                {{vendor_form.name}}
+                <p class="text-danger">
+                  {{ vendor_form.name.errors.as_text }}
+                </p>
+                <small id="form-help" class="text-accent">{{ vendor_form.name.help_text }}</small>
+              </div>
+              <div class="grid grid-cols-2 w-full gap-2">
+                <div class="join join-vertical gap-2">
+                  <label for="{{ vendor_form.url.id_for_label }}">{{ vendor_form.url.label }}</label>
+                  {{vendor_form.url}}
+                  <p class="text-danger">
+                    {{ vendor_form.url.errors.as_text }}
+                  </p>
+                  <small id="form-help" class="text-accent">{{ vendor_form.url.help_text }}</small>
+                </div>
+                <div class="join join-vertical gap-2">
+                  <label for="{{ vendor_form.url_alt.id_for_label }}">{{ vendor_form.url_alt.label }}</label>
+                  {{vendor_form.url_alt}}
+                  <p class="text-danger">
+                    {{ vendor_form.url_alt.errors.as_text }}
+                  </p>
+                  <small id="form-help" class="text-accent">{{ vendor_form.url_alt.help_text }}</small>
+                </div>
+              </div>
+              <div id="{{ vendor_form.description.label }}" class="join join-vertical gap-2 w-full">
+                <label for="{{ vendor_form.description.id_for_label }}">{{ vendor_form.description.label }}</label>
+                <textarea name="{{ vendor_form.description.html_name }}" id="{{ vendor_form.description.id_for_label }}"
+                   rows="4" class="textarea" required=""></textarea>
+                <small id="form-help" class="text-accent">{{ vendor_form.description.help_text }}</small>
+              </div>
+
+              
+              <input type="submit" value="Submit Vendor" class="font-serif w-100 btn btn-primary hover:btn-secondary" />
+          </fieldset>
+          </form>
+      </div>
     </div>
+  </div>
 </div>
 
 {% endblock %}

@@ -20,7 +20,7 @@
                     hx-post="{{ collection.get_absolute_url }}rate" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                     data-toggle="tooltip" data-placement="top" title="Like this collection" {% else %}
                     data-toggle="tooltip" data-placement="top" title="Login to like this collection" {% endif %}>
-                    <span id="rating" class="d-flex flex-column align-items-center text-white text-center">
+                    <span id="rating" class="d-flex flex-column align-items-center  text-center">
                         +{{ collection.rating.all.count }}
                     </span>
                     <div class="rating-img pt-1"></div>
@@ -54,21 +54,25 @@
             <div class="card-body join join-vertical items-center gap-2">
                 <img class="mask mask-squircle"
                     src="{{ collection.user.profile.image.url }}" />
-                <h4 class="mb-0">{{ collection.user.first_name }} {{ collection.user.last_name }}</h4>
-                <h6>{{ collection.user.username }}</h6>
-                <small class="text-accent text-xs">
-                    <i class="material-symbols-outlined material-xs">
-                        library_books
-                    </i> Collections: {{ collection.user.collection_owner.all.count }}
-                    <i class="material-symbols-outlined material-xs">
-                        calendar_month
-                    </i> Joined: {{ collection.user.date_joined|date:"m/d/o" }}
+                <h4 class="font-serif font-bold text-2xl card-title">{{ collection.user.username }}</h4>
+                <small class="flex flex-row justify-between items-center gap-2 text-accent text-xs">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path d="m3.196 12.87-.825.483a.75.75 0 0 0 0 1.294l7.25 4.25a.75.75 0 0 0 .758 0l7.25-4.25a.75.75 0 0 0 0-1.294l-.825-.484-5.666 3.322a2.25 2.25 0 0 1-2.276 0L3.196 12.87Z" />
+                        <path d="m3.196 8.87-.825.483a.75.75 0 0 0 0 1.294l7.25 4.25a.75.75 0 0 0 .758 0l7.25-4.25a.75.75 0 0 0 0-1.294l-.825-.484-5.666 3.322a2.25 2.25 0 0 1-2.276 0L3.196 8.87Z" />
+                        <path d="M10.38 1.103a.75.75 0 0 0-.76 0l-7.25 4.25a.75.75 0 0 0 0 1.294l7.25 4.25a.75.75 0 0 0 .76 0l7.25-4.25a.75.75 0 0 0 0-1.294l-7.25-4.25Z" />
+                      </svg>
+                       Collections: {{ collection.user.collection_owner.all.count }}
+                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path d="M5.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75V12ZM6 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H6ZM7.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H8a.75.75 0 0 1-.75-.75V12ZM8 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H8ZM9.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V10ZM10 11.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H10ZM9.25 14a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V14ZM12 9.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V10a.75.75 0 0 0-.75-.75H12ZM11.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H12a.75.75 0 0 1-.75-.75V12ZM12 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H12ZM13.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H14a.75.75 0 0 1-.75-.75V10ZM14 11.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H14Z" />
+                        <path fill-rule="evenodd" d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z" clip-rule="evenodd" />
+                      </svg>
+                       Joined: {{ collection.user.date_joined|date:"m/d/o" }}
 
                 </small>
             </div>
         </div>
         <div class="card bg-base-300 shadow-xl">
-            <div id="tea_source_donut" class="card-body text-white">
+            <div id="tea_source_donut" class="card-body ">
                 <h4 class="pb-3">Vendor sourcing</h4>
 
             </div>
