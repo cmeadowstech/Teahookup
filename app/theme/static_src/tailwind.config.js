@@ -76,6 +76,7 @@ module.exports = {
                         "background": "linear-gradient(180deg, #171d19 0%, #202d1f 100%)",
                     }
                 },
+                /** 
                 tea_light: {
                     "primary": "#97d523",
                     "secondary": "#051a0a",
@@ -101,8 +102,8 @@ module.exports = {
                         "background": "linear-gradient(180deg, rgba(243,244,246,1) 0%, rgba(240,233,219,1) 100%)",
                     }
                 },
+                **/
             },
-            "pastel"
         ],
         safelist: [
             'text',

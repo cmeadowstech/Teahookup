@@ -11,7 +11,7 @@
         access to new markets. Finding these vendors can be a challenge, but I hope this tool allows you to explore
         these new options.</p>
       <div class="card-actions justify-start">
-        <button class="btn btn-primary font-serif hover:btn-secondary">Start your search</button>
+        <a href="{% url 'vendors' %}" class="btn btn-primary font-serif hover:btn-secondary">Start your search</a>
       </div>
     </div>
     <figure><img src="{% static 'hero-teapot.webp' %}"/></figure>
@@ -44,7 +44,7 @@
     <div class="md:col-span-2 flex flex-col items-end gap-4 px-16">
       <h2 class="card-title font-serif font-bold text-5xl">Not sure where to start?</h2>
       <p class="text-lg">View our user created collections to give you an idea of what’s popular.</p>
-      <button class="btn btn-primary font-serif hover:btn-secondary w-fit">See popular collections</button>
+      <a href="{% url 'collections' %}" class="btn btn-primary font-serif hover:btn-secondary w-fit">See popular collections</a>
     </div>
   </div>
 </section>
