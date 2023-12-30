@@ -15,11 +15,15 @@
 {% endfor %}
 {% endif %}
 
-<a title="{{provider.name}}"
+<button title="{{provider.name}}"
   href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"
-  class="socialaccount_provider {{provider.id}} list-group-item list-group-item-action align-items-center text-center"
+  class="socialaccount_provider {{provider.id}} btn w-full"
   hx-get="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"
-  hx-target="#auth-modal"><img
-    src="{% static provider.name|add:'.svg' %}" class="img-fluid mr-2" width="16">{{provider.name}}</a>
+  hx-target="#htmx_modal"
+  hx-trigger="click"
+  hx-on:click="daisy_modal.showModal()">
+  <img src="{% static provider.name|add:'.svg' %}" width="16" alt="{{provider.name}} logo">
+  {{provider.name}}
+</button>
 
 {% endfor %}

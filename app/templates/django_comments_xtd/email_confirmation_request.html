@@ -1,0 +1,20 @@
+{% load i18n %}<p>{{ comment.user_name }},</p>
+
+<p>{% trans 'You or someone in behalf of you have requested to post a comment into this page:' %}<br/>
+<a href="http://{{ site.domain }}{{ comment.content_object.get_absolute_url }}">http://{{ site.domain }}{{ comment.content_object.get_absolute_url }}</a>
+</p>
+
+<p>{% trans 'The comment' %}:<br/>
+<i>{{ comment.comment }}</i>
+<hr/>
+
+<p>{% blocktrans %}If you do not wish to post the comment, please ignore this message or report an incident to {{ contact }}. Otherwise click on the link below to confirm the comment.{% endblocktrans %}</p>
+
+<p><a href="http://{{ site.domain }}{{ confirmation_url }}">http://{{ site.domain }}{{ confirmation_url|slice:":40" }}...</a></p>
+
+<p>{% trans "If clicking does not work, you can also copy and paste the address into your browser's address window." %}</p>
+
+<p>{% trans 'Thanks for your comment!' %}<br/>
+--<br/>
+{% trans 'Kind regards' %},<br/>
+{{ site }}</p>

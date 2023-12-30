@@ -3,56 +3,48 @@
 
 {% block content %}
 
-<section class="page-section py-4" id="hero">
-  <div class="container">
-    <div class="row">
-      <div class="text-left text-secondary col-12 col-md-4 p-4">
-        <h1 class="display-4 my-5">Find your new favorite vendor</h1>
-        <p class="lead my-5">The internet and globalization has allowed small tea vendors across the world
-          access to new markets. Finding these vendors can be a challenge, but I hope this tool allows you to explore
-          these new options.</p>
-        <a href="{% url 'vendors' %}" class="btn btn-secondary m-0">Start your search</a>
-      </div>
-      <div class="col-12 col-md-8">
-        <img src="{% static 'hero-teapot.webp' %}" class="img-fluid w-100" />
+<section class="bg-accent py-4 text-base-300" id="hero">
+  <div class="card card-side container mx-auto my-40">
+    <div class="card-body">
+      <h2 class="card-title font-serif text-5xl">Find your new favorite vendor</h2>
+      <p>The internet and globalization has allowed small tea vendors across the world
+        access to new markets. Finding these vendors can be a challenge, but I hope this tool allows you to explore
+        these new options.</p>
+      <div class="card-actions justify-start">
+        <button class="btn btn-primary font-serif hover:btn-secondary">Start your search</button>
       </div>
     </div>
+    <figure><img src="{% static 'hero-teapot.webp' %}"/></figure>
   </div>
 </section>
 
 <section class="page-section" id="recent-vendors">
-  <div class="container">
-    <h1 class="text-white text-center pb-4 mb-4">Recent Vendors</h4>
-      <div class="row pt-4 mt-4">
-        {% for vendor in Recent %}
-        <div class="col-12 col-md-4 my-4">
-          <div class="card border-0 shadow p-2 text-center">
-            <div class="card-body">
-              <a href="{{ vendor.get_absolute_url }}">
-                <h4>{{ vendor.name }}</h4>
-              </a>
-              <p><small class="locations">Teas from: {{ vendor.tea_source.all|join:", " }}</small></p>
-              <p>{{ vendor.description|truncatechars:256 }}</p>
-            </div>
-          </div>
+  <div class="container mx-auto my-40">
+    <h4 class=" text-center my-10 divider font-serif text-4xl">Recent Vendors</h4>
+    <div class="grid lg:grid-cols-3 gap-4 pt-4 mt-4">
+      {% for vendor in Recent %}
+      <div class="card bg-base-300 shadow-xl">
+        <div class="card-body text-center">
+          <a href="{{ vendor.get_absolute_url }}" class="text-secondary border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out">
+            <h4 class="font-serif text-3xl">{{ vendor.name }}</h4>
+          </a>
+          <p><small class="text-accent">Teas from: {{ vendor.tea_source.all|join:", " }}</small></p>
+          <p>{{ vendor.description|truncatechars:256 }}</p>
         </div>
-        {% endfor %}
       </div>
+      {% endfor %}
+    </div>
   </div>
 </section>
 
 
 <section class="page-section" id="hero-collections">
-  <div class="container">
-    <div class="row">
-      <div class="col-12 col-md-6">
-        <img src="{% static 'hero-gaiwan.webp' %}" class="img-fluid" />
-      </div>
-      <div class="text-right text-white col-12 col-md-6 p-4">
-        <h1 class="display-4 my-5">Not sure where to start?</h1>
-        <p class="lead my-5">View our user created collections to give you an idea of what’s popular.</p>
-        <a href="{% url 'collections' %}" class="btn btn-primary">Collections</a>
-      </div>
+  <div class="container mx-auto my-40 grid md:grid-cols-3 justify-between items-center gap-16">
+    <img src="{% static 'hero-gaiwan.webp' %}" class="md:order-first order-last"/>
+    <div class="md:col-span-2 flex flex-col items-end gap-4 px-16">
+      <h2 class="card-title font-serif font-bold text-5xl">Not sure where to start?</h2>
+      <p class="text-lg">View our user created collections to give you an idea of what’s popular.</p>
+      <button class="btn btn-primary font-serif hover:btn-secondary w-fit">See popular collections</button>
     </div>
   </div>
 </section>

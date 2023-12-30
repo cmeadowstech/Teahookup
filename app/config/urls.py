@@ -47,6 +47,7 @@ urlpatterns = [
     path(r'comments/', include('django_comments_xtd.urls')), # Used by django-comments-xtd
     path("accounts/profile/", views.ProfileView, name="profile"),
     path("__debug__/", include("debug_toolbar.urls")),  # Used by Django debug toolbar
+    path("__reload__/", include("django_browser_reload.urls")), # Used by django-tailwind[reload]
 ]
 
 # Only add this when we are in debug mode.

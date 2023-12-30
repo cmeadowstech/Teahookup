@@ -1,0 +1,9 @@
+{% load i18n %}{% trans 'A new comment has been sent to the following URL:' %}
+
+{{ content_object.get_absolute_url }}
+
+{% trans 'Sent by' %}: {{ comment.user_name }}
+{% trans 'Email address' %}: {{ comment.user_email }}
+
+--- {% trans 'Comment' %}: ---
+{{ comment.comment }}

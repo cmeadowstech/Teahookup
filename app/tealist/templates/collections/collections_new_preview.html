@@ -2,13 +2,14 @@
 {% load static %}
 
 <div class="card-body">
-    <h4 class="pb-2 card-title">{{ name }}</h4>
+    <h4 class="font-serif font-bold text-3xl card-title">{{ name }}</h4>
 
     {% if vendors %}
     <ul class="">
         {% for vendor in vendors %}
-        <li class="">
-            <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx-modal" hx-trigger="click">
+        <li class="border-b border-success">
+            <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx_modal" hx-trigger="click"
+            hx-on:click="daisy_modal.showModal()" class="text-secondary border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out">
                 {{ vendor.name }}
             </a>
         </li>
@@ -16,6 +17,6 @@
     </ul>
     {% endif %}
 
-    {{ content|markdown|safe }}
+    <p class="markdown">{{ content|markdown|safe }}</p>
 </div>
 

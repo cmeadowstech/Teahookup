@@ -2,191 +2,80 @@
 {% load static %}
 {% block content %}
 
-<div class="container">
-<div class="card">
-    <div class="row no-gutters">
-        <div class="col-md-4 featured-image" style="background-image: url({% static 'tea-login-hero.jpg' %})">
 
+<div class="container mx-auto">
+
+  <div class="card card-side bg-base-300 shadow-xl grid md:grid-cols-3">
+
+    <figure style="background-image: url({% static 'tea-login-hero.jpg' %})" class="bg-center bg-cover rounded-lg">
+    </figure>
+    <div class="md:col-span-2  w-full">
+      <div class="card-body">
+        <h4 class="font-serif font-bold text-3xl text-secondary pb-2 card-title">Submit a new vendor</h4>
+        {% if messages %}
+
+        {% for message in messages %}
+        {% if 'signed' not in message|safe %}
+        <div class="alert alert-success {{ message.tags }}" role="alert">
+          {{ message }}
         </div>
-        <div class="col-md-8 text-white login">
-            <div class="card-body">
-                <h4 class="pb-2 card-title">Submit a new vendor</h4>
-                {% if messages %}
+        {% endif %}
+        {% endfor %}
 
-                {% for message in messages %}
-                {% if 'signed' not in message|safe %}
-                <div class="alert alert-success {{ message.tags }}" role="alert">
-                    {{ message }}
-                </div>
-                {% endif %}
-                {% endfor %}
-
-                {% endif %}
-                {% if user.is_authenticated %}
-                <fieldset>
-                    {% else %}
-                    <fieldset disabled>
-                        <div class="alert alert-warning" role="alert">
-                            Please login to submit a vendor.
-                        </div>
-                        {% endif %}
-
-                        <form action="{% url 'vendors_submit' %}" method="post">
-                            {% csrf_token %}
-
-                            <div class="form-group" id="{{ vendor_form.name.label }}" class="form-group">
-                                <label for="{{ vendor_form.name.id_for_label }}">{{ vendor_form.name.label }}</label>
-
-                                {{vendor_form.name}}
-                                <p class="text-danger">
-                                    {{ vendor_form.name.errors.as_text }}
-                                </p>
-                                <small id="form-help"
-                                    class="form-text text-muted">{{ vendor_form.name.help_text }}</small>
-                            </div>
-                            <div class="form-row">
-                                <div class="col">
-                                    <label for="{{ vendor_form.url.id_for_label }}">{{ vendor_form.url.label }}</label>
-                                    {{vendor_form.url}}
-                                    <p class="text-danger">
-                                        {{ vendor_form.url.errors.as_text }}
-                                    </p>
-                                    <small id="form-help"
-                                        class="form-text text-muted">{{ vendor_form.url.help_text }}</small>
-                                </div>
-                                <div class="col">
-                                    <label
-                                        for="{{ vendor_form.url_alt.id_for_label }}">{{ vendor_form.url_alt.label }}</label>
-                                    {{vendor_form.url_alt}}
-                                    <p class="text-danger">
-                                        {{ vendor_form.url_alt.errors.as_text }}
-                                    </p>
-                                    <small id="form-help"
-                                        class="form-text text-muted">{{ vendor_form.url_alt.help_text }}</small>
-                                </div>
-                            </div>
-                            <div id="{{ vendor_form.description.label }}" class="form-group">
-                                <label
-                                    for="{{ vendor_form.description.id_for_label }}">{{ vendor_form.description.label }}</label>
-                                {{vendor_form.description}}
-                                <small id="form-help"
-                                    class="form-text text-muted">{{ vendor_form.description.help_text }}</small>
-                            </div>
-
-
-                            <div class="accordion" id="formAccordian">
-                                <div class="card border-0">
-                                    <div class="card-header pl-0" id="headingOne">
-                                        <button class="btn btn-link btn-block text-left text-white" type="button"
-                                            data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-                                            aria-controls="collapseOne">
-                                            {{ vendor_form.ship_to.label }}
-                                        </button>
-                                    </div>
-
-                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                                        data-parent="#formAccordian">
-                                        <div class="card-body no-tick">
-
-                                            {% for v in vendor_form.ship_to %}
-                                            {{ v.tag }}<label for="{{ v.id_for_label }}"
-                                                class="badge badge-success label-for-check text-large text-large">
-                                                {{ v.choice_label }}
-                                            </label>
-                                            {% endfor %}
-                                            <small id="form-help"
-                                                class="form-text text-muted">{{ vendor_form.ship_to.help_text }}</small>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card border-0">
-                                    <div class="card-header pl-0" id="headingTwo">
-
-                                        <button class="btn btn-link btn-block text-left collapsed" type="button"
-                                            data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
-                                            aria-controls="collapseTwo">
-                                            {{ vendor_form.store_location.label }}
-                                        </button>
-
-                                    </div>
-
-                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-                                        data-parent="#formAccordian">
-                                        <div class="card-body no-tick">
-                                            {% for v in vendor_form.store_location %}
-                                            {{ v.tag }}<label for="{{ v.id_for_label }}"
-                                                class="badge badge-success label-for-check text-large text-large">
-                                                {{ v.choice_label }}
-                                            </label>
-                                            {% endfor %}
-                                            <small id="form-help"
-                                                class="form-text text-muted">{{ vendor_form.store_location.help_text }}</small>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card border-0">
-                                    <div class="card-header pl-0" id="headingThree">
-
-                                        <button class="btn btn-link btn-block text-left collapsed" type="button"
-                                            data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
-                                            aria-controls="collapseThree">
-                                            {{ vendor_form.tea_source.label }}
-                                        </button>
-
-                                    </div>
-
-                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                                        data-parent="#formAccordian">
-                                        <div class="card-body no-tick">
-                                            {% for v in vendor_form.tea_source %}
-                                            {{ v.tag }}<label for="{{ v.id_for_label }}"
-                                                class="badge badge-success label-for-check text-large text-large">
-                                                {{ v.choice_label }}
-                                            </label>
-                                            {% endfor %}
-                                            <small id="form-help"
-                                                class="form-text text-muted">{{ vendor_form.tea_source.help_text }}</small>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card border-0">
-                                    <div class="card-header pl-0" id="headingFour">
-
-                                        <button class="btn btn-link btn-block text-left collapsed" type="button"
-                                            data-toggle="collapse" data-target="#collapseFour" aria-expanded="false"
-                                            aria-controls="collapseFour">
-                                            {{ vendor_form.variety.label }}
-                                        </button>
-
-                                    </div>
-
-                                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
-                                        data-parent="#formAccordian">
-                                        <div class="card-body no-tick">
-                                            {% for v in vendor_form.variety %}
-                                            {{ v.tag }}<label for="{{ v.id_for_label }}"
-                                                class="badge badge-success label-for-check text-large text-large">
-                                                {{ v.choice_label }}
-                                            </label>
-                                            {% endfor %}
-                                            <small id="form-help"
-                                                class="form-text text-muted">{{ vendor_form.variety.help_text }}</small>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <input type="submit" value="Submit Vendor" class="w-100 p-1 submit-filters" />
-                    </fieldset>
-                    </form>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <fieldset>
+          {% else %}
+          <fieldset disabled>
+            <div class="alert alert-warning" role="alert">
+              Please login to submit a vendor.
             </div>
-        </div>
+            {% endif %}
+
+            <form action="{% url 'vendors_submit' %}" method="post" class="join join-vertical gap-4 w-full">
+              {% csrf_token %}
+
+              <div class="join join-vertical gap-2 w-full" id="{{ vendor_form.name.label }}">
+                <label for="{{ vendor_form.name.id_for_label }}">{{ vendor_form.name.label }}</label>
+
+                {{vendor_form.name}}
+                <p class="text-danger">
+                  {{ vendor_form.name.errors.as_text }}
+                </p>
+                <small id="form-help" class="text-accent">{{ vendor_form.name.help_text }}</small>
+              </div>
+              <div class="grid grid-cols-2 w-full gap-2">
+                <div class="join join-vertical gap-2">
+                  <label for="{{ vendor_form.url.id_for_label }}">{{ vendor_form.url.label }}</label>
+                  {{vendor_form.url}}
+                  <p class="text-danger">
+                    {{ vendor_form.url.errors.as_text }}
+                  </p>
+                  <small id="form-help" class="text-accent">{{ vendor_form.url.help_text }}</small>
+                </div>
+                <div class="join join-vertical gap-2">
+                  <label for="{{ vendor_form.url_alt.id_for_label }}">{{ vendor_form.url_alt.label }}</label>
+                  {{vendor_form.url_alt}}
+                  <p class="text-danger">
+                    {{ vendor_form.url_alt.errors.as_text }}
+                  </p>
+                  <small id="form-help" class="text-accent">{{ vendor_form.url_alt.help_text }}</small>
+                </div>
+              </div>
+              <div id="{{ vendor_form.description.label }}" class="join join-vertical gap-2 w-full">
+                <label for="{{ vendor_form.description.id_for_label }}">{{ vendor_form.description.label }}</label>
+                <textarea name="{{ vendor_form.description.html_name }}" id="{{ vendor_form.description.id_for_label }}"
+                   rows="4" class="textarea" required=""></textarea>
+                <small id="form-help" class="text-accent">{{ vendor_form.description.help_text }}</small>
+              </div>
+
+              
+              <input type="submit" value="Submit Vendor" class="font-serif w-100 btn btn-primary hover:btn-secondary" />
+          </fieldset>
+          </form>
+      </div>
     </div>
-</div>
+  </div>
 </div>
 
 {% endblock %}

@@ -6,15 +6,15 @@
 {% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="card">
+<div class="container mx-auto">
+    <div class="card bg-base-300 shadow-xl">
         <div class="row no-gutters">
             <div class="col-md-4 featured-image" style="background-image: url({% static 'tea-login-hero.jpg' %})">
 
             </div>
-            <div class="col-md-8 text-white login">
+            <div class="col-md-8  login">
                 <div class="card-body">
-                    <h4 class="pb-2 card-title">{% trans "Verify Your E-mail Address" %}</h4>
+                    <h4 class="font-serif font-bold text-secondary pb-2 card-title">{% trans "Verify Your E-mail Address" %}</h4>
                     <p>{% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize
                         the signup process. If you do not see the verification e-mail in your main inbox, check your spam
                         folder. Please contact us if you do not receive the verification e-mail within a few minutes.{% endblocktrans %}</p>

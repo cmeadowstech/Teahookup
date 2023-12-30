@@ -3,27 +3,30 @@
 
 <div id="comments">
     {% get_comment_count for object as comment_count %}
-    <div class="py-4 text-center">
-        <i class="material-symbols-outlined material-small">chat</i>
+    <div class="py-4 flex gap-2 justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+          </svg>
+          
         {{ comment_count }} comment{{ comment_count|pluralize }}
         ha{{ comment_count|pluralize:"s,ve" }} been posted
     </div>
+
     {% if user.is_authenticated %}
-    <div class="card card-block border-0 mb-5">
-        <div class="card-body">
-            <h4 class="card-title text-center pb-3">Post your comment</h4>
-            {% render_comment_form for object %}
-        </div>
-    </div>
+    <h4 class="font-serif font-bold card-title justify-center pb-3">Post your comment</h4>
+    {% render_comment_form for object %}
     {% else %}
-    <div class="alert alert-warning text-center" role="alert">
-        Please <a href="{% url 'account_login' %}">login</a> to post a comment.
-    </div>
+    <div role="alert" class="alert alert-warning flex justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+        <span>Please <a href="{% url 'account_login' %}" class="text-secondary border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out">login</a> to post a comment.</span>
+      </div>
     {% endif %}
+
     {% if comment_count %}
     <hr />
     <ul class="media-list p-0">
         {% render_xtdcomment_tree for object allow_flagging allow_feedback show_feedback %}
     </ul>
     {% endif %}
+    
 </div>
