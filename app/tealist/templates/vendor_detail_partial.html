@@ -1,7 +1,4 @@
 {% load static %}
-{% load cache %}
-{% cache 360 vendor_detail_partial %}
-
 
 <h1 class="font-serif font-bold text-4xl mb-3">{{ vendor.name }}
 
@@ -86,5 +83,3 @@
     <button class="btn">Close</button>
   </form>
 </div>
-
-{% endcache %}

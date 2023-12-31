@@ -1,9 +1,8 @@
 {% extends "base.html" %}
-{% load cache %}
 
 
 {% block content %}
-{% cache 360 vendor_detail %}
+
 <div class="container mx-auto">
 <div class="grid md:grid-cols-4 gap-3">
   <div class="card md:col-span-3 bg-base-300 drop-shadow-xl">
@@ -126,5 +125,5 @@
   </div>
 </div>
 </div>
-{% endcache %}
+
 {% endblock %}
