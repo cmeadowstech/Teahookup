@@ -41,6 +41,7 @@ urlpatterns = [
     path("collections/<str:slug>/rate", views.CollectionRating, name="collection-rate"),
     path("releases/", views.ReleaseHistory, name="releases"),
     path("privacy/", views.PrivacyPolicy, name="privacy"),
+    path("terms/", views.TermsAndConditions, name="terms"),
     path("error/", views.returnError, name="error"),
     path("helloWorld/", views.helloWorld, name="helloWorld"),
     path("accounts/", include("allauth.urls")),  # Used by django-allauth
@@ -48,10 +49,12 @@ urlpatterns = [
         r"comments/", include("django_comments_xtd.urls")
     ),  # Used by django-comments-xtd
     path("accounts/profile/", views.ProfileView, name="profile"),
+    path("accounts/profile/update", views.ProfileUpdate, name="profile_update"),
     path("__debug__/", include("debug_toolbar.urls")),  # Used by Django debug toolbar
     path(
         "__reload__/", include("django_browser_reload.urls")
     ),  # Used by django-tailwind[reload]
+    path("cookie_consent_check/", views.CookieConsentCheck, name="cookie_consent_check"),
 ]
 
 # Only add this when we are in debug mode.

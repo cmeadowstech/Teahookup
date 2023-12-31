@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_page
+from django.views.decorators.http import require_POST
 import requests, json
 import environ
 
@@ -211,16 +212,40 @@ def ReleaseHistory(request):
 def PrivacyPolicy(request):
     return render(request, "privacy_policy.html")
 
+@cache_page(CACHE_TTL)
+def TermsAndConditions(request):
+    return render(request, "terms_and_conditions.html")
+
 
 @login_required
 def ProfileView(request):
     userCollections = collection.objects.filter(user=request.user).order_by(
         "-created_on"
     )
+    
 
     context = {"userCollections": userCollections}
 
-    return render(request, "profile.html", context)
+    return render(request, "profile/profile.html", context)
+
+
+def ProfileUpdate(request):
+    if request.method == 'POST':
+        p_form = ProfileUpdateForm(request.POST,
+                                   request.FILES,
+                                   instance=request.user.profile)
+        if p_form.is_valid():
+            p_form.save()
+            messages.success(
+                request, f'Your account has been updated!')
+            return redirect('profile')
+
+    else:
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+        
+    context = {'p_form': p_form}
+        
+    return render(request, "profile/profile_pic_update.html", context)
 
 
 def VendorSubmitView(request):
@@ -320,3 +345,9 @@ def returnError(request):
 
 def helloWorld(request):
     return HttpResponse("Hello world!")
+
+@require_POST
+def CookieConsentCheck(request):
+    request.session['CookieConsentCheck'] = True
+    
+    return HttpResponse(status=200)

@@ -96,12 +96,18 @@
 
   
 
+  
   <dialog class="modal" id="daisy_modal">
-    <div class="modal-box bg-base-300 w-11/12 md:w-8/12 max-w-5xl" id="htmx_modal">
+    <div class="modal-box bg-base-300 w-11/12 md:w-fit max-w-5xl" id="htmx_modal">
     </div>
   </dialog>
+  
 
   {% block content %}{% endblock %}
+
+  {% if not request.session.CookieConsentCheck %}
+  
+  {% endif %}
 
   <section class="bg-base-300 mt-4" id="footer">
     <footer class="footer p-10 text-base-content container mx-auto">
@@ -122,9 +128,8 @@
       </nav>
       <nav>
         <header class="footer-title">About</header>
-        <a class="link link-hover">Terms of use</a>
+        <a class="link link-hover" href="{% url 'terms' %}">Terms and conditions</a>
         <a class="link link-hover" href="{% url 'privacy' %}">Privacy policy</a>
-        <a class="link link-hover">Cookie policy</a>
       </nav>
     </footer>
   </section>

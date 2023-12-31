@@ -1,0 +1,12 @@
+<form method="dialog">
+    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+</form>
+<h1 class="font-serif font-bold text-3xl mb-4">Update profile picture</h1>
+<form hx-post="{% url 'profile_update' %}" hx-encoding='multipart/form-data' hx-target="body" hx-refresh="true" class="join join-vertical gap-4 w-full">
+    {% csrf_token %}
+    <label for="{{ p_form.image.id_for_label }}">
+        <input type="file" name="{{ p_form.image.html_name }}" id="{{ p_form.image.id_for_label }}" accept="image/*"
+            class="file-input file-input-bordered file-input-primary w-full">
+    </label>
+    <input type="submit" value="Change picture" class="font-serif w-100 btn btn-primary hover:btn-secondary"/>
+</form>

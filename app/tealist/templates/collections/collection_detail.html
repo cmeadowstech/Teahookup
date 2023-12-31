@@ -52,8 +52,13 @@
     <div class="join join-vertical gap-2">
         <div class="card bg-base-300 shadow-xl">
             <div class="card-body join join-vertical items-center gap-2">
-                <img class="mask mask-squircle"
-                    src="{{ collection.user.profile.image.url }}" />
+                <div class="w-44">
+                    {% if user.profile.image.url %}
+                    <img class="mask mask-squircle" src="{{ collection.user.profile.image.url }}" width="176"/>
+                    {% else %}
+                    <img src="{{ item.comment.user_email|xtd_comment_gravatar_url }}" class="mask mask-squircle w-fit" width="176"/>
+                    {% endif %}
+                </div>
                 <h4 class="font-serif font-bold text-2xl card-title">{{ collection.user.username }}</h4>
                 <small class="flex flex-row justify-between items-center gap-2 text-accent text-xs">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">

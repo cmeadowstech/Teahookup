@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from .models import *
 
 
@@ -131,3 +132,10 @@ class CollectionForm(forms.ModelForm):
     class Meta:
         model = collection
         fields = ["name", "vendors", "content"]
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['image']
+    
+    

@@ -4,17 +4,18 @@
 {% block content %}
 
 <section class="bg-accent py-4 text-base-300" id="hero">
-  <div class="card card-side container mx-auto my-40">
-    <div class="card-body">
-      <h2 class="card-title font-serif text-5xl">Find your new favorite vendor</h2>
-      <p>The internet and globalization has allowed small tea vendors across the world
-        access to new markets. Finding these vendors can be a challenge, but I hope this tool allows you to explore
-        these new options.</p>
-      <div class="card-actions justify-start">
-        <a href="{% url 'vendors' %}" class="btn btn-primary font-serif hover:btn-secondary">Start your search</a>
+  <div class="hero container mx-auto my-40">
+    <div class="hero-content flex-col lg:flex-row">
+      
+      <div class="join join-vertical gap-4">
+        <h2 class="card-title font-serif text-5xl">Find your new favorite vendor</h2>
+        <p>The internet and globalization has allowed small tea vendors across the world
+          access to new markets. Finding these vendors can be a challenge, but I hope this tool allows you to explore
+          these new options.</p>
+          <a href="{% url 'vendors' %}" class="btn btn-primary font-serif hover:btn-secondary w-fit">Start your search</a>
       </div>
+      <img src="{% static 'hero-teapot.webp' %}" class="max-w-sm"/>
     </div>
-    <figure><img src="{% static 'hero-teapot.webp' %}"/></figure>
   </div>
 </section>
 
