@@ -49,50 +49,7 @@
 
 <body class="overflow-x-hidden">
 
-  <section id="nav" class="bg-gradient from-base-100 to-base-300">
-    <div class="navbar py-3 mb-4 container mx-auto">
-      <div class="navbar-start">
-        <div class="dropdown">
-          <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
-            </svg>
-          </div>
-          <ul tabindex="0"
-            class="menu menu-lg dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ">
-            <li><a class="border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'vendors' %}">Vendors</a></li>
-            <li><a class="border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'collections' %}">Collections</a></li>
-            <li class="text-primary">
-              {% if user.is_authenticated %}
-              <a class="border-b border-transparent hover:border-b hover:border-primary transition ease-in-out" href="{% url 'account_logout' %}" hx-get="/accounts/logout/" hx-target="#htmx_modal" hx-on:click="daisy_modal.showModal()">Sign
-                Out</a>
-              {% else %}
-              <a class="border-b border-transparent hover:border-b hover:border-primary transition ease-in-out" href="{% url 'account_login' %}">Sign In</a>
-              {% endif %}
-            </li>
-          </ul>
-        </div>
-        <a class="btn btn-ghost text-xl" href="{% url 'index' %}">
-          <h4 class="font-serif font-bold text-2xl">Tea Hookup</h4>
-        </a>
-      </div>
-      <div class="navbar-end hidden lg:flex">
-        <ul class="menu menu-horizontal px-1 font-bold">
-          <li><a class="nav-item nav-link mx-2 border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'vendors' %}">Vendors</a></li>
-          <li><a class="nav-item nav-link mx-2 border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'collections' %}">Collections</a></li>
-          <li class="text-primary">
-            {% if user.is_authenticated %}
-            <a class="nav-item nav-link link-important mx-2 border-b border-transparent hover:border-b hover:border-primary transition ease-in-out" href="{% url 'account_logout' %}"
-              hx-get="{% url 'account_logout' %}" hx-target="#htmx_modal" hx-on:click="daisy_modal.showModal()">Sign Out</a>
-            {% else %}
-            <a class="nav-item nav-link link-important mx-2 border-b border-transparent hover:border-b hover:border-primary transition ease-in-out" href="{% url 'account_login' %}">Sign In</a>
-            {% endif %}
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
+  {% include 'navbar.html' %}
 
   
 
@@ -109,30 +66,7 @@
   
   {% endif %}
 
-  <section class="bg-base-300 mt-4" id="footer">
-    <footer class="footer p-10 text-base-content container mx-auto">
-      <aside>
-        <img class="mb-2" src="{% static 'tea-leaves.svg' %}" alt="" width="24" height="24">
-        <p>&copy; Tea Hookup 2023</p>
-      </aside>
-      <nav>
-        <header class="footer-title">Features</header>
-        <a class="link link-hover" href="{% url 'vendors_submit' %}">Submit a vendor</a>
-        {% if user.is_authenticated %}
-        <a href="{% url 'profile' %}">Your profile</a>
-        {% endif %}
-      </nav>
-      <nav>
-        <header class="footer-title">Resources</header>
-        <a class="link link-hover" href="{% url 'releases' %}">Releases</a>
-      </nav>
-      <nav>
-        <header class="footer-title">About</header>
-        <a class="link link-hover" href="{% url 'terms' %}">Terms and conditions</a>
-        <a class="link link-hover" href="{% url 'privacy' %}">Privacy policy</a>
-      </nav>
-    </footer>
-  </section>
+  {% include 'footer.html' %}
 
   <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 

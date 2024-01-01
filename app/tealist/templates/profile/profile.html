@@ -40,7 +40,7 @@
                     {% if user.profile.image.url %}
                     <img class="mask mask-squircle" src="{{ user.profile.image.url }}" width="176"/>
                     {% else %}
-                    <img src="{{ item.comment.user_email|xtd_comment_gravatar_url }}" class="mask mask-squircle w-fit" width="176"/>
+                    <img src="{{ item.comment.user_email|xtd_comment_gravatar_url }}" class="mask mask-squircle" width="176"/>
                     {% endif %}
                     </div>
                 </div>
@@ -67,10 +67,13 @@
             </div>
         </div>
 
-        <div class="card bg-base-300 shadow-xl" hx-get="{% url 'account_change_password' %}" hx-trigger="load">
+        <div class="card bg-base-300 shadow-xl">
+            {% include 'allauth/account/password_change.html' %}
+            
         </div>
 
-        <div class="card bg-base-300 shadow-xl" hx-get="{% url 'account_email' %}" hx-trigger="load">
+        <div class="card bg-base-300 shadow-xl">
+            {% include 'allauth/account/email.html' %}
         </div>
     </div>
 </div>

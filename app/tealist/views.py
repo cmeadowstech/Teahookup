@@ -112,7 +112,7 @@ def GetCollectionsContext(request):
 # Views
 
 
-@cache_page(CACHE_TTL)
+# @cache_page(CACHE_TTL)
 def index(request):
     Featured = vendor.objects.filter(featured=True)
     Recent = vendor.objects.all().order_by("created")[:3]
