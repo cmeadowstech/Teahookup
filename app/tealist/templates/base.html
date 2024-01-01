@@ -47,24 +47,18 @@
   {% load matomo_tags %}
 </head>
 
-<body class="overflow-x-hidden">
+<body class="overflow-x-hidden flex flex-col min-h-screen">
 
   {% include 'navbar.html' %}
-
-  
-
   
   <dialog class="modal" id="daisy_modal">
     <div class="modal-box bg-base-300 w-11/12 md:w-fit max-w-5xl" id="htmx_modal">
     </div>
   </dialog>
-  
 
+  <section class="flex-auto">
   {% block content %}{% endblock %}
-
-  {% if not request.session.CookieConsentCheck %}
-  
-  {% endif %}
+  </section>
 
   {% include 'footer.html' %}
 

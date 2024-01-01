@@ -39,11 +39,11 @@
     <div class="join grid grid-cols-2">
         {% if filter.has_previous %}
         <button class="join-item btn btn-success hover:btn-secondary" hx-get="{% url 'collections' %}?page={{ filter.previous_page_number }}&{{ parameters }}"
-        hx-target="#collections-list" hx-push-url="true">Previous page</button>
+        hx-target="#collections-list" hx-push-url="true" hx-swap="innerHTML show:top">Previous page</button>
         {% endif %}
         {% if filter.has_next %}
-        <button class="join-item btn btn-success hover:btn-secondary" hx-get="{% url 'collections' %}?page={{ filter.next_page_number }}&{{ parameters }}"
-        hx-target="#collections-list" hx-push-url="true">Next</button>
+        <button class="join-item btn btn-success hover:btn-secondary col-start-2" hx-get="{% url 'collections' %}?page={{ filter.next_page_number }}&{{ parameters }}"
+        hx-target="#collections-list" hx-push-url="true" hx-swap="innerHTML show:top">Next</button>
         {% endif %}
     </div>
 </div>

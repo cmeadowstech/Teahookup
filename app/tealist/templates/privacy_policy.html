@@ -5,7 +5,7 @@
 <!-- https://app.termsfeed.com/download/28475459-cb64-4970-bd92-0fb25fcc38d2 -->
 
 <div class="container mx-auto">
-    <div id="cookie_modal" class="card bg-base-300 shadow-xl">
+    <div class="card bg-base-300 shadow-xl">
         <div class="card-body">
             <h4 class="font-serif font-bold text-3xl">Tracking opt-out</h4>
             <div id="optout-form" class="join join-vertical gap-2">
@@ -13,9 +13,7 @@
                     Doing so will protect your privacy, but will also prevent the owner from learning from your actions
                     and creating a better experience for you and other users. </p>
                 <label for="optout" class="label-text">
-                    {% csrf_token %}
-                    <input type="checkbox" id="optout" class="toggle" hx-post="{% url 'cookie_consent_check' %}"
-                        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' />
+                    <input type="checkbox" id="optout" class="toggle"/>
                     <strong></strong>
                 </label>
             </div>

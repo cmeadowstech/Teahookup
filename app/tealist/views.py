@@ -126,9 +126,9 @@ def VendorListView(request):
     context = GetVendorsContext(request)
 
     if request.htmx:
-        template = "vendor_list_partial.html"
+        template = "vendor/vendor_list_partial.html"
     else:
-        template = "vendor_list.html"
+        template = "vendor/vendor_list.html"
 
     return render(
         request,
@@ -152,9 +152,9 @@ def VendorDetailView(request, slug):
     context["comment_form"] = CommentForm()
 
     if request.htmx:
-        template = "vendor_detail_partial.html"
+        template = "vendor/vendor_detail_partial.html"
     else:
-        template = "vendor_detail.html"
+        template = "vendor/vendor_detail.html"
 
     return render(request, template, context)
 
@@ -268,7 +268,7 @@ def VendorSubmitView(request):
 
     context = {"vendor_form": form}
 
-    return render(request, "vendor_submit.html", context)
+    return render(request, "vendor/vendor_submit.html", context)
 
 
 def CollectionNewView(request):
@@ -296,16 +296,16 @@ def CollectionNewView(request):
     form = CollectionForm()
     context = {"form": form}
 
-    return render(request, "collections/collections_new.html", context)
+    return render(request, "collection/collections_new.html", context)
 
 
 def CollectionListView(request):
     context = GetCollectionsContext(request)
 
     if request.htmx:
-        template = "collections/collections_list_partial.html"
+        template = "collection/collections_list_partial.html"
     else:
-        template = "collections/collections_list.html"
+        template = "collection/collections_list.html"
 
     return render(request, template, context)
 
@@ -316,7 +316,7 @@ def CollectionPreviewView(request):
     Content = request.POST["content"]
     context = {"vendors": Vendors, "name": Name, "content": Content}
 
-    return render(request, "collections/collections_new_preview.html", context)
+    return render(request, "collection/collections_new_preview.html", context)
 
 
 def CollectionDetailView(request, slug):
@@ -324,7 +324,7 @@ def CollectionDetailView(request, slug):
     Collection = get_object_or_404(collection.objects.select_related("user"), slug=slug)
     context["collection"] = Collection
 
-    return render(request, "collections/collection_detail.html", context)
+    return render(request, "collection/collection_detail.html", context)
 
 
 def CollectionRating(request, slug):
