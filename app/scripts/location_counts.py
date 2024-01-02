@@ -1,4 +1,4 @@
-from tealist.models import vendor, location, variety
+from tealist.models import Vendor, location, Variety
 import csv
 
 

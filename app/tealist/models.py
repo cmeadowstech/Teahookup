@@ -16,14 +16,17 @@ class Profile(models.Model):
         return f"{self.user.username} Profile"  # show how we want it to be displayed
 
 
-class location(models.Model):
+class Location(models.Model):
     name = models.CharField(max_length=30, help_text="Country/region name", unique=True)
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name_plural = "Locations"
 
 
-class variety(models.Model):
+class Variety(models.Model):
     name = models.CharField(
         max_length=30, help_text="Type of tea or offering", unique=True
     )
@@ -35,7 +38,7 @@ class variety(models.Model):
         return self.name
 
 
-class vendor(models.Model):
+class Vendor(models.Model):
     name = models.CharField(
         max_length=30, help_text="Business name of the vendor", unique=True
     )
@@ -45,26 +48,26 @@ class vendor(models.Model):
     )
     description = models.TextField(help_text="Description of the vendor", blank=True)
     store_location = models.ManyToManyField(
-        location,
+        Location,
         help_text="Select locations this vendor ships from",
         blank=True,
         related_name="store_location",
     )
     ship_to = models.ManyToManyField(
-        location,
+        Location,
         help_text="Select locations this vendor ships to",
         blank=True,
         related_name="ship_to",
     )
     tea_source = models.ManyToManyField(
-        location,
+        Location,
         help_text="Select locations this vendor sources tea from",
         blank=True,
         related_name="tea_source",
     )
     featured = models.BooleanField(default=False)
     variety = models.ManyToManyField(
-        variety, help_text="Select the varieties of tea this vendor sells", blank=True
+        Variety, help_text="Select the varieties of tea this vendor sells", blank=True
     )
     established = models.DateField(blank=True, null=True)
     created = models.DateField(auto_now_add=True)
@@ -94,7 +97,7 @@ class comment(models.Model):
     )
 
     vendor = models.ForeignKey(
-        vendor, on_delete=models.CASCADE, related_name="comments"
+        Vendor, on_delete=models.CASCADE, related_name="comments"
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
@@ -103,8 +106,8 @@ class comment(models.Model):
     value = models.IntegerField(choices=RATING_CHOICES)
 
     def save(self, *args, **kwargs):
-        Vendor = self.vendor
-        Comments = comment.objects.filter(vendor=Vendor)
+        v = self.vendor
+        Comments = comment.objects.filter(vendor=v)
         avg = float(0)
         for c in Comments:
             avg += float(c.value)
@@ -124,7 +127,7 @@ class comment(models.Model):
         ]
 
 
-class collection(models.Model):
+class Collection(models.Model):
     unique_id = models.CharField(
         max_length=6, default=str(uuid.uuid4())[:4], editable=False
     )
@@ -132,7 +135,7 @@ class collection(models.Model):
         max_length=40, help_text="What do you want to call this vendor"
     )
     vendors = models.ManyToManyField(
-        vendor,
+        Vendor,
         help_text="Which vendors belong to this collection",
         related_name="collection_vendors",
     )
@@ -154,7 +157,7 @@ class collection(models.Model):
 
     def get_location_stats(self):
         location_count = (
-            location.objects.prefetch_related("vendor")
+            Location.objects.prefetch_related("Vendor")
             .filter(tea_source__in=self.vendors.all())
             .annotate(location_count=Count("tea_source"))
         )

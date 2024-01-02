@@ -45,7 +45,7 @@ def GetParams(request):
 def GetVendorsContext(request):
     f = VendorFilter(
         request.GET,
-        queryset=vendor.objects.prefetch_related(
+        queryset=Vendor.objects.prefetch_related(
             "tea_source", "ship_to", "variety", "store_location"
         )
         .all()
@@ -68,7 +68,7 @@ def GetVendorsContext(request):
 def GetCollectionsContext(request):
     f = CollectionFilter(
         request.GET,
-        queryset=collection.objects.prefetch_related("rating")
+        queryset=Collection.objects.prefetch_related("rating")
         .select_related("user")
         .all(),
     )
@@ -83,7 +83,7 @@ def GetCollectionsContext(request):
     }
 
     topCollections = (
-        collection.objects.prefetch_related("rating")
+        Collection.objects.prefetch_related("rating")
         .select_related("user")
         .all()
         .annotate(num_rating=Count("rating"))
@@ -91,7 +91,7 @@ def GetCollectionsContext(request):
     )
     if request.user.is_authenticated:
         userCollections = (
-            collection.objects.select_related("user")
+            Collection.objects.select_related("user")
             .filter(user=request.user)
             .order_by("-created_on")[:5]
         )
@@ -114,8 +114,8 @@ def GetCollectionsContext(request):
 
 # @cache_page(CACHE_TTL)
 def index(request):
-    Featured = vendor.objects.filter(featured=True)
-    Recent = vendor.objects.all().order_by("created")[:3]
+    Featured = Vendor.objects.filter(featured=True)
+    Recent = Vendor.objects.all().order_by("created")[:3]
 
     context = {"Featured": Featured, "Recent": Recent}
 
@@ -138,17 +138,17 @@ def VendorListView(request):
 
 
 def VendorDetailView(request, slug):
-    Vendor = get_object_or_404(vendor, slug=slug)
+    vendor = get_object_or_404(Vendor, slug=slug)
     context = {}
-    context["vendor"] = Vendor
+    context["vendor"] = vendor
 
-    context["related_collections"] = collection.objects.filter(vendors__id=Vendor.id)[
+    context["related_collections"] = Collection.objects.filter(vendors__id=vendor.id)[
         :5
     ]
 
-    context["regional_vendors"] = vendor.objects.filter(
-        tea_source__id__in=Vendor.tea_source.all()
-    ).exclude(id=Vendor.id)[:5]
+    context["regional_vendors"] = Vendor.objects.filter(
+        tea_source__id__in=vendor.tea_source.all()
+    ).exclude(id=vendor.id)[:5]
     context["comment_form"] = CommentForm()
 
     if request.htmx:
@@ -160,7 +160,7 @@ def VendorDetailView(request, slug):
 
 
 def CommentsView(request, slug):
-    Vendor = get_object_or_404(vendor, slug=slug)
+    vendor = get_object_or_404(Vendor, slug=slug)
     Comments = Vendor.comments.filter(active=True)
 
     if request.method == "POST":
@@ -173,7 +173,7 @@ def CommentsView(request, slug):
                 content = request.POST.get("content")
                 value = request.POST.get("value")
                 Comment = comment.objects.create(
-                    vendor=Vendor, user=request.user, content=content, value=value
+                    vendor=vendor, user=request.user, content=content, value=value
                 )
                 Comment.save()
 
@@ -184,7 +184,7 @@ def CommentsView(request, slug):
     else:
         cf = CommentForm()
 
-    context = {"vendor": Vendor, "comments": Comments, "comment_form": cf}
+    context = {"vendor": vendor, "comments": Comments, "comment_form": cf}
 
     return render(request, "comments_partial.html", context)
 
@@ -219,7 +219,7 @@ def TermsAndConditions(request):
 
 @login_required
 def ProfileView(request):
-    userCollections = collection.objects.filter(user=request.user).order_by(
+    userCollections = Collection.objects.filter(user=request.user).order_by(
         "-created_on"
     )
     
@@ -280,7 +280,7 @@ def CollectionNewView(request):
             Collection.user = request.user
             Collection.save()
             Collection.vendors.set(
-                vendor.objects.filter(id__in=dict(request.POST)["vendors"])
+                Vendor.objects.filter(id__in=dict(request.POST)["vendors"])
             )
 
             messages.success(request, f"Thanks for submitting { Collection.name }!")
@@ -311,7 +311,7 @@ def CollectionListView(request):
 
 
 def CollectionPreviewView(request):
-    Vendors = vendor.objects.filter(id__in=dict(request.POST)["vendors"])
+    Vendors = Vendor.objects.filter(id__in=dict(request.POST)["vendors"])
     Name = request.POST["name"]
     Content = request.POST["content"]
     context = {"vendors": Vendors, "name": Name, "content": Content}
@@ -321,14 +321,14 @@ def CollectionPreviewView(request):
 
 def CollectionDetailView(request, slug):
     context = {}
-    Collection = get_object_or_404(collection.objects.select_related("user"), slug=slug)
-    context["collection"] = Collection
+    collection = get_object_or_404(Collection.objects.select_related("user"), slug=slug)
+    context["collection"] = collection
 
     return render(request, "collection/collection_detail.html", context)
 
 
 def CollectionRating(request, slug):
-    Collection = collection.objects.get(slug=slug)
+    Collection = Collection.objects.get(slug=slug)
 
     if request.user in Collection.rating.all():
         Collection.rating.remove(request.user)

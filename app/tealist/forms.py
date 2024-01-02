@@ -63,27 +63,27 @@ class VendorForm(forms.ModelForm):
     ship_to = forms.ModelMultipleChoiceField(
         label="Ships to",
         help_text="Where does this vendor ship to?",
-        queryset=location.objects.all().exclude(ship_to__isnull=True),
+        queryset=Location.objects.all().exclude(ship_to__isnull=True),
         widget=forms.CheckboxSelectMultiple(attrs={"class": "peer hidden"}),
     )
     store_location = forms.ModelMultipleChoiceField(
-        queryset=location.objects.all().exclude(store_location__isnull=True),
+        queryset=Location.objects.all().exclude(store_location__isnull=True),
         help_text="Where does this vendor ship from?",
         widget=forms.CheckboxSelectMultiple(attrs={"class": "peer hidden"}),
     )
     tea_source = forms.ModelMultipleChoiceField(
         help_text="Where does this vendor source its tea from?",
-        queryset=location.objects.all().exclude(tea_source__isnull=True),
+        queryset=Location.objects.all().exclude(tea_source__isnull=True),
         widget=forms.CheckboxSelectMultiple(attrs={"class": "peer hidden"}),
     )
     variety = forms.ModelMultipleChoiceField(
         help_text="What sort of teas does this vendor sell?",
-        queryset=variety.objects.all(),
+        queryset=Variety.objects.all(),
         widget=forms.CheckboxSelectMultiple(attrs={"class": "peer hidden"}),
     )
 
     class Meta:
-        model = vendor
+        model = Vendor
         fields = [
             "name",
             "description",
@@ -107,7 +107,7 @@ class CollectionForm(forms.ModelForm):
     )
     vendors = forms.ModelMultipleChoiceField(
         help_text="Choose the vendors to add to this collection - up to 10.",
-        queryset=vendor.objects.all().exclude(active=False),
+        queryset=Vendor.objects.all().exclude(active=False),
         widget=forms.SelectMultiple(
             attrs={
                 "id": "input-vendors",
@@ -130,7 +130,7 @@ class CollectionForm(forms.ModelForm):
     )
 
     class Meta:
-        model = collection
+        model = Collection
         fields = ["name", "vendors", "content"]
 
 class ProfileUpdateForm(forms.ModelForm):

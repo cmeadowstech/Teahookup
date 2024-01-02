@@ -3,8 +3,8 @@ from tealist.models import *
 import csv
 from django.http import HttpResponse
 
-admin.site.register(location)
-admin.site.register(variety)
+admin.site.register(Location)
+admin.site.register(Variety)
 
 
 class UpdateFeatured:
@@ -40,7 +40,7 @@ class ExportCsvMixin:
     export_as_csv.short_description = "Export Selected"
 
 
-@admin.register(vendor)
+@admin.register(Vendor)
 class VendorAdmin(admin.ModelAdmin, ExportCsvMixin, UpdateFeatured):
     list_display = ("name", "url", "created", "featured", "rating", "active")
     list_filter = ("store_location", "ship_to", "tea_source")
@@ -75,7 +75,7 @@ class CommentAdmin(admin.ModelAdmin):
     search_fields = ["user__username", "vendor__name"]
 
 
-@admin.register(collection)
+@admin.register(Collection)
 class CollectionAdmin(admin.ModelAdmin):
     list_display = ("name", "user")
 
