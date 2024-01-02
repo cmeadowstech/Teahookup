@@ -15,19 +15,19 @@ class VendorFilter(django_filters.FilterSet):
         ),
     )
     store_location = django_filters.ModelMultipleChoiceFilter(
-        queryset=location.objects.exclude(store_location__isnull=True),
+        queryset=Location.objects.exclude(store_location__isnull=True),
         widget=forms.CheckboxSelectMultiple(attrs={"class": "peer hidden"}),
     )
     ship_to = django_filters.ModelMultipleChoiceFilter(
-        queryset=location.objects.exclude(ship_to__isnull=True),
+        queryset=Location.objects.exclude(ship_to__isnull=True),
         widget=forms.CheckboxSelectMultiple(attrs={"class": "peer hidden"}),
     )
     tea_source = django_filters.ModelMultipleChoiceFilter(
-        queryset=location.objects.exclude(tea_source__isnull=True),
+        queryset=Location.objects.exclude(tea_source__isnull=True),
         widget=forms.CheckboxSelectMultiple(attrs={"class": "peer hidden"}),
     )
     variety = django_filters.ModelMultipleChoiceFilter(
-        queryset=variety.objects.all(),
+        queryset=Variety.objects.all(),
         widget=forms.CheckboxSelectMultiple(attrs={"class": "peer hidden"}),
     )
 
@@ -37,7 +37,7 @@ class VendorFilter(django_filters.FilterSet):
     )
 
     class Meta:
-        model = vendor
+        model = Vendor
         fields = ["name", "store_location", "ship_to", "tea_source", "variety"]
 
     # https://stackoverflow.com/questions/68381768/how-to-set-class-of-orderingfilters-widget-in-django
@@ -64,5 +64,5 @@ class CollectionFilter(django_filters.FilterSet):
     )
 
     class Meta:
-        model = collection
+        model = Collection
         fields = ["name"]
