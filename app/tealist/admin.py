@@ -5,6 +5,7 @@ from django.http import HttpResponse
 
 admin.site.register(Location)
 admin.site.register(Variety)
+admin.site.register(Rating)
 
 
 class UpdateFeatured:

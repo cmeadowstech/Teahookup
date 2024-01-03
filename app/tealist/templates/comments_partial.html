@@ -23,8 +23,8 @@
     {% endif %}
 
     {% if comment_count %}
-    <hr />
-    <ul class="media-list p-0">
+
+    <ul class="media-list p-0 border-t border-success pt-4">
         {% render_xtdcomment_tree for object allow_flagging allow_feedback show_feedback %}
     </ul>
     {% endif %}

@@ -8,12 +8,13 @@
   <div class="card md:col-span-3 bg-base-300 drop-shadow-xl">
     <div class="card-body">
 
-      <h1 class="font-serif font-bold text-4xl mb-3">{{ vendor.name }}
+      <div class="card-title join">
+        <h1 class="font-serif font-bold text-4xl mb-3">
+          {{ vendor.name }}
+        </h1>
+        {% include 'vendor/vendor_rating_partial.html' %}
+      </div>
 
-        {% if vendor.rating %}
-        <span class="badge badge-primary ml-2 mb-2 float-right">{{ vendor.rating }}</span>
-        {% endif %}
-      </h1>
       <div>
         {% for variety in vendor.variety.all %}
         <span class="badge badge-success font-bold">{{ variety }}</span>

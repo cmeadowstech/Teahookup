@@ -1,24 +1,22 @@
 {% load i18n %}
 {% load comments_xtd %}
 
-{% block title %}{% trans "Flag comment" %}{% endblock %}
-
-{% block header %}
-<a href="{{ comment.content_object.get_absolute_url }}">{{ comment.content_object }}</a>
-{% endblock %}
-
 {% block content %}
 <div class="mb-4">
-  <h3 class="text-center">{% trans "Flag this comment?" %}</h3>
+  <h3 class="font-serif font-bold text-center">{% trans "Flag this comment?" %}</h3>
   <p class="text-accent text-center">{% trans "Click on the flag button to mark the following comment as inappropriate." %}</p>
   <hr/>
 </div>
 
 
 <div class="media join content-start gap-4">
-  <img src="{{ item.comment.user_email|xtd_comment_gravatar_url }}" class="mask mask-squircle"/>
+  {% if comment.user.profile.image.url %}
+  <img class="mask mask-squircle" src="{{ comment.user.profile.image.url }}" width="64"/>
+  {% else %}
+  <img src="{{ comment.user_email|xtd_comment_gravatar_url }}" class="mask mask-squircle" width="64"/>
+  {% endif %}
   <div class="media-body">
-    <h6 class="mb-1 small">
+    <h6 class="text-accent text-sm flex flex-row justify-between items-center w-full">
       {{ comment.submit_date|date:"N j, Y, P" }}&nbsp;-&nbsp;
       {% if comment.user_url %}
       <a href="{{ comment.user_url }}" target="_new">{% endif %}

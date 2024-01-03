@@ -255,7 +255,7 @@ LOGGING = {
 COMMENTS_APP = "django_comments_xtd"
 
 COMMENTS_XTD_SALT = (
-    b"Timendi causa est nescire. " b"Aequam memento rebus in arduis servare mentem."
+    b"Timendi causa est nescires. " b"Aequam memento rebus in arduis servare mentem."
 )
 
 COMMENTS_XTD_MAX_THREAD_LEVEL = 2  # default is 0

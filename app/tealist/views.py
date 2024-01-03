@@ -4,7 +4,7 @@ from django.conf import settings
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
-from django.db.models import Count
+from django.db.models import Count, Avg
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_POST
@@ -55,11 +55,13 @@ def GetVendorsContext(request):
 
     response = GetPages(f.qs, 6, request)
     parameters = GetParams(request)
+    rating_form = RatingForm()
 
     context = {
         "filter": response,
         "filter_form": f,
         "parameters": parameters,
+        "rating_form": rating_form,
     }
 
     return context
@@ -115,7 +117,7 @@ def GetCollectionsContext(request):
 # @cache_page(CACHE_TTL)
 def index(request):
     Featured = Vendor.objects.filter(featured=True)
-    Recent = Vendor.objects.all().order_by("created")[:3]
+    Recent = Vendor.objects.all().order_by("created", "id")[:3]
 
     context = {"Featured": Featured, "Recent": Recent}
 
@@ -149,7 +151,8 @@ def VendorDetailView(request, slug):
     context["regional_vendors"] = Vendor.objects.filter(
         tea_source__id__in=vendor.tea_source.all()
     ).exclude(id=vendor.id)[:5]
-    context["comment_form"] = CommentForm()
+
+    context["rating_form"] = RatingForm()
 
     if request.htmx:
         template = "vendor/vendor_detail_partial.html"
@@ -158,35 +161,20 @@ def VendorDetailView(request, slug):
 
     return render(request, template, context)
 
+@require_POST
+def VendorRating(request, slug):
+    vendor = Vendor.objects.get(slug=slug)
 
-def CommentsView(request, slug):
-    vendor = get_object_or_404(Vendor, slug=slug)
-    Comments = Vendor.comments.filter(active=True)
+    rating, created = Rating.objects.update_or_create(
+        vendor = vendor,
+        user = request.user,
+        defaults = {"value": float(request.POST["value"])}
+    )
+    
+    vendor.rating = Rating.objects.filter(vendor=vendor).aggregate(Avg('value'))["value__avg"]
+    vendor.save()
 
-    if request.method == "POST":
-        if Comments.filter(user=request.user):
-            response = "Please only one comment per user. If you want to add additional information, you can edit your previous comment."
-            return HttpResponse(response)
-        else:
-            cf = CommentForm(request.POST or None)
-            if cf.is_valid():
-                content = request.POST.get("content")
-                value = request.POST.get("value")
-                Comment = comment.objects.create(
-                    vendor=vendor, user=request.user, content=content, value=value
-                )
-                Comment.save()
-
-                response = (
-                    "Thanks for sharing your thoughts! Refresh to see your comment."
-                )
-                return HttpResponse(response)
-    else:
-        cf = CommentForm()
-
-    context = {"vendor": vendor, "comments": Comments, "comment_form": cf}
-
-    return render(request, "comments_partial.html", context)
+    return HttpResponse(f"{round(vendor.rating, 1)}")
 
 
 @cache_page(CACHE_TTL)

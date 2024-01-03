@@ -168,3 +168,27 @@ class Collection(models.Model):
         value = f"{self.name}-{self.unique_id}"
         self.slug = slugify(value, allow_unicode=True)
         super().save(*args, **kwargs)
+
+class Rating(models.Model):
+    RATING_CHOICES = (
+        (5, "5"),
+        (4.5, "4.5"),
+        (4, "4"),
+        (3.5, "3.5"),
+        (3, "3"),
+        (2.5, "2.5"),
+        (2, "2"),
+        (1.5, "1.5"),
+        (1, "1"),
+        (0.5, "0.5"),
+    )
+
+    vendor = models.ForeignKey(
+        Vendor, on_delete=models.CASCADE, related_name="vendor_rating"
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    value = models.DecimalField(max_digits=2, decimal_places=1, null=True, choices=RATING_CHOICES)
+    
+    class Meta:
+        verbose_name_plural = "Ratings"
+        unique_together = ('vendor', 'user')

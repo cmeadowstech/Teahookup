@@ -17,7 +17,7 @@ cookiecutter==2.5.0
 cryptography==39.0.1
 cssbeautifier==1.14.11
 defusedxml==0.7.1
-Django==4.1.6
+Django>=4.1.13
 django-allauth==0.52.0
 django-bootstrap4==23.2
 django-braces==1.15.0

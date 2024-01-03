@@ -27,7 +27,7 @@ urlpatterns = [
     path("vendors/list", views.VendorListView, name="vendors"),
     path("vendors/submit/", views.VendorSubmitView, name="vendors_submit"),
     path("vendors/<str:slug>/", views.VendorDetailView, name="vendor-detail"),
-    path("vendors/<str:slug>/comments/", views.CommentsView, name="comments"),
+    path("vendors/<str:slug>/rate", views.VendorRating, name="vendor-rate"),
     path("collections/list/", views.CollectionListView, name="collections"),
     path("collections/new/", views.CollectionNewView, name="collections_new"),
     path(

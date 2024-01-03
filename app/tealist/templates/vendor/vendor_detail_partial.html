@@ -1,9 +1,10 @@
 {% load static %}
 
-<h1 class="font-serif font-bold text-4xl mb-3">{{ vendor.name }}
+<h1 class="font-serif font-bold text-4xl mb-3 flex justify-between">
+  {{ vendor.name }}
 
   {% if vendor.rating %}
-  <span class="badge badge-primary ml-2 mb-2 float-right">{{ vendor.rating }}</span>
+  <span class="font-serif font-bold text-orange-400 justify-end">{{ vendor.rating }}</span>
   {% endif %}
 </h1>
 <div>
@@ -73,10 +74,6 @@
   </div>
 </div>
 
-<!-- Need to redo comment and rating system
-        <div id="comments" class="smooth"><a href="{{ vendor.get_absolute_url }}comments/" class="text-center d-block w-100 pt-4"
-            hx-get="{{ vendor.get_absolute_url }}comments/" hx-target="#comments">Show Comments</a></div>
-          -->
 <div class="modal-action">
   <form method="dialog">
     <!-- if there is a button in form, it will close the modal -->

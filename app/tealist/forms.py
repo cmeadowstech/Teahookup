@@ -2,26 +2,6 @@ from django import forms
 from django.core.exceptions import ValidationError
 from .models import *
 
-
-class CommentForm(forms.ModelForm):
-    content = forms.CharField(
-        label="",
-        widget=forms.Textarea(
-            attrs={
-                "class": "textarea",
-                "placeholder": "Please share your thoughts...",
-                "rows": 4,
-                "cols": 50,
-            }
-        ),
-    )
-    value = forms.ChoiceField(label="Rating", choices=comment.value.field.choices)
-
-    class Meta:
-        model = comment
-        fields = ["content", "value"]
-
-
 class VendorForm(forms.ModelForm):
     name = forms.CharField(
         help_text="The business name of the vendor",
@@ -138,4 +118,16 @@ class ProfileUpdateForm(forms.ModelForm):
         model = Profile
         fields = ['image']
     
+
+class RatingForm(forms.ModelForm):
+    CHOICES = Rating.RATING_CHOICES
+    
+    value = forms.ChoiceField(
+        widget=forms.RadioSelect,
+        choices=CHOICES, 
+    )
+    
+    class Meta:
+        model = Rating
+        fields = ['value']
     

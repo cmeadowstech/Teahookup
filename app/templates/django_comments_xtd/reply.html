@@ -1,23 +1,26 @@
-{% extends "django_comments_xtd/base.html" %}
 {% load i18n %}
 {% load comments %}
 {% load comments_xtd %}
 
-{% block title %}{% trans "Comment reply" %}{% endblock %}
+<h3 class="font-serif font-bold text-center">{% block title %}{% trans "Comment reply" %}{% endblock %}</h3>
 
 {% block content %}
 <div class="container">
   <div class="mb-4">
-    <h3 class="text-center">{% trans "Reply to comment" %}</h3>
+    <h3 class="text-center text-accent">{% trans "Reply to comment" %}</h3>
     <hr/>
   </div>
   <div class="row">
     <div class="offset-md-1 col-md-10">
-      <div class="media">
-        <div class="mr-3">{{ comment.user_email|xtd_comment_gravatar }}</div>
+      <div class="media join content-start gap-4">
+        {% if comment.user.profile.image.url %}
+        <img class="mask mask-squircle" src="{{ comment.user.profile.image.url }}" width="64"/>
+        {% else %}
+        <img src="{{ comment.user_email|xtd_comment_gravatar_url }}" class="mask mask-squircle" width="64"/>
+        {% endif %}
         <div class="media-body">
           <div class="comment pb-3">
-            <h6 class="mb-1 small">
+            <h6 class="text-accent text-sm flex flex-row justify-between items-center w-full">
               {{ comment.submit_date|date:"N j, Y, P" }}&nbsp;-&nbsp;
               {% if comment.user_url %}
               <a href="{{ comment.user_url }}" target="_new">{% endif %}
@@ -27,13 +30,15 @@
           </div>
         </div>
       </div>
-      <div class="card mt-4 mb-5">
-        <div class="card-body">
           <h4 class="card-title text-center pb-3">{% trans "Post your comment" %}</h4>
           {% include "comments/form.html" %}
-        </div>
-      </div>
     </div>
   </div>
+</div>
+<div class="modal-action">
+  <form method="dialog">
+    <!-- if there is a button in form, it will close the modal -->
+    <button class="btn">Close</button>
+  </form>
 </div>
 {% endblock %}
