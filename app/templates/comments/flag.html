@@ -2,6 +2,9 @@
 {% load comments_xtd %}
 
 {% block content %}
+<form method="dialog">
+  <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+</form>
 <div class="mb-4">
   <h3 class="font-serif font-bold text-center">{% trans "Flag this comment?" %}</h3>
   <p class="text-accent text-center">{% trans "Click on the flag button to mark the following comment as inappropriate." %}</p>
@@ -45,12 +48,6 @@
       <div class="form-control">
         <div class="text-center">
           <input type="submit" name="submit" class="btn btn-secondary hover:btn-error w-full font-serif" value="{% trans "Flag" %}"/>
-          <div class="modal-action">
-            <form method="dialog">
-              <!-- if there is a button in form, it will close the modal -->
-              <button class="btn">Close</button>
-            </form>
-          </div>
         </div>
       </div>
     </form>

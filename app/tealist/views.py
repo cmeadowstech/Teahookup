@@ -316,14 +316,14 @@ def CollectionDetailView(request, slug):
 
 
 def CollectionRating(request, slug):
-    Collection = Collection.objects.get(slug=slug)
+    collection = Collection.objects.get(slug=slug)
 
-    if request.user in Collection.rating.all():
-        Collection.rating.remove(request.user)
+    if request.user in collection.rating.all():
+        collection.rating.remove(request.user)
     else:
-        Collection.rating.add(request.user)
+        collection.rating.add(request.user)
 
-    return HttpResponse(f"+{Collection.rating.all().count()}")
+    return HttpResponse(f"+{collection.rating.all().count()}")
 
 
 def returnError(request):

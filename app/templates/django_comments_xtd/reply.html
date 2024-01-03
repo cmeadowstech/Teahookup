@@ -5,7 +5,9 @@
 <h3 class="font-serif font-bold text-center">{% block title %}{% trans "Comment reply" %}{% endblock %}</h3>
 
 {% block content %}
-<div class="container">
+<form method="dialog">
+  <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+</form>
   <div class="mb-4">
     <h3 class="text-center text-accent">{% trans "Reply to comment" %}</h3>
     <hr/>
@@ -34,11 +36,5 @@
           {% include "comments/form.html" %}
     </div>
   </div>
-</div>
-<div class="modal-action">
-  <form method="dialog">
-    <!-- if there is a button in form, it will close the modal -->
-    <button class="btn">Close</button>
-  </form>
-</div>
+
 {% endblock %}
