@@ -19,9 +19,10 @@
         </div>
         </form>
         {% if user.is_authenticated %}
-        <div class="card bg-base-300 mb-3 mt-3 border-0 shadow-xl">
-            <div class="card-body">
-                <h4 class="font-serif font-bold text-2xl mb-0">Your Collections</h4>
+        <div class="collapse collapse-plus md:collapse-open bg-base-300 mb-3 mt-3 border-0 shadow-xl px-8">
+           <input type="checkbox" /> 
+           <h4 class="collapse-title font-serif font-bold text-2xl mb-0 px-0">Your Collections</h4>
+           <div class="collapse-content px-0">
                 <ul class="pt-4 pb-4 tea-marker">
                     {% for collection in userCollections %}
                     <li class="border-b border-success">
@@ -35,10 +36,11 @@
             </div>
         </div>
         {% endif %}
-        <div class="card bg-base-300 mb-3 mt-3 border-0 shadow-xl">
-            <div class="card-body">
-                <h4 class="font-serif font-bold text-2xl mb-0">Top Collections</h4>
-                <ul class="pt-4 pb-4 tea-marker">
+        <div class="collapse collapse-plus md:collapse-open bg-base-300 mb-3 mt-3 border-0 shadow-xl px-8">
+            <input type="checkbox" /> 
+            <h4 class="collapse-title font-serif font-bold text-2xl mb-0 px-0">Top Collections</h4>
+            <div class="collapse-content px-0">
+                <ul class=" pt-4 pb-4 tea-marker">
                     {% for collection in topCollections %}
                     <li class="border-b border-success">
                         <a href="{{ collection.get_absolute_url }}" class="text-secondary border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out">

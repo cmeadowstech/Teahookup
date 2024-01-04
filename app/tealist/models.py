@@ -146,7 +146,7 @@ class Collection(models.Model):
     )
     active = models.BooleanField(default=True)
     rating = models.ManyToManyField(User, related_name="collection_voters", blank=True)
-    slug = models.SlugField(max_length=250, blank=True)
+    slug = models.SlugField(max_length=250, blank=True, unique=True)
     created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

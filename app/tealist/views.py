@@ -264,16 +264,18 @@ def CollectionNewView(request):
         form = CollectionForm(request.POST)
 
         if form.is_valid():
-            Collection = form.save(commit=False)
-            Collection.user = request.user
-            Collection.save()
-            Collection.vendors.set(
+            collection = form.save(commit=False)
+            collection.user = request.user
+            collection.save()
+            collection.vendors.set(
                 Vendor.objects.filter(id__in=dict(request.POST)["vendors"])
             )
 
-            messages.success(request, f"Thanks for submitting { Collection.name }!")
+            messages.success(request, f"Thanks for submitting { collection.name }!")
 
             context = {"form": form}
+            
+            return redirect(collection.get_absolute_url())
         else:
             context = {"form": form}
 
