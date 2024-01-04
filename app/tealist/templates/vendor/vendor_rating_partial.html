@@ -1,9 +1,14 @@
 <div class="rating rating-half">
     {% for radio in rating_form.value reversed %}
-    <input type="radio" name="value" id="{{ radio.id_for_label }}" value="{{ radio.data.value }}" required="" class="bg-orange-400 mask mask-star-2 {% cycle 'mask-half-1' 'mask-half-2' %}" {% if vendor.rating > radio.data.value %}checked{% endif %}
-    hx-target="#rating"
+    <input type="radio" name="value"
+    id="{% if user.is_authenticated %}{{ radio.id_for_label }}{% else %}disabled{% endif %}"
+    value="{{ radio.data.value }}" required=""
+    class="bg-orange-400 mask mask-star-2 {% cycle 'mask-half-1' 'mask-half-2' %}"
+    {% if vendor.rating > radio.data.value %}checked{% endif %}
+    {% if not user.is_authenticated %}disabled{% endif %}
+    hx-target="#rating-value"
     hx-post="{{ vendor.get_absolute_url }}rate"
     hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     {% endfor %}
 </div>
-<span class="text-orange-400 font-serif font-bold" id="rating">{{ vendor.rating | floatformat}}</span>
+<span class="text-orange-400 font-serif font-bold text-2xl" id="rating-value">{{ vendor.rating | floatformat}}</span>

@@ -15,17 +15,23 @@
                     <small class="text-accent text-xs">By {{ collection.user.username }} on
                         {{ collection.created_on|date:"D, F jS" }}</small>
                 </div>
-                <a id="collection-rating" class="join join-vertical font-serif" {% if user.is_authenticated %}
+                <a id="collection-rating" class="join join-vertical font-serif tooltip"
+                    {% if user.is_authenticated %}
                     href="{{ collection.get_absolute_url }}rate" hx-target="#rating"
                     hx-post="{{ collection.get_absolute_url }}rate" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                    data-toggle="tooltip" data-placement="top" title="Like this collection" {% else %}
-                    data-toggle="tooltip" data-placement="top" title="Login to like this collection" {% endif %}>
+                    data-toggle="tooltip" data-placement="top" title="Like this collection"
+                    {% endif %}>
                     <span id="rating" class="d-flex flex-column align-items-center  text-center">
                         +{{ collection.rating.all.count }}
                     </span>
                     <div class="rating-img pt-1"></div>
-                    <img src="{% static 'gaiwan.webp' %}" alt="" width="32" height="32">
-
+                    {% if user.is_authenticated %}
+                    <div>
+                    {% else %}
+                    <div class="tooltip" data-tip="Please login to rate this collection">
+                    {% endif %}
+                        <img src="{% static 'gaiwan.webp' %}" alt="" width="32" height="32">
+                    </div>
                 </a>
             </diV>
 

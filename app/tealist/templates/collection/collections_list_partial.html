@@ -1,3 +1,4 @@
+{% load markdown_extras %}
 <div class="p-0">
     {% if filter %}
     {% for collection in filter %}
@@ -19,7 +20,7 @@
 
         {% if collection.content %}
         <div class="pt-4 pb-4">
-            {{ collection.content|truncatewords:64 }}
+            {{ collection.content|markdown|safe|truncatewords:64 }}
         </div>
         {% endif %}
         </diV>

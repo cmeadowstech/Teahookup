@@ -8,11 +8,17 @@
   <div class="card md:col-span-3 bg-base-300 drop-shadow-xl">
     <div class="card-body">
 
-      <div class="card-title join join-vertical md:join-horizontal items-start md:place-items-center">
+      <div class="card-title join join-vertical md:join-horizontal content-center md:place-items-center">
         <h1 class="font-serif font-bold text-4xl mb-3">
           {{ vendor.name }}
         </h1>
-        <div id="rating" class="">{% include 'vendor/vendor_rating_partial.html' %}</div>
+        {% if user.is_authenticated %}
+        <div id="rating" class="flex items-center gap-2">
+        {% else %}
+        <div id="rating" class="flex items-center gap-2 tooltip" data-tip="Please login to rate this vendor">
+        {% endif %}
+          {% include 'vendor/vendor_rating_partial.html' %}
+        </div>
       </div>
 
       <div>
