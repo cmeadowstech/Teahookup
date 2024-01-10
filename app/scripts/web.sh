@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+# https://www.joseferben.com/posts/django-on-flyio/
+
 # Set up swapping
 fallocate -l 512M /swapfile
 chmod 0600 /swapfile

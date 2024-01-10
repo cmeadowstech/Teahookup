@@ -8,7 +8,7 @@ admin.site.register(Variety)
 admin.site.register(Rating)
 
 
-class UpdateFeatured:
+class UpdateVendor:
     def enable_featured(self, request, queryset):
         for Vendor in queryset:
             Vendor.featured = True
@@ -18,9 +18,21 @@ class UpdateFeatured:
         for Vendor in queryset:
             Vendor.featured = False
             Vendor.save()
+            
+    def enable_active(self, request, queryset):
+        for Vendor in queryset:
+            Vendor.active = True
+            Vendor.save()
+
+    def disable_active(self, request, queryset):
+        for Vendor in queryset:
+            Vendor.active = False
+            Vendor.save()
 
     enable_featured.short_description = "Enable Featured"
     disable_featured.short_description = "Disabled Featured"
+    enable_active.short_description = "Activate vendor"
+    disable_active.short_description = "Deactivate vendor"
 
 
 class ExportCsvMixin:
@@ -42,7 +54,7 @@ class ExportCsvMixin:
 
 
 @admin.register(Vendor)
-class VendorAdmin(admin.ModelAdmin, ExportCsvMixin, UpdateFeatured):
+class VendorAdmin(admin.ModelAdmin, ExportCsvMixin, UpdateVendor):
     list_display = ("name", "url", "created", "featured", "rating", "active")
     list_filter = ("store_location", "ship_to", "tea_source")
 
@@ -67,7 +79,7 @@ class VendorAdmin(admin.ModelAdmin, ExportCsvMixin, UpdateFeatured):
         ),
     )
 
-    actions = ["export_as_csv", "enable_featured", "disable_featured"]
+    actions = ["export_as_csv", "enable_featured", "disable_featured", "enable_active", "disable_active"]
 
 
 @admin.register(comment)
