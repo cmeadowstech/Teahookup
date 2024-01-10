@@ -8,4 +8,4 @@ mkswap /swapfile
 echo 10 > /proc/sys/vm/swappiness
 swapon /swapfile
 
-gunicorn config.wsgi:application -b 0.0.0.0:8080 --workers=2 --capture-output --enable-stdio-inheritance
+gunicorn config.wsgi:application -b 0.0.0.0:8000 --workers=2 --capture-output --enable-stdio-inheritance
