@@ -1,5 +1,6 @@
 name: Fly Deploy - Prod
 on:
+  workflow_dispatch:
   workflow_run:
     workflows: [Dokku Deploy - Dev]
     types:
