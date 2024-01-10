@@ -50,7 +50,7 @@ def GetVendorsContext(request):
         )
         .all()
         .exclude(active=False)
-        .order_by("created", "id"),
+        .order_by("-created", "id"),
     )
 
     response = GetPages(f.qs, 6, request)
@@ -117,7 +117,7 @@ def GetCollectionsContext(request):
 # @cache_page(CACHE_TTL)
 def index(request):
     Featured = Vendor.objects.filter(featured=True)
-    Recent = Vendor.objects.all().order_by("created", "id")[:3]
+    Recent = Vendor.objects.all().order_by("-created", "id")[:3]
 
     context = {"Featured": Featured, "Recent": Recent}
 
