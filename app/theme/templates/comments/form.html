@@ -1,0 +1,58 @@
+{% load i18n %}
+{% load comments %}
+
+<form method="POST" action="{% comment_form_target %}" onsubmit="post.disabled = true; return true;">
+    {% csrf_token %}
+    <fieldset class="flex flex-col">
+        <input type="hidden" name="next" value="{% url 'comments-xtd-sent' %}" />
+
+        <div class="alert alert-danger hidden" data-comment-element="errors">
+        </div>
+
+        {% for field in form %}
+        {% if field.is_hidden %}<div>{{ field }}</div>{% endif %}
+        {% endfor %}
+
+        <div style="display:none">{{ form.honeypot }}</div>
+
+        <div class="form-control mb-2 {% if 'comment' in form.errors %}has-danger{% endif %}">
+            <textarea name="{{ form.comment.html_name }}" id="{{ form.comment.id_for_label }}" placeholder="Please share your thoughts..." class="textarea w-full" required=""></textarea>
+        </div>
+
+        {% if not request.user.is_authenticated or not request.user.email %}
+        <div class="form-control {% if 'email' in form.errors %}has-danger{% endif %}">
+            <label for="id_email" class="col-form-label col-md-3 text-right">
+            </label>
+            <div class="col-md-12">
+                {{ form.email }}
+                <span class="form-text small">{{ form.email.help_text }}</span>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if not request.user.is_authenticated %}
+        <div class="form-control {% if 'url' in form.errors %}has-error{% endif %}">
+            <label for="id_url" class="col-form-label col-md-3 text-right">
+                {{ form.url.label }}
+            </label>
+            <div class="col-md-12">
+                {{ form.url }}
+            </div>
+        </div>
+        {% endif %}
+
+
+        <div class="form-control">
+            <label for="id_followup{% if cid %}_{{ cid }}{% endif %}">
+                <input type="checkbox" name="{{ form.followup.html_name }}" id="{{ form.followup.id_for_label }}" class="toggle toggle-success">
+                <span class="label-text">&nbsp;{{ form.followup.label }}</span>
+            </label>
+        </div>
+
+    </fieldset>
+
+    <div class="join w-full my-3 gap-2">
+        <input type="submit" name="post" value="{% trans 'Post comment' %}" class="btn btn-primary font-serif w-full" />
+        <!-- <input type="submit" name="preview" value="{% trans 'preview' %}" class="btn btn-primary" /> -->
+    </div>
+</form>

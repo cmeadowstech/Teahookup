@@ -1,0 +1,51 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load static %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+
+<div class="container mx-auto">
+  <div class="card card-side bg-base-300 shadow-xl">
+    <div class="grid md:grid-cols-3 w-full">
+      <figure style="background-image: url({% static 'tea-1.jpg' %})" class="bg-center bg-cover rounded-lg">
+      </figure>
+      <div class="md:col-span-2 ">
+        <div class="card-body">
+          <h4 class="pb-2 card-title font-serif font-bold text-3xl">
+            {% trans "Sign Up" %}
+          </h4>
+
+          <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}" class="text-secondary border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out">sign in</a>.{% endblocktrans %}</p>
+
+          <form class="form-control gap-4" id="signup_form" method="post" action="{% url 'account_signup' %}">
+            {% csrf_token %}
+            <label for="form.email.id_for_label" class="join join-vertical gap-2 w-full">
+              <span class="label-text text-accent">E-mail</span>
+              <input type="email" name="{{ form.email.html_name }}" id="{{ form.email.id_for_label }}" placeholder="E-mail address" required="" class="input">
+            </label>
+            <label for="form.username.id_for_label" class="join join-vertical gap-2 w-full">
+              <span class="label-text text-accent">Username</span>
+              <input type="text" name="{{ form.username.html_name }}" id="{{ form.username.id_for_label }}" placeholder="What do you want to be called" required="" class="input">
+            </label>
+            <label for="form.password1.id_for_label" class="join join-vertical gap-2 w-full">
+              <span class="label-text text-accent">Password</span>
+              <input type="password" name="{{ form.password1.html_name }}" id="{{ form.password1.id_for_label }}" placeholder="Password" required="" class="input">
+            </label>
+            <label for="form.password2.id_for_label" class="join join-vertical gap-2 w-full">
+              <span class="label-text text-accent">Password (Again)</span>
+              <input type="password" name="{{ form.password2.html_name }}" id="{{ form.password2.id_for_label }}" placeholder="Password (Again)" required="" class="input">
+            </label>
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <input type="submit" value="{% trans 'Sign Up' %}" class="btn btn-primary hover:btn-secondary w-full" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  {% endblock %}

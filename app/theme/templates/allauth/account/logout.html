@@ -1,0 +1,15 @@
+{% load i18n %}
+
+<form method="dialog">
+  <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+</form>
+<h1 class="font-serif font-bold text-secondary text-3xl">{% trans "Sign Out" %}</h1>
+<p class="py-4">{% trans 'Are you sure you want to sign out?' %}</p>
+
+<form method="post" action="{% url 'account_logout' %}">
+  {% csrf_token %}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <button type="submit" class="btn btn-primary">{% trans 'Sign Out' %}</button>
+</form>
