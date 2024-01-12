@@ -2,6 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from .models import *
 
+
 class VendorForm(forms.ModelForm):
     name = forms.CharField(
         help_text="The business name of the vendor",
@@ -113,21 +114,21 @@ class CollectionForm(forms.ModelForm):
         model = Collection
         fields = ["name", "vendors", "content"]
 
+
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['image']
-    
+        fields = ["image"]
+
 
 class RatingForm(forms.ModelForm):
     CHOICES = Rating.RATING_CHOICES
-    
+
     value = forms.ChoiceField(
         widget=forms.RadioSelect,
-        choices=CHOICES, 
+        choices=CHOICES,
     )
-    
+
     class Meta:
         model = Rating
-        fields = ['value']
-    
+        fields = ["value"]

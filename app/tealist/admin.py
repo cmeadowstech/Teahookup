@@ -6,6 +6,8 @@ from django.http import HttpResponse
 admin.site.register(Location)
 admin.site.register(Variety)
 admin.site.register(Rating)
+admin.site.register(Tea)
+admin.site.register(TeaVariant)
 
 
 class UpdateVendor:
@@ -18,7 +20,7 @@ class UpdateVendor:
         for Vendor in queryset:
             Vendor.featured = False
             Vendor.save()
-            
+
     def enable_active(self, request, queryset):
         for Vendor in queryset:
             Vendor.active = True
@@ -79,7 +81,13 @@ class VendorAdmin(admin.ModelAdmin, ExportCsvMixin, UpdateVendor):
         ),
     )
 
-    actions = ["export_as_csv", "enable_featured", "disable_featured", "enable_active", "disable_active"]
+    actions = [
+        "export_as_csv",
+        "enable_featured",
+        "disable_featured",
+        "enable_active",
+        "disable_active",
+    ]
 
 
 @admin.register(comment)

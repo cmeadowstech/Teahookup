@@ -36,10 +36,11 @@
 
 
 {% if vendor.description %}
-<div class="py-4">
+<div class="py-4 join join-vertical gap-2">
   <p class="text-lg">
     {{ vendor.description }}
   </p>
+  <a href="{{ vendor.get_absolute_url }}" class="text-accent">View details...</a>
 </div>
 {% endif %}
 
