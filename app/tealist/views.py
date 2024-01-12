@@ -141,37 +141,39 @@ def VendorListView(request):
 
 def VendorDetailView(request, slug):
     vendor = get_object_or_404(Vendor, slug=slug)
+
     context = {}
     context["vendor"] = vendor
-
     context["related_collections"] = Collection.objects.filter(vendors__id=vendor.id)[
         :5
     ]
-
     context["regional_vendors"] = Vendor.objects.filter(
         tea_source__id__in=vendor.tea_source.all()
     ).exclude(id=vendor.id)[:5]
-
     context["rating_form"] = RatingForm()
 
     if request.htmx:
         template = "vendor/vendor_detail_partial.html"
     else:
+        context["teas"] = Tea.objects.filter(vendor=vendor)[:9].prefetch_related("tea_variant")
         template = "vendor/vendor_detail.html"
 
     return render(request, template, context)
+
 
 @require_POST
 def VendorRating(request, slug):
     vendor = Vendor.objects.get(slug=slug)
 
     rating, created = Rating.objects.update_or_create(
-        vendor = vendor,
-        user = request.user,
-        defaults = {"value": float(request.POST["value"])}
+        vendor=vendor,
+        user=request.user,
+        defaults={"value": float(request.POST["value"])},
     )
-    
-    vendor.rating = Rating.objects.filter(vendor=vendor).aggregate(Avg('value'))["value__avg"]
+
+    vendor.rating = Rating.objects.filter(vendor=vendor).aggregate(Avg("value"))[
+        "value__avg"
+    ]
     vendor.save()
 
     return HttpResponse(f"{round(vendor.rating, 1)}")
@@ -210,7 +212,6 @@ def ProfileView(request):
     userCollections = Collection.objects.filter(user=request.user).order_by(
         "-created_on"
     )
-    
 
     context = {"userCollections": userCollections}
 
@@ -218,21 +219,20 @@ def ProfileView(request):
 
 
 def ProfileUpdate(request):
-    if request.method == 'POST':
-        p_form = ProfileUpdateForm(request.POST,
-                                   request.FILES,
-                                   instance=request.user.profile)
+    if request.method == "POST":
+        p_form = ProfileUpdateForm(
+            request.POST, request.FILES, instance=request.user.profile
+        )
         if p_form.is_valid():
             p_form.save()
-            messages.success(
-                request, f'Your account has been updated!')
-            return redirect('profile')
+            messages.success(request, f"Your account has been updated!")
+            return redirect("profile")
 
     else:
         p_form = ProfileUpdateForm(instance=request.user.profile)
-        
-    context = {'p_form': p_form}
-        
+
+    context = {"p_form": p_form}
+
     return render(request, "profile/profile_pic_update.html", context)
 
 
@@ -274,7 +274,7 @@ def CollectionNewView(request):
             messages.success(request, f"Thanks for submitting { collection.name }!")
 
             context = {"form": form}
-            
+
             return redirect(collection.get_absolute_url())
         else:
             context = {"form": form}
@@ -336,8 +336,9 @@ def returnError(request):
 def helloWorld(request):
     return HttpResponse("Hello world!")
 
+
 @require_POST
 def CookieConsentCheck(request):
-    request.session['CookieConsentCheck'] = True
-    
+    request.session["CookieConsentCheck"] = True
+
     return HttpResponse(status=200)

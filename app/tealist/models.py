@@ -21,7 +21,7 @@ class Location(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     class Meta:
         verbose_name_plural = "Locations"
 
@@ -169,6 +169,7 @@ class Collection(models.Model):
         self.slug = slugify(value, allow_unicode=True)
         super().save(*args, **kwargs)
 
+
 class Rating(models.Model):
     RATING_CHOICES = (
         (5, "5"),
@@ -187,8 +188,41 @@ class Rating(models.Model):
         Vendor, on_delete=models.CASCADE, related_name="vendor_rating"
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    value = models.DecimalField(max_digits=2, decimal_places=1, null=True, choices=RATING_CHOICES)
-    
+    value = models.DecimalField(
+        max_digits=2, decimal_places=1, null=True, choices=RATING_CHOICES
+    )
+
     class Meta:
         verbose_name_plural = "Ratings"
-        unique_together = ('vendor', 'user')
+        unique_together = ("vendor", "user")
+
+    def __str__(self):
+        return f"{self.vendor} - {self.user} | {self.value}"
+
+
+class Tea(models.Model):
+    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
+    title = models.CharField(max_length=256)
+    published_at = models.DateField(blank=True, null=True)
+    created_at = models.DateField(blank=True, null=True)
+    updated_at = models.DateField(blank=True, null=True)
+    handle = models.CharField(max_length=256)
+
+    class Meta:
+        unique_together = ("vendor", "handle")
+
+    def __str__(self):
+        return f"{self.vendor} | {self.title}"
+
+
+class TeaVariant(models.Model):
+    tea = models.ForeignKey(Tea, on_delete=models.CASCADE, related_name="tea_variant")
+    title = models.CharField(max_length=256)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    compare_at_price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+
+    class Meta:
+        unique_together = ("tea", "title")
+
+    def __str__(self):
+        return f"{self.tea} | {self.title}"

@@ -54,7 +54,9 @@ urlpatterns = [
     path(
         "__reload__/", include("django_browser_reload.urls")
     ),  # Used by django-tailwind[reload]
-    path("cookie_consent_check/", views.CookieConsentCheck, name="cookie_consent_check"),
+    path(
+        "cookie_consent_check/", views.CookieConsentCheck, name="cookie_consent_check"
+    ),
 ]
 
 # Only add this when we are in debug mode.

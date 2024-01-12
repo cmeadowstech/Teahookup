@@ -4,7 +4,7 @@
 <div class="card bg-base-300 mb-2 shadow-xl">
     <div class="card-body">
         <div class="card-title flex justify-between">
-            <h4 class="font-serif text-secondary text-2xl flex justify-center items-center gap-1">
+            <h4 class="font-serif text-3xl flex justify-center items-center gap-1">
                 <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx_modal" hx-trigger="click"
                     hx-on:click="daisy_modal.showModal()" class="border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out text-left">
                     {{ vendor.name }}
@@ -28,9 +28,6 @@
                 {% if vendor.rating %}
                 <span class="font-serif font-bold text-orange-400 text-2xl">{{ vendor.rating }}</span>
             {% endif %}
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 justify-end">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
-                </svg>
             </a>
         </div>
         <div>
@@ -42,6 +39,8 @@
         <div class="pt-4 pb-4 border-bottom">
             <p>
                 {{ vendor.description }}
+
+                <a href="{{ vendor.get_absolute_url }}" class="text-accent">View details...</a>
             </p>
         </div>
         {% endif %}

@@ -5,98 +5,100 @@
 
 <div class="container mx-auto">
 <div class="grid md:grid-cols-4 gap-3">
-  <div class="card md:col-span-3 bg-base-300 drop-shadow-xl">
-    <div class="card-body">
-
-      <div class="card-title join join-vertical md:join-horizontal place-items-start md:content-center md:place-items-center">
-        <h1 class="font-serif font-bold text-4xl mb-3">
-          {{ vendor.name }}
-        </h1>
-        {% if user.is_authenticated %}
-        <div id="rating" class="flex items-center gap-2">
-        {% else %}
-        <div id="rating" class="flex items-center gap-2 tooltip" data-tip="Please login to rate this vendor">
-        {% endif %}
-          {% include 'vendor/vendor_rating_partial.html' %}
+  <div class="md:col-span-3">
+    <div class="card bg-base-300 drop-shadow-xl">
+      <div class="card-body">
+  
+        <div class="card-title join join-vertical md:join-horizontal place-items-start md:content-center md:place-items-center">
+          <h1 class="font-serif font-bold text-4xl mb-3">
+            {{ vendor.name }}
+          </h1>
+          {% if user.is_authenticated %}
+          <div id="rating" class="flex items-center gap-2">
+          {% else %}
+          <div id="rating" class="flex items-center gap-2 tooltip" data-tip="Please login to rate this vendor">
+          {% endif %}
+            {% include 'vendor/vendor_rating_partial.html' %}
+          </div>
         </div>
-      </div>
-
-      <div>
-        {% for variety in vendor.variety.all %}
-        <span class="badge badge-success font-bold">{{ variety }}</span>
-        {% endfor %}
-      </div>
-      
-      <div class="locations pt-3 mb-4 join join-vertical gap-2">
-        <h6 class="text-accent join join-vertical md:join-horizontal w-fit gap-2">
-          <p class="flex gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-          </svg>
-          Main Site:
-          </p>
-          <a href="{{ vendor.url }}"
-            class="text-secondary border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out" target="_blank">{{ vendor.url }}
-          </a>
-        </h6>
-        {% if vendor.url_alt %}
-        <h6 class="text-accent join join-vertical md:join-horizontal w-fit gap-2">
-          <p class="flex gap-2">
+  
+        <div>
+          {% for variety in vendor.variety.all %}
+          <span class="badge badge-success font-bold">{{ variety }}</span>
+          {% endfor %}
+        </div>
+        
+        <div class="locations pt-3 mb-4 join join-vertical gap-2">
+          <h6 class="text-accent join join-vertical md:join-horizontal w-fit gap-2">
+            <p class="flex gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
-            </svg>  
-            Global Site:
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+            Main Site:
             </p>
-            <a href="{{ vendor.url_alt }}"
-            class="text-secondary border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out" target="_blank">{{ vendor.url_alt }}
-          
-          </a>
-        </h6>
+            <a href="{{ vendor.url }}"
+              class="text-secondary border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out" target="_blank">{{ vendor.url }}
+            </a>
+          </h6>
+          {% if vendor.url_alt %}
+          <h6 class="text-accent join join-vertical md:join-horizontal w-fit gap-2">
+            <p class="flex gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
+              </svg>  
+              Global Site:
+              </p>
+              <a href="{{ vendor.url_alt }}"
+              class="text-secondary border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out" target="_blank">{{ vendor.url_alt }}
+            
+            </a>
+          </h6>
+          {% endif %}
+        </div>
+        
+        
+        {% if vendor.description %}
+        <div class="py-4">
+          <p class="text-lg">
+            {{ vendor.description }}
+          </p>
+        </div>
         {% endif %}
-      </div>
-      
-      
-      {% if vendor.description %}
-      <div class="py-4">
-        <p class="text-lg">
-          {{ vendor.description }}
-        </p>
-      </div>
-      {% endif %}
-      
-      <div class="mt-4">
-        <h5 class="m-0 pb-2">
-          Ships To
-        </h5>
-        <div>
-          {% for location in vendor.ship_to.all %}
-          <span class="badge badge-accent rounded-md font-bold">{{ location }}</span>
-          {% endfor %}
+        
+        <div class="mt-4">
+          <h5 class="m-0 pb-2">
+            Ships To
+          </h5>
+          <div>
+            {% for location in vendor.ship_to.all %}
+            <span class="badge badge-accent rounded-md font-bold">{{ location }}</span>
+            {% endfor %}
+          </div>
         </div>
-      </div>
-      <div class="mt-4">
-        <h5 class="m-0 pb-2">
-          Ships From
-        </h5>
-        <div>
-          {% for location in vendor.store_location.all %}
-          <span class="badge badge-accent rounded-md font-bold">{{ location }}</span>
-          {% endfor %}
+        <div class="mt-4">
+          <h5 class="m-0 pb-2">
+            Ships From
+          </h5>
+          <div>
+            {% for location in vendor.store_location.all %}
+            <span class="badge badge-accent rounded-md font-bold">{{ location }}</span>
+            {% endfor %}
+          </div>
         </div>
-      </div>
-      <div class="mt-4">
-        <h5 class="m-0 pb-2">
-          Sources From
-        </h5>
-        <div>
-          {% for location in vendor.tea_source.all %}
-          <span class="badge badge-accent rounded-md  font-bold">{{ location }}</span>
-          {% endfor %}
+        <div class="mt-4">
+          <h5 class="m-0 pb-2">
+            Sources From
+          </h5>
+          <div>
+            {% for location in vendor.tea_source.all %}
+            <span class="badge badge-accent rounded-md  font-bold">{{ location }}</span>
+            {% endfor %}
+          </div>
         </div>
+  
+        {% include 'comments_partial.html' with object=vendor %}
+  
       </div>
-
-      {% include 'comments_partial.html' with object=vendor %}
-
     </div>
   </div>
   <div class="col-md-4 col-12">
@@ -129,6 +131,32 @@
         </ul>
       </div>
     </div>
+    {% if teas %}
+    <div class="card bg-base-300 drop-shadow-xl mb-3">
+      <div class="card-body">
+        <h6 class="border-b border-success font-serif font-bold text-2xl join gap-1 items-center">
+          Teas
+          <div class="tooltip" data-tip="Scraped from the vendor's Shopify API. Not a comprehensive list.">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+            </svg>    
+          </div>            
+        </h6>
+        <ul class="join join-vertical gap-2">
+          {% for tea in teas %}
+          <li class="join join-vertical">
+            <p>{{ tea.title }}</p>
+            <span class="text-accent">
+              {% for variant in tea.tea_variant.all %}
+                  {{ variant.title }} - ${{ variant.price }} {% if not forloop.last %}|{% endif %}
+                {% endfor %}
+            </span>
+          </li>
+          {% endfor %}
+        </p>
+      </div>
+    </div>
+    {% endif %}
   </div>
 </div>
 </div>
