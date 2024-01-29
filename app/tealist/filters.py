@@ -66,3 +66,8 @@ class CollectionFilter(django_filters.FilterSet):
     class Meta:
         model = Collection
         fields = ["name"]
+
+class TestFilter(django_filters.FilterSet):
+    class Meta:
+        model = Vendor
+        fields = ["name", "store_location", "tea_source", "variety"]

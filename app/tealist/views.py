@@ -8,12 +8,15 @@ from django.db.models import Count, Avg
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_POST
+from django_filters.views import FilterView
+from django_tables2 import SingleTableView, SingleTableMixin
 import requests, json
 import environ
 
 from .models import *
 from .filters import *
 from .forms import *
+from .tables import VendorTable
 
 CACHE_TTL = getattr(settings, "CACHE_TTL", DEFAULT_TIMEOUT)
 
@@ -138,6 +141,29 @@ def VendorListView(request):
         context,
     )
 
+class VendorTableView(SingleTableView):
+    paginate_by = 10
+    table_class = VendorTable
+    filterset_class = VendorFilter
+    queryset = Vendor.objects.filter(active=True)
+    
+    def get_context_data(self, **kwargs):
+        context = super(VendorTableView, self).get_context_data(**kwargs)
+        filter = VendorFilter(self.request.GET, queryset=self.get_queryset(**kwargs))
+
+        table = VendorTable(filter.qs)
+        table.paginate(page=self.request.GET.get("page", 1), per_page=25)
+        
+        context['filter'] = filter
+        context['table'] = table
+        return context
+    
+    def get_template_names(self, **kwargs):
+        if self.request.htmx:
+            return 'vendor/vendor_table_partial.html'
+        else:
+            return 'vendor/vendor_table.html'
+    
 
 def VendorDetailView(request, slug):
     vendor = get_object_or_404(Vendor, slug=slug)

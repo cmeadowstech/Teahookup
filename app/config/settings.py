@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     "matomo",  # django-matomo
     "tailwind",  # django-tailwind
     "django_browser_reload",  # django-tailwind[reload]
+    "django_tables2", # django-tables2
     "tealist",
     "theme",
 ]
@@ -297,3 +298,7 @@ CACHES = {
 # Tailwind
 
 TAILWIND_APP_NAME = "theme"
+
+# django-tables2
+
+DJANGO_TABLES2_TEMPLATE = "django_tables2/htmx_table.html"

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mx-auto bg-base-300 p-4 rounded-lg shadow-xl">
+  <form class="collapse collapse-plus md:collapse-open bg-base-300 shadow-xl h-fit order-first md:order-last" hx-get="{% url 'vendors-table' %}"
+    hx-target="div.table-container" hx-push-url="true">
+    <input type="checkbox" /> 
+    <div class="collapse-title text-xl font-serif font-bold">
+      Filters
+    </div>
+    <fieldset class="collapse-content filter-form border-0 shadow grid grid-cols-4 gap-4">
+      <div>
+        <div class="collapse-title px-2 text-xl font-medium">
+          Search / Sort
+        </div>
+        {{ filter.form.name }}
+        <div class="mt-2">
+        {{ filter.form.o }}
+        </div>
+      </div>
+
+      <div>
+        <div class="collapse-title px-2 text-xl font-medium">
+          Store Location 
+        </div>
+        <div> 
+          {% for v in filter.form.store_location %}
+          <label for="{{ v.id_for_label }}">
+            {{ v.tag }}
+            <div class="badge badge-success peer-checked:badge-primary font-bold">{{ v.choice_label }}</div>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div>
+        <div class="collapse-title px-2 text-xl font-medium">
+          Sources From
+        </div>
+        <div> 
+          {% for v in filter.form.tea_source %}
+            <label for="{{ v.id_for_label }}">
+              {{ v.tag }}
+              <div class="badge badge-success peer-checked:badge-primary font-bold">{{ v.choice_label }}</div>
+            </label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div>
+        <div class="collapse-title px-2 text-xl font-medium">
+          Varities
+        </div>
+        <div> 
+          {% for v in filter.form.variety %}
+            <label for="{{ v.id_for_label }}">
+              {{ v.tag }}
+              <div class="badge badge-success peer-checked:badge-primary font-bold">{{ v.choice_label }}</div>
+            </label>
+            {% endfor %}
+        </div>
+      </div>
+
+      <input type="submit" value="Apply Filters" class="btn btn-primary hover:btn-secondary w-full p-2 m-0 font-serif" />
+    </fieldset>
+  </form>
+  {% include 'vendor/vendor_table_partial.html' %}
+</div>
+
+{% endblock %}

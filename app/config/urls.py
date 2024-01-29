@@ -25,6 +25,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.index, name="index"),
     path("vendors/list", views.VendorListView, name="vendors"),
+    path("vendors/table", views.VendorTableView.as_view(), name="vendors-table"),
     path("vendors/submit/", views.VendorSubmitView, name="vendors_submit"),
     path("vendors/<str:slug>/", views.VendorDetailView, name="vendor-detail"),
     path("vendors/<str:slug>/rate", views.VendorRating, name="vendor-rate"),
