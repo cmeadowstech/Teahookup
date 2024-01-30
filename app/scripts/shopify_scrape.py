@@ -12,7 +12,7 @@ def run():
     for vendor in vendors:
         try:
             response = requests.request(
-                "GET", f"{vendor.url.removesuffix('/')}/products.json"
+                "GET", f"{vendor.url.removesuffix('/')}/products.json?limit=250"
             )
             products = json.loads(response.text)
             products = products["products"]

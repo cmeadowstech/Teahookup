@@ -9,7 +9,7 @@ class VendorFilter(django_filters.FilterSet):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Search...",
-                "class": "input w-full",
+                "class": "input",
                 "autocomplete": "off",
             }
         ),
@@ -48,7 +48,7 @@ class VendorFilter(django_filters.FilterSet):
         super().__init__(*args, request=request, data=data, **kwargs)
 
         o = self.form.fields["o"]
-        o.widget.attrs = {"class": "select w-full"}
+        o.widget.attrs = {"class": "select"}
 
 
 class CollectionFilter(django_filters.FilterSet):
