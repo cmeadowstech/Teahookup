@@ -95,7 +95,7 @@ class TeaTable(tables.Table):
             else:
                 variants_html += f'<option>{v.title} - {v.price}</option>'
         
-        return format_html(f'<select class="select w-full max-w-16">{"".join(variants_html)}</select>')
+        return format_html(f'<select class="select w-full max-w-64">{"".join(variants_html)}</select>')
     
     def render_variety(self, value):
         varieties = list(value.all().values_list('name', flat=True))
