@@ -8,12 +8,15 @@ from django.db.models import Count, Avg
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_POST
+from django_filters.views import FilterView
+from django_tables2 import SingleTableView, SingleTableMixin
 import requests, json
 import environ
 
 from .models import *
 from .filters import *
 from .forms import *
+from .tables import *
 
 CACHE_TTL = getattr(settings, "CACHE_TTL", DEFAULT_TIMEOUT)
 
@@ -53,13 +56,13 @@ def GetVendorsContext(request):
         .order_by("-created", "id"),
     )
 
-    response = GetPages(f.qs, 6, request)
+    response = GetPages(f.qs, 10, request)
     parameters = GetParams(request)
     rating_form = RatingForm()
 
     context = {
-        "filter": response,
-        "filter_form": f,
+        "filter_result": response,
+        "filter": f,
         "parameters": parameters,
         "rating_form": rating_form,
     }
@@ -138,6 +141,28 @@ def VendorListView(request):
         context,
     )
 
+class VendorTableView(SingleTableView):
+    table_class = VendorTable
+    filterset_class = VendorFilter
+    queryset = Vendor.objects.filter(active=True).order_by("-created", "id")
+    
+    def get_context_data(self, **kwargs):
+        context = super(VendorTableView, self).get_context_data(**kwargs)
+        filter = VendorFilter(self.request.GET, queryset=self.get_queryset(**kwargs))
+
+        table = VendorTable(filter.qs)
+        table.paginate(page=self.request.GET.get("page", 1), per_page=25)
+        
+        context['filter'] = filter
+        context['table'] = table
+        return context
+    
+    def get_template_names(self, **kwargs):
+        if self.request.htmx:
+            return 'vendor/vendor_table_partial.html'
+        else:
+            return 'vendor/vendor_table.html'
+    
 
 def VendorDetailView(request, slug):
     vendor = get_object_or_404(Vendor, slug=slug)
@@ -178,6 +203,27 @@ def VendorRating(request, slug):
 
     return HttpResponse(f"{round(vendor.rating, 1)}")
 
+class TeaTableView(SingleTableView):
+    table_class = TeaTable
+    filterset_class = TeaFilter
+    queryset = Tea.objects.all().order_by("-created_at", "id")
+    
+    def get_context_data(self, **kwargs):
+        context = super(TeaTableView, self).get_context_data(**kwargs)
+        tea_filter = TeaFilter(self.request.GET, queryset=self.get_queryset(**kwargs))
+
+        table = TeaTable(tea_filter.qs)
+        table.paginate(page=self.request.GET.get("page", 1), per_page=25)
+        
+        context['filter'] = tea_filter
+        context['table'] = table
+        return context
+    
+    def get_template_names(self, **kwargs):
+        if self.request.htmx:
+            return 'tea/tea_table_partial.html'
+        else:
+            return 'tea/tea_table.html'
 
 @cache_page(CACHE_TTL)
 def ReleaseHistory(request):
@@ -195,16 +241,16 @@ def ReleaseHistory(request):
 
     context = {"Releases": Releases}
 
-    return render(request, "release_history.html", context)
+    return render(request, "misc/release_history.html", context)
 
 
 def PrivacyPolicy(request):
-    return render(request, "privacy_policy.html")
+    return render(request, "misc/privacy_policy.html")
 
 
 @cache_page(CACHE_TTL)
 def TermsAndConditions(request):
-    return render(request, "terms_and_conditions.html")
+    return render(request, "misc/terms_and_conditions.html")
 
 
 @login_required

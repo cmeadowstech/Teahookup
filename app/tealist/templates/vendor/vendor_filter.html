@@ -1,0 +1,65 @@
+<form class="bg-base-300 shadow-xl h-fit order-first md:order-last" hx-get="{{ request.path }}"
+    hx-target="div.vendors" hx-push-url="true" hx-swap="innerHTML">
+    <fieldset class="filter-form border-0 flex flex-wrap gap-2">
+      <div class="flex gap-2 grow">
+        <input type="text" name="{{ filter.form.name.name }}" placeholder="Search..." class="input w-1/2" autocomplete="off" id="{{ filter.form.name.id_for_label }}">
+        <select name="{{ filter.form.o.name }}" class="select w-1/2" id="{{ filter.form.o.id_for_label }}">
+          {% for x, y in filter.form.fields.o.choices %}
+          <option value="{{ x }}"{% if form.fields.customer.value == x %} selected{% endif %}>{{ y }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div id="filters" class="flex gap-2">
+        <div class="dropdown dropdown-bottom">
+          <div tabindex="0" role="button" class="btn font-medium">
+            Store Location 
+          </div>
+          <ul tabindex="0" class="dropdown-content z-10 menu p-2 shadow bg-base-100 rounded-box w-52">
+            {% for v in filter.form.store_location %}
+            <li>
+              <label for="{{ v.id_for_label }}">
+                <input type="checkbox" name="{{ v.data.name }}" value="{{ v.data.value }}" class="peer checkbox" id="{{ v.id_for_label }}">
+                {{ v.choice_label }}
+              </label>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+  
+        <div class="dropdown dropdown-bottom">
+          <div tabindex="0" role="button" class="btn font-medium">
+            Sources From
+          </div>
+          <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+            {% for v in filter.form.tea_source %}
+            <li>
+              <label for="{{ v.id_for_label }}">
+                <input type="checkbox" name="{{ v.data.name }}" value="{{ v.data.value }}" class="peer checkbox" id="{{ v.id_for_label }}">
+                {{ v.choice_label }}
+              </label>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+  
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn font-medium">
+            Varities
+          </div>
+          <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+            {% for v in filter.form.variety %}
+            <li>
+              <label for="{{ v.id_for_label }}">
+                <input type="checkbox" name="{{ v.data.name }}" value="{{ v.data.value }}" class="peer checkbox" id="{{ v.id_for_label }}">
+                {{ v.choice_label }}
+              </label>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <input type="submit" value="Apply Filters" class="btn btn-base-100 hover:btn-accent font-serif text-primary grow" />
+    </fieldset>
+  </form>

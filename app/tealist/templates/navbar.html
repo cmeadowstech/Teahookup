@@ -11,6 +11,7 @@
           <ul tabindex="0"
             class="menu menu-lg dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 ">
             <li><a class="border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'vendors' %}">Vendors</a></li>
+            <li><a class="border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'teas-table' %}">Teas</a></li>
             <li><a class="border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'collections' %}">Collections</a></li>
             <li class="text-primary">
               {% if user.is_authenticated %}
@@ -29,6 +30,7 @@
       <div class="navbar-end hidden lg:flex">
         <ul class="menu menu-horizontal px-1 font-bold">
           <li><a class="nav-item nav-link mx-2 border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'vendors' %}">Vendors</a></li>
+          <li><a class="nav-item nav-link mx-2 border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'teas-table' %}">Teas</a></li>
           <li><a class="nav-item nav-link mx-2 border-b border-transparent hover:border-b hover:border-white transition ease-in-out" href="{% url 'collections' %}">Collections</a></li>
           <li class="text-primary">
             {% if user.is_authenticated %}

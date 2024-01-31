@@ -1,10 +1,14 @@
 from django.db import models
+from djmoney.models.fields import MoneyField
 from django.urls import reverse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import ArrayField
 import uuid, json
 from django.db.models import Count
 
+def GenerateGuid():
+    return str(uuid.uuid4())[:4]
 
 class Profile(models.Model):
     user = models.OneToOneField(
@@ -30,6 +34,12 @@ class Variety(models.Model):
     name = models.CharField(
         max_length=30, help_text="Type of tea or offering", unique=True
     )
+    alias = ArrayField(
+            models.CharField(max_length=10, blank=True),
+            size=8,
+            blank=True,
+            default=list
+        )
     description = models.TextField(
         help_text="Description of this type of tea", blank=True
     )
@@ -129,7 +139,7 @@ class comment(models.Model):
 
 class Collection(models.Model):
     unique_id = models.CharField(
-        max_length=6, default=str(uuid.uuid4())[:4], editable=False
+        max_length=6, default=GenerateGuid(), editable=False
     )
     name = models.CharField(
         max_length=40, help_text="What do you want to call this vendor"
@@ -207,6 +217,9 @@ class Tea(models.Model):
     created_at = models.DateField(blank=True, null=True)
     updated_at = models.DateField(blank=True, null=True)
     handle = models.CharField(max_length=256)
+    variety = models.ManyToManyField(
+        Variety, blank=True, default=""
+    )
 
     class Meta:
         unique_together = ("vendor", "handle")
@@ -216,10 +229,10 @@ class Tea(models.Model):
 
 
 class TeaVariant(models.Model):
-    tea = models.ForeignKey(Tea, on_delete=models.CASCADE, related_name="tea_variant")
+    tea = models.ForeignKey(Tea, on_delete=models.CASCADE, related_name="tea_variant", verbose_name="Price")
     title = models.CharField(max_length=256)
-    price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    compare_at_price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    price = MoneyField(max_digits=14, decimal_places=2, null=True, default_currency=None)
+    compare_at_price = MoneyField(max_digits=14, decimal_places=2, null=True, default_currency=None)
 
     class Meta:
         unique_together = ("tea", "title")

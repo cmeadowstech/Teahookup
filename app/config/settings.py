@@ -15,6 +15,7 @@ import os
 import environ
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
+import moneyed
 
 env = environ.Env(
     DJANGO_SECRET_KEY=(
@@ -72,6 +73,8 @@ INSTALLED_APPS = [
     "matomo",  # django-matomo
     "tailwind",  # django-tailwind
     "django_browser_reload",  # django-tailwind[reload]
+    "django_tables2", # django-tables2
+    "djmoney", # django-money
     "tealist",
     "theme",
 ]
@@ -297,3 +300,16 @@ CACHES = {
 # Tailwind
 
 TAILWIND_APP_NAME = "theme"
+
+# django-tables2
+
+DJANGO_TABLES2_TEMPLATE = "django_tables2/htmx_table.html"
+
+# django-money
+
+NON = moneyed.add_currency(
+    code='NON',
+    numeric='999',
+    name='_No currency fallback',
+    countries=('', )
+)
