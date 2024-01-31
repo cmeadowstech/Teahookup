@@ -1,15 +1,24 @@
 import requests
+from urllib.request import urlopen
+import urllib.parse
 import json
 from datetime import datetime
-from tealist.models import Vendor, Tea, TeaVariant
+from tealist.models import Vendor, Tea, TeaVariant, Variety
+from djmoney.money import Money
+import re
+from thefuzz import fuzz
 
 test_vendors = ["https://essenceoftea.com/", "https://kingteamall.com"]
 
 
 def run():
     vendors = Vendor.objects.all()
+    varities = Variety.objects.all()
 
     for vendor in vendors:
+        
+        # Checks if the site has an accessible products.json, and loads it if so
+        
         try:
             response = requests.request(
                 "GET", f"{vendor.url.removesuffix('/')}/products.json?limit=250"
@@ -18,6 +27,22 @@ def run():
             products = products["products"]
         except:
             continue
+        
+        print(vendor.url)
+        
+        Tea.objects.filter(vendor=vendor).all().delete()
+
+        # Fetches the store's currency from a common Shopify <script>
+
+        try:
+            response = requests.request("GET", vendor.url)
+            finder = re.search(r"Shopify\.currency = (.*?;)", response.text).group(1)
+            finder = json.loads(finder.removesuffix(';'))
+            currency = finder["active"]
+        except:
+            currency = "NON"
+            
+        # Creates the Tea and TeaVariant models
 
         for product in products:
             try:
@@ -33,14 +58,33 @@ def run():
                 )
             except:
                 pass
+            
+            def CheckAgainstAliases(text):
+                for variety in varities:
+                    for a in variety.alias:
+                        if fuzz.ratio(text, a) > 70:
+                            tea.variety.add(variety)
+                            tea.save()
+            
+            title_list = product["title"].split()
+            for word in title_list:
+                CheckAgainstAliases(word)
+                
+            for tag in product["tags"]:
+                for word in tag.split():
+                    CheckAgainstAliases(word)
 
             if product["variants"]:
                 for variant in product["variants"]:
-                    variant, created = TeaVariant.objects.update_or_create(
-                        tea=tea,
-                        title=variant["title"],
-                        defaults={
-                            "price": variant["price"],
-                            "compare_at_price": variant["compare_at_price"],
-                        },
+                    teaVariant = TeaVariant.objects.create(
+                        tea = tea,
+                        title = variant["title"],
+                        price = Money(variant["price"], currency),
                     )
+                
+                if variant["compare_at_price"]:
+                    teaVariant.compare_at_price = Money(variant["compare_at_price"], currency)
+                    teaVariant.save()
+                else:
+                    continue
+                    

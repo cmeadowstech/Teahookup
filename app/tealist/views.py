@@ -16,7 +16,7 @@ import environ
 from .models import *
 from .filters import *
 from .forms import *
-from .tables import VendorTable
+from .tables import *
 
 CACHE_TTL = getattr(settings, "CACHE_TTL", DEFAULT_TIMEOUT)
 
@@ -142,7 +142,6 @@ def VendorListView(request):
     )
 
 class VendorTableView(SingleTableView):
-    paginate_by = 10
     table_class = VendorTable
     filterset_class = VendorFilter
     queryset = Vendor.objects.filter(active=True).order_by("-created", "id")
@@ -204,6 +203,27 @@ def VendorRating(request, slug):
 
     return HttpResponse(f"{round(vendor.rating, 1)}")
 
+class TeaTableView(SingleTableView):
+    table_class = TeaTable
+    filterset_class = TeaFilter
+    queryset = Tea.objects.all().order_by("-created_at", "id")
+    
+    def get_context_data(self, **kwargs):
+        context = super(TeaTableView, self).get_context_data(**kwargs)
+        tea_filter = TeaFilter(self.request.GET, queryset=self.get_queryset(**kwargs))
+
+        table = TeaTable(tea_filter.qs)
+        table.paginate(page=self.request.GET.get("page", 1), per_page=25)
+        
+        context['filter'] = tea_filter
+        context['table'] = table
+        return context
+    
+    def get_template_names(self, **kwargs):
+        if self.request.htmx:
+            return 'tea/tea_table_partial.html'
+        else:
+            return 'tea/tea_table.html'
 
 @cache_page(CACHE_TTL)
 def ReleaseHistory(request):
@@ -221,16 +241,16 @@ def ReleaseHistory(request):
 
     context = {"Releases": Releases}
 
-    return render(request, "release_history.html", context)
+    return render(request, "misc/release_history.html", context)
 
 
 def PrivacyPolicy(request):
-    return render(request, "privacy_policy.html")
+    return render(request, "misc/privacy_policy.html")
 
 
 @cache_page(CACHE_TTL)
 def TermsAndConditions(request):
-    return render(request, "terms_and_conditions.html")
+    return render(request, "misc/terms_and_conditions.html")
 
 
 @login_required

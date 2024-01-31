@@ -67,7 +67,37 @@ class CollectionFilter(django_filters.FilterSet):
         model = Collection
         fields = ["name"]
 
-class TestFilter(django_filters.FilterSet):
+class TeaFilter(django_filters.FilterSet):
+    title = django_filters.CharFilter(
+        lookup_expr="icontains",
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Search...",
+                "class": "input",
+                "autocomplete": "off",
+            }
+        ),
+    )
+    variety = django_filters.ModelMultipleChoiceFilter(
+        queryset=Variety.objects.all(),
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "peer hidden"}),
+    )
+
+    o = django_filters.OrderingFilter(
+        fields=(("title")),
+        widget=forms.Select,
+    )
+
     class Meta:
-        model = Vendor
-        fields = ["name", "store_location", "tea_source", "variety"]
+        model = Tea
+        fields = ["title", "variety"]
+
+    # https://stackoverflow.com/questions/68381768/how-to-set-class-of-orderingfilters-widget-in-django
+
+    def __init__(
+        self, data=None, queryset=None, request=None, prefix=None, *args, **kwargs
+    ):
+        super().__init__(*args, request=request, data=data, **kwargs)
+
+        o = self.form.fields["o"]
+        o.widget.attrs = {"class": "select"}
