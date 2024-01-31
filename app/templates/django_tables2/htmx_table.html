@@ -1,7 +1,7 @@
 {% load django_tables2 %}
 {% load i18n l10n %}
 {% block table-wrapper %}
-<div class="table-container h-fit overflow-scroll">
+<div class="table-container overflow-x-auto">
     {% block table %}
         <table class="table table-zebra">
             {% block table.thead %}
@@ -10,11 +10,7 @@
                     <tr>
                     {% for column in table.columns %}
                         <th {{ column.attrs.th.as_html }}>
-                            {% if column.orderable %}
-                                <a hx-get="{% url 'vendors-table' %}{% querystring table.prefixed_order_by_field=column.order_by_alias.next %}" hx-trigger="click" hx-target="div.table-container" hx-swap="outerHTML" style="cursor: pointer;">{{ column.header }}</a>
-                            {% else %}
-                                {{ column.header }}
-                            {% endif %}
+                            {{ column.header }}
                         </th>
                     {% endfor %}
                     </tr>

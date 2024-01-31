@@ -56,13 +56,13 @@ def GetVendorsContext(request):
         .order_by("-created", "id"),
     )
 
-    response = GetPages(f.qs, 6, request)
+    response = GetPages(f.qs, 10, request)
     parameters = GetParams(request)
     rating_form = RatingForm()
 
     context = {
-        "filter": response,
-        "filter_form": f,
+        "filter_result": response,
+        "filter": f,
         "parameters": parameters,
         "rating_form": rating_form,
     }
@@ -145,7 +145,7 @@ class VendorTableView(SingleTableView):
     paginate_by = 10
     table_class = VendorTable
     filterset_class = VendorFilter
-    queryset = Vendor.objects.filter(active=True)
+    queryset = Vendor.objects.filter(active=True).order_by("-created", "id")
     
     def get_context_data(self, **kwargs):
         context = super(VendorTableView, self).get_context_data(**kwargs)

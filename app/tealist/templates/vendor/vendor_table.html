@@ -3,66 +3,11 @@
 {% block content %}
 
 <div class="container mx-auto bg-base-300 p-4 rounded-lg shadow-xl">
-  <form class="bg-base-300 shadow-xl h-fit order-first md:order-last" hx-get="{% url 'vendors-table' %}"
-    hx-target="div.table-container" hx-push-url="true">
-    <fieldset class="filter-form border-0 flex flex-wrap gap-2">
-      {{ filter.form.name }}
-      <div>
-      {{ filter.form.o }}
-      </div>
-
-      <div class="dropdown dropdown-bottom">
-        <div tabindex="0" role="button" class="btn font-medium">
-          Store Location 
-        </div>
-        <ul tabindex="0" class="dropdown-content z-10 menu p-2 shadow bg-base-100 rounded-box w-52">
-          {% for v in filter.form.store_location %}
-          <li>
-            <label for="{{ v.id_for_label }}">
-              <input type="checkbox" name="{{ v.data.name }}" value="{{ v.data.value }}" class="peer checkbox" id="{{ v.id_for_label }}">
-              {{ v.choice_label }}
-            </label>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-
-      <div class="dropdown dropdown-bottom">
-        <div tabindex="0" role="button" class="btn font-medium">
-          Sources From
-        </div>
-        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-          {% for v in filter.form.tea_source %}
-          <li>
-            <label for="{{ v.id_for_label }}">
-              <input type="checkbox" name="{{ v.data.name }}" value="{{ v.data.value }}" class="peer checkbox" id="{{ v.id_for_label }}">
-              {{ v.choice_label }}
-            </label>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-
-      <div class="dropdown dropdown-bottom">
-        <div tabindex="0" role="button" class="btn font-medium">
-          Varities
-        </div>
-        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-          {% for v in filter.form.variety %}
-          <li>
-            <label for="{{ v.id_for_label }}">
-              <input type="checkbox" name="{{ v.data.name }}" value="{{ v.data.value }}" class="peer checkbox" id="{{ v.id_for_label }}">
-              {{ v.choice_label }}
-            </label>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-
-      <input type="submit" value="Apply Filters" class="btn btn-primary hover:btn-secondary font-serif" />
-    </fieldset>
-  </form>
-  {% include 'vendor/vendor_table_partial.html' %}
+  {% include 'vendor/vendor_filter.html' %}
+  <a href="{% url 'vendors' %}"class="text-accent border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out text-sm pt-4">Card view</a>
+  <div class="vendors">
+    {% include 'vendor/vendor_table_partial.html' %}
+  </div>
 </div>
 
 {% endblock %}

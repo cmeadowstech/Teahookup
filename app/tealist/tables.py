@@ -20,11 +20,17 @@ class VendorTable(tables.Table):
         )
         order_by = "-created"
         
-    def render_name(self, value):
-        return value
+    def render_name(self, value, record):
+        html = f'''
+        <a href="{ record.get_absolute_url() }" hx-get="{ record.get_absolute_url() }" hx-target="#htmx_modal" hx-trigger="click"
+            hx-on:click="daisy_modal.showModal()" class="font-serif font-bold border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out text-left">
+            {value}
+        </a>
+        '''
+        return format_html(html)
     
     def render_url(self, value):
-        return format_html(f'<a href class="text-secondary border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out" target="_blank">{value}</a>')
+        return format_html(f'<a href="{value}" class="text-secondary border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out" target="_blank">{value}</a>')
     
     def render_description(self, value):
         return value

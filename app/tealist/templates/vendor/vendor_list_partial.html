@@ -1,99 +1,102 @@
 {% load static %}
 {% if filter %}
-{% for vendor in filter %}
-<div class="card bg-base-300 mb-2 shadow-xl">
-    <div class="card-body">
-        <div class="card-title flex justify-between">
-            <h4 class="font-serif text-3xl flex justify-center items-center gap-1">
-                <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx_modal" hx-trigger="click"
-                    hx-on:click="daisy_modal.showModal()" class="border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out text-left">
-                    {{ vendor.name }}
-                </a>
-                <a href="{{ vendor.url }}" target="_blank">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-                    </svg>
-                      
-                </a>
-                {% if vendor.url_alt %}
-                <a href="{{ vendor.url_alt }}" target="_blank">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
-                    </svg>                      
-                </a>
+<div class="md:col-span-3 px-1 grid lg:grid-cols-2 gap-2">
+{% for vendor in filter_result %}
+
+    <div class="card bg-base-300 mb-2 shadow-xl">
+        <div class="card-body">
+            <div class="card-title flex justify-between">
+                <h4 class="font-serif text-3xl flex justify-center items-center gap-1">
+                    <a href="{{ vendor.get_absolute_url }}" hx-get="{{ vendor.get_absolute_url }}" hx-target="#htmx_modal" hx-trigger="click"
+                        hx-on:click="daisy_modal.showModal()" class="border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out text-left">
+                        {{ vendor.name }}
+                    </a>
+                    <a href="{{ vendor.url }}" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                        </svg>
+                          
+                    </a>
+                    {% if vendor.url_alt %}
+                    <a href="{{ vendor.url_alt }}" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
+                        </svg>                      
+                    </a>
+                    {% endif %}
+                </h4>
+                
+                <a href="{{ vendor.get_absolute_url }}" class="text-accent join gap-2 justify-center items-center">
+                    {% if vendor.rating %}
+                    <span class="font-serif font-bold text-orange-400 text-2xl">{{ vendor.rating }}</span>
                 {% endif %}
-            </h4>
-            
-            <a href="{{ vendor.get_absolute_url }}" class="text-accent join gap-2 justify-center items-center">
-                {% if vendor.rating %}
-                <span class="font-serif font-bold text-orange-400 text-2xl">{{ vendor.rating }}</span>
+                </a>
+            </div>
+            <div>
+                {% for variety in vendor.variety.all %}
+                <span class="badge badge-success font-bold">{{ variety }}</span>
+                {% endfor %}
+            </div>
+            {% if vendor.description %}
+            <div class="pt-4 pb-4 border-bottom">
+                <p>
+                    {{ vendor.description }}
+    
+                    <a href="{{ vendor.get_absolute_url }}" class="text-accent">View details...</a>
+                </p>
+            </div>
             {% endif %}
-            </a>
-        </div>
-        <div>
-            {% for variety in vendor.variety.all %}
-            <span class="badge badge-success font-bold">{{ variety }}</span>
-            {% endfor %}
-        </div>
-        {% if vendor.description %}
-        <div class="pt-4 pb-4 border-bottom">
-            <p>
-                {{ vendor.description }}
-
-                <a href="{{ vendor.get_absolute_url }}" class="text-accent">View details...</a>
-            </p>
-        </div>
-        {% endif %}
-        <div class="grid md:grid-cols-3 border-t border-success pt-2 text-sm">
+            <div class="grid md:grid-cols-3 border-t border-success pt-2 text-sm">
+                <div class="pl-2">
+                <div class="flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-2">
+                        <path d="M6.5 3c-1.051 0-2.093.04-3.125.117A1.49 1.49 0 0 0 2 4.607V10.5h9V4.606c0-.771-.59-1.43-1.375-1.489A41.568 41.568 0 0 0 6.5 3ZM2 12v2.5A1.5 1.5 0 0 0 3.5 16h.041a3 3 0 0 1 5.918 0h.791a.75.75 0 0 0 .75-.75V12H2Z" />
+                        <path d="M6.5 18a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM13.25 5a.75.75 0 0 0-.75.75v8.514a3.001 3.001 0 0 1 4.893 1.44c.37-.275.61-.719.595-1.227a24.905 24.905 0 0 0-1.784-8.549A1.486 1.486 0 0 0 14.823 5H13.25ZM14.5 18a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
+                      </svg>
+                      
+                    <p>Ships To: <span class="text-accent">{{ vendor.ship_to.all|join:", " }}</span></p>
+                </div>
+            </div>
+            <div class="pl-2 md:border-x md:border-success">
+                <div class="flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-2">
+                        <path d="M14.916 2.404a.75.75 0 0 1-.32 1.011l-.596.31V17a1 1 0 0 1-1 1h-2.26a.75.75 0 0 1-.75-.75v-3.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.5a.75.75 0 0 1-.75.75h-3.5a.75.75 0 0 1 0-1.5H2V9.957a.75.75 0 0 1-.596-1.372L2 8.275V5.75a.75.75 0 0 1 1.5 0v1.745l10.404-5.41a.75.75 0 0 1 1.012.319ZM15.861 8.57a.75.75 0 0 1 .736-.025l1.999 1.04A.75.75 0 0 1 18 10.957V16.5h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75V9.21a.75.75 0 0 1 .361-.64Z" />
+                      </svg>
+                       <p>Ships From: <span class="text-accent">{{ vendor.store_location.all|join:", " }}</span></p>
+                </div>
+            </div>
             <div class="pl-2">
-            <div class="flex">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-2">
-                    <path d="M6.5 3c-1.051 0-2.093.04-3.125.117A1.49 1.49 0 0 0 2 4.607V10.5h9V4.606c0-.771-.59-1.43-1.375-1.489A41.568 41.568 0 0 0 6.5 3ZM2 12v2.5A1.5 1.5 0 0 0 3.5 16h.041a3 3 0 0 1 5.918 0h.791a.75.75 0 0 0 .75-.75V12H2Z" />
-                    <path d="M6.5 18a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM13.25 5a.75.75 0 0 0-.75.75v8.514a3.001 3.001 0 0 1 4.893 1.44c.37-.275.61-.719.595-1.227a24.905 24.905 0 0 0-1.784-8.549A1.486 1.486 0 0 0 14.823 5H13.25ZM14.5 18a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
-                  </svg>
-                  
-                <p>Ships To: <span class="text-accent">{{ vendor.ship_to.all|join:", " }}</span></p>
-            </div>
-        </div>
-        <div class="pl-2 md:border-x md:border-success">
-            <div class="flex">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-2">
-                    <path d="M14.916 2.404a.75.75 0 0 1-.32 1.011l-.596.31V17a1 1 0 0 1-1 1h-2.26a.75.75 0 0 1-.75-.75v-3.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.5a.75.75 0 0 1-.75.75h-3.5a.75.75 0 0 1 0-1.5H2V9.957a.75.75 0 0 1-.596-1.372L2 8.275V5.75a.75.75 0 0 1 1.5 0v1.745l10.404-5.41a.75.75 0 0 1 1.012.319ZM15.861 8.57a.75.75 0 0 1 .736-.025l1.999 1.04A.75.75 0 0 1 18 10.957V16.5h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75V9.21a.75.75 0 0 1 .361-.64Z" />
-                  </svg>
-                   <p>Ships From: <span class="text-accent">{{ vendor.store_location.all|join:", " }}</span></p>
-            </div>
-        </div>
-        <div class="pl-2">
-            <div class="flex">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-2">
-                    <path fill-rule="evenodd" d="M8.157 2.176a1.5 1.5 0 0 0-1.147 0l-4.084 1.69A1.5 1.5 0 0 0 2 5.25v10.877a1.5 1.5 0 0 0 2.074 1.386l3.51-1.452 4.26 1.762a1.5 1.5 0 0 0 1.146 0l4.083-1.69A1.5 1.5 0 0 0 18 14.75V3.872a1.5 1.5 0 0 0-2.073-1.386l-3.51 1.452-4.26-1.762ZM7.58 5a.75.75 0 0 1 .75.75v6.5a.75.75 0 0 1-1.5 0v-6.5A.75.75 0 0 1 7.58 5Zm5.59 2.75a.75.75 0 0 0-1.5 0v6.5a.75.75 0 0 0 1.5 0v-6.5Z" clip-rule="evenodd" />
-                  </svg>                  
-                <p>Sources From: <span class="text-accent">{{ vendor.tea_source.all|join:", " }}</span></p>
+                <div class="flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-2">
+                        <path fill-rule="evenodd" d="M8.157 2.176a1.5 1.5 0 0 0-1.147 0l-4.084 1.69A1.5 1.5 0 0 0 2 5.25v10.877a1.5 1.5 0 0 0 2.074 1.386l3.51-1.452 4.26 1.762a1.5 1.5 0 0 0 1.146 0l4.083-1.69A1.5 1.5 0 0 0 18 14.75V3.872a1.5 1.5 0 0 0-2.073-1.386l-3.51 1.452-4.26-1.762ZM7.58 5a.75.75 0 0 1 .75.75v6.5a.75.75 0 0 1-1.5 0v-6.5A.75.75 0 0 1 7.58 5Zm5.59 2.75a.75.75 0 0 0-1.5 0v6.5a.75.75 0 0 0 1.5 0v-6.5Z" clip-rule="evenodd" />
+                      </svg>                  
+                    <p>Sources From: <span class="text-accent">{{ vendor.tea_source.all|join:", " }}</span></p>
+                </div>
             </div>
         </div>
     </div>
-</div>
-</div>
-{% endfor %}
-
-<!-- If there are no results matching the filter -->
-
-{% else %}
-<div class="card bg-base-300 shadow-xl">
-    <div class="card-body">
-        <p>There are no vendors that match your criteria.</p>
     </div>
+    {% endfor %}
+    
+    <!-- If there are no results matching the filter -->
+    
+    {% else %}
+    <div class="card bg-base-300 shadow-xl">
+        <div class="card-body">
+            <p>There are no vendors that match your criteria.</p>
+        </div>
+    </div>
+    {% endif %}
+    
 </div>
-{% endif %}
-
 <!-- Pagination -->
 <div class="join grid grid-cols-2">
-    {% if filter.has_previous %}
-    <button class="join-item btn btn-success hover:btn-secondary" hx-get="{% url 'vendors' %}?page={{ filter.previous_page_number }}&{{ parameters }}"
-    hx-target=".list-group" hx-push-url="true" hx-swap="innerHTML show:top">Previous page</button>
+    {% if filter_result.has_previous %}
+    <button class="join-item btn btn-success hover:btn-secondary" hx-get="{% url 'vendors' %}?page={{ filter_result.previous_page_number }}&{{ parameters }}"
+    hx-target=".vendors" hx-push-url="true" hx-swap="innerHTML show:top">Previous page</button>
     {% endif %}
-    {% if filter.has_next %}
-    <button class="join-item btn btn-success hover:btn-secondary float-right col-start-2" hx-get="{% url 'vendors' %}?page={{ filter.next_page_number }}&{{ parameters }}"
-    hx-target=".list-group" hx-push-url="true" hx-swap="innerHTML show:top">Next</button>
+    {% if filter_result.has_next %}
+    <button class="join-item btn btn-success hover:btn-secondary float-right col-start-2" hx-get="{% url 'vendors' %}?page={{ filter_result.next_page_number }}&{{ parameters }}"
+    hx-target=".vendors" hx-push-url="true" hx-swap="innerHTML show:top">Next</button>
     {% endif %}
 </div>
