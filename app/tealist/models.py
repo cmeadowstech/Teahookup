@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 import uuid, json
 from django.db.models import Count
+from meta.models import ModelMeta
 
 def GenerateGuid():
     return str(uuid.uuid4())[:4]
@@ -48,7 +49,7 @@ class Variety(models.Model):
         return self.name
 
 
-class Vendor(models.Model):
+class Vendor(ModelMeta, models.Model):
     name = models.CharField(
         max_length=30, help_text="Business name of the vendor", unique=True
     )
@@ -85,6 +86,15 @@ class Vendor(models.Model):
     rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, default=0.0)
     active = models.BooleanField(default=False)
 
+    _metadata = {
+        'title': 'meta_title',
+        'description': "Looking for a new tea vendor? Search our list of vendors to find the perfect tea offerings for your next cup."
+    }
+    
+    def meta_title(self):
+        if self.name:
+            return f'Tea Hookup | {self.name}'
+    
     def __str__(self):
         return self.name
 

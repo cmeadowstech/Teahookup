@@ -12,6 +12,7 @@ from django_filters.views import FilterView
 from django_tables2 import SingleTableView, SingleTableMixin
 import requests, json
 import environ
+from meta.views import Meta
 
 from .models import *
 from .filters import *
@@ -121,14 +122,26 @@ def GetCollectionsContext(request):
 def index(request):
     Featured = Vendor.objects.filter(featured=True)
     Recent = Vendor.objects.all().order_by("-created", "id")[:3]
+    
+    meta = Meta(
+        title="Tea Hookup | Find your new favorite vendor",
+        description="Looking for a new tea vendor? Search our list of vendors to find the perfect tea offerings for your next cup.",
+    )
 
-    context = {"Featured": Featured, "Recent": Recent}
+    context = {"Featured": Featured, "Recent": Recent, "meta": meta}
 
     return render(request, "index.html", context)
 
 
 def VendorListView(request):
     context = GetVendorsContext(request)
+    
+    meta = Meta(
+        title="Tea Hookup | Vendor list",
+        description="Looking for a new tea vendor? Search our list of vendors to find the perfect tea offerings for your next cup.",
+    )
+    
+    context["meta"] = meta
 
     if request.htmx:
         template = "vendor/vendor_list_partial.html"
@@ -176,6 +189,7 @@ def VendorDetailView(request, slug):
         tea_source__id__in=vendor.tea_source.all()
     ).exclude(id=vendor.id)[:5]
     context["rating_form"] = RatingForm()
+    context['meta'] = vendor.as_meta()
 
     if request.htmx:
         template = "vendor/vendor_detail_partial.html"
@@ -184,7 +198,6 @@ def VendorDetailView(request, slug):
         template = "vendor/vendor_detail.html"
 
     return render(request, template, context)
-
 
 @require_POST
 def VendorRating(request, slug):
@@ -215,8 +228,15 @@ class TeaTableView(SingleTableView):
         table = TeaTable(tea_filter.qs)
         table.paginate(page=self.request.GET.get("page", 1), per_page=25)
         
+        meta = Meta(
+            title="Tea Hookup | Tea search",
+            description="Search tea offerings from dozens of vendors' storefronts at once.",
+        )
+        
         context['filter'] = tea_filter
         context['table'] = table
+        context['meta'] = meta
+        
         return context
     
     def get_template_names(self, **kwargs):
@@ -342,6 +362,11 @@ def CollectionListView(request):
         template = "collection/collections_list_partial.html"
     else:
         template = "collection/collections_list.html"
+        
+    meta = Meta(
+            title="Tea Hookup | Collections",
+            description="See what vendors others recommend.",
+        )
 
     return render(request, template, context)
 

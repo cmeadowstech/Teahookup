@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    'django.contrib.sitemaps',
     "whitenoise.runserver_nostatic",  # Django whitenoise
     "django.contrib.staticfiles",
     "django_extensions",  # Django Extensions for runscript
@@ -75,6 +76,7 @@ INSTALLED_APPS = [
     "django_browser_reload",  # django-tailwind[reload]
     "django_tables2", # django-tables2
     "djmoney", # django-money
+    "meta", # django-meta
     "tealist",
     "theme",
 ]
@@ -313,3 +315,9 @@ NON = moneyed.add_currency(
     name='_No currency fallback',
     countries=('', )
 )
+
+# django-meta
+
+META_SITE_PROTOCOL = "https"
+META_USE_SITES = True
+META_USE_TITLE_TAG = True

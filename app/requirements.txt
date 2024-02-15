@@ -30,6 +30,7 @@ django-extensions==3.2.1
 django-filter==22.1
 django-htmx==1.13.0
 django-matomo==0.1.6
+django-meta==2.4.2
 django-model-utils==4.3.1
 django-money==3.4.1
 django-redis==5.4.0

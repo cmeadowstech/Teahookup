@@ -1,17 +1,19 @@
 {% load static %}
 {% load socialaccount %}
 {% load static tailwind_tags %}
+{% load meta %}
 
 <!doctype html>
 <html lang="en" data-theme="tea_dark">
 
-<head>
+<head {% meta_namespaces %}>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+  {% include "meta/meta.html" %}
 
+  {% if not meta %}
   <title>Tea Hookup | Find your new favorite vendor</title>
+  {% endif %}
 
   {% tailwind_css %}
 

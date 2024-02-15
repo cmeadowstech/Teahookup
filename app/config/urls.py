@@ -13,13 +13,31 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
+from django.contrib import admin, sitemaps
+from django.urls import path, reverse
 from django.conf.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.sitemaps.views import sitemap
 
 from tealist import views
+from tealist.sitemaps import *
+
+
+class StaticViewSitemap(sitemaps.Sitemap):
+    priority = 0.9
+    changefreq = "weekly"
+
+    def items(self):
+        return ["index", "vendors", "vendors_submit", "collections", "teas-table"]
+
+    def location(self, item):
+        return reverse(item)
+
+sitemaps = {
+    "static": StaticViewSitemap,
+    "vendors": VendorSitemap,
+}
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -59,6 +77,12 @@ urlpatterns = [
     path(
         "cookie_consent_check/", views.CookieConsentCheck, name="cookie_consent_check"
     ),
+    path(
+    "sitemap.xml",
+    sitemap,
+    {"sitemaps": sitemaps},
+    name="django.contrib.sitemaps.views.sitemap",
+    )
 ]
 
 # Only add this when we are in debug mode.
