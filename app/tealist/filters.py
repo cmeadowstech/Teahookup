@@ -82,6 +82,7 @@ class TeaFilter(django_filters.FilterSet):
         queryset=Variety.objects.all(),
         widget=forms.CheckboxSelectMultiple(attrs={"class": "peer hidden"}),
     )
+    on_sale = django_filters.BooleanFilter(widget=forms.CheckboxInput())
 
     o = django_filters.OrderingFilter(
         fields=(("title")),

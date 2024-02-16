@@ -230,6 +230,7 @@ class Tea(models.Model):
     variety = models.ManyToManyField(
         Variety, blank=True, default=""
     )
+    on_sale = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ("vendor", "handle")

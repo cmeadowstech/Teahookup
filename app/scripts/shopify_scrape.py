@@ -64,7 +64,6 @@ def run():
                     for a in variety.alias:
                         if fuzz.ratio(text, a) > 70:
                             tea.variety.add(variety)
-                            tea.save()
             
             title_list = product["title"].split()
             for word in title_list:
@@ -84,7 +83,11 @@ def run():
                 
                 if variant["compare_at_price"]:
                     teaVariant.compare_at_price = Money(variant["compare_at_price"], currency)
-                    teaVariant.save()
+                    tea.on_sale = True
                 else:
                     continue
+                
+                teaVariant.save()
+            
+            tea.save()
                     

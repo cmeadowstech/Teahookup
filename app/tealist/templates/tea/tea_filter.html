@@ -19,6 +19,11 @@
           </ul>
         </div>
 
+        <label class="btn btn-base-100" for="{{ filter.form.on_sale.id_for_label }}">
+          <span>Sale</span>
+          <input class="toggle toggle-primary" type="checkbox" name="{{ filter.form.on_sale.name }}" id="{{ filter.form.on_sale.id_for_label }}">
+        </label>
+
       <input type="submit" value="Apply Filters" class="btn btn-base-100 hover:btn-accent font-serif text-primary" />
     </fieldset>
   </form>
