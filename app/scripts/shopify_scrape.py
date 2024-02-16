@@ -80,7 +80,7 @@ def run():
                         price=Money(variant["price"], currency),
                     )
 
-                if variant["compare_at_price"] and float(variant["compare_at_price"]) > 1:
+                if variant["compare_at_price"] and float(variant["compare_at_price"]) > 1 and variant["compare_at_price"] != variant["price"]:
                     teaVariant.compare_at_price = Money(
                         variant["compare_at_price"], currency
                     )
