@@ -83,9 +83,10 @@ class TeaFilter(django_filters.FilterSet):
         queryset=Variety.objects.all(),
         widget=forms.CheckboxSelectMultiple(attrs={"class": "peer hidden"}),
     )
-    vendor = django_filters.ModelMultipleChoiceFilter(
+    store_location = django_filters.ModelMultipleChoiceFilter(
         field_name='vendor__store_location',
         queryset=Location.objects.exclude(store_location__isnull=True),
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "peer hidden"}),
     )
     on_sale = django_filters.BooleanFilter(widget=forms.CheckboxInput())
     
