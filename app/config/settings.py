@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    'django.contrib.sitemaps',
+    "django.contrib.sitemaps",
     "whitenoise.runserver_nostatic",  # Django whitenoise
     "django.contrib.staticfiles",
     "django_extensions",  # Django Extensions for runscript
@@ -74,9 +74,9 @@ INSTALLED_APPS = [
     "matomo",  # django-matomo
     "tailwind",  # django-tailwind
     "django_browser_reload",  # django-tailwind[reload]
-    "django_tables2", # django-tables2
-    "djmoney", # django-money
-    "meta", # django-meta
+    "django_tables2",  # django-tables2
+    "djmoney",  # django-money
+    "meta",  # django-meta
     "tealist",
     "theme",
 ]
@@ -310,10 +310,7 @@ DJANGO_TABLES2_TEMPLATE = "django_tables2/htmx_table.html"
 # django-money
 
 NON = moneyed.add_currency(
-    code='NON',
-    numeric='999',
-    name='_No currency fallback',
-    countries=('', )
+    code="NON", numeric="999", name="_No currency fallback", countries=("",)
 )
 
 # django-meta

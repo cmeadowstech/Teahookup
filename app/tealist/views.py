@@ -122,7 +122,7 @@ def GetCollectionsContext(request):
 def index(request):
     Featured = Vendor.objects.filter(featured=True)
     Recent = Vendor.objects.all().order_by("-created", "id")[:3]
-    
+
     meta = Meta(
         title="Tea Hookup | Find your new favorite vendor",
         description="Looking for a new tea vendor? Search our list of vendors to find the perfect tea offerings for your next cup.",
@@ -135,12 +135,12 @@ def index(request):
 
 def VendorListView(request):
     context = GetVendorsContext(request)
-    
+
     meta = Meta(
         title="Tea Hookup | Vendor list",
         description="Looking for a new tea vendor? Search our list of vendors to find the perfect tea offerings for your next cup.",
     )
-    
+
     context["meta"] = meta
 
     if request.htmx:
@@ -154,28 +154,29 @@ def VendorListView(request):
         context,
     )
 
+
 class VendorTableView(SingleTableView):
     table_class = VendorTable
     filterset_class = VendorFilter
     queryset = Vendor.objects.filter(active=True).order_by("-created", "id")
-    
+
     def get_context_data(self, **kwargs):
         context = super(VendorTableView, self).get_context_data(**kwargs)
         filter = VendorFilter(self.request.GET, queryset=self.get_queryset(**kwargs))
 
         table = VendorTable(filter.qs)
         table.paginate(page=self.request.GET.get("page", 1), per_page=25)
-        
-        context['filter'] = filter
-        context['table'] = table
+
+        context["filter"] = filter
+        context["table"] = table
         return context
-    
+
     def get_template_names(self, **kwargs):
         if self.request.htmx:
-            return 'vendor/vendor_table_partial.html'
+            return "vendor/vendor_table_partial.html"
         else:
-            return 'vendor/vendor_table.html'
-    
+            return "vendor/vendor_table.html"
+
 
 def VendorDetailView(request, slug):
     vendor = get_object_or_404(Vendor, slug=slug)
@@ -189,15 +190,18 @@ def VendorDetailView(request, slug):
         tea_source__id__in=vendor.tea_source.all()
     ).exclude(id=vendor.id)[:5]
     context["rating_form"] = RatingForm()
-    context['meta'] = vendor.as_meta()
+    context["meta"] = vendor.as_meta()
 
     if request.htmx:
         template = "vendor/vendor_detail_partial.html"
     else:
-        context["teas"] = Tea.objects.filter(vendor=vendor)[:9].prefetch_related("tea_variant")
+        context["teas"] = Tea.objects.filter(vendor=vendor)[:9].prefetch_related(
+            "tea_variant"
+        )
         template = "vendor/vendor_detail.html"
 
     return render(request, template, context)
+
 
 @require_POST
 def VendorRating(request, slug):
@@ -216,34 +220,36 @@ def VendorRating(request, slug):
 
     return HttpResponse(f"{round(vendor.rating, 1)}")
 
+
 class TeaTableView(SingleTableView):
     table_class = TeaTable
     filterset_class = TeaFilter
     queryset = Tea.objects.all().order_by("-created_at", "id")
-    
+
     def get_context_data(self, **kwargs):
         context = super(TeaTableView, self).get_context_data(**kwargs)
         tea_filter = TeaFilter(self.request.GET, queryset=self.get_queryset(**kwargs))
 
         table = TeaTable(tea_filter.qs)
         table.paginate(page=self.request.GET.get("page", 1), per_page=25)
-        
+
         meta = Meta(
             title="Tea Hookup | Tea search",
             description="Search tea offerings from dozens of vendors' storefronts at once.",
         )
-        
-        context['filter'] = tea_filter
-        context['table'] = table
-        context['meta'] = meta
-        
+
+        context["filter"] = tea_filter
+        context["table"] = table
+        context["meta"] = meta
+
         return context
-    
+
     def get_template_names(self, **kwargs):
         if self.request.htmx:
-            return 'tea/tea_table_partial.html'
+            return "tea/tea_table_partial.html"
         else:
-            return 'tea/tea_table.html'
+            return "tea/tea_table.html"
+
 
 @cache_page(CACHE_TTL)
 def ReleaseHistory(request):
@@ -362,11 +368,11 @@ def CollectionListView(request):
         template = "collection/collections_list_partial.html"
     else:
         template = "collection/collections_list.html"
-        
+
     meta = Meta(
-            title="Tea Hookup | Collections",
-            description="See what vendors others recommend.",
-        )
+        title="Tea Hookup | Collections",
+        description="See what vendors others recommend.",
+    )
 
     return render(request, template, context)
 

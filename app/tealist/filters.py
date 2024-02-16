@@ -67,6 +67,7 @@ class CollectionFilter(django_filters.FilterSet):
         model = Collection
         fields = ["name"]
 
+
 class TeaFilter(django_filters.FilterSet):
     title = django_filters.CharFilter(
         lookup_expr="icontains",
@@ -82,7 +83,12 @@ class TeaFilter(django_filters.FilterSet):
         queryset=Variety.objects.all(),
         widget=forms.CheckboxSelectMultiple(attrs={"class": "peer hidden"}),
     )
+    vendor = django_filters.ModelMultipleChoiceFilter(
+        field_name='vendor__store_location',
+        queryset=Location.objects.exclude(store_location__isnull=True),
+    )
     on_sale = django_filters.BooleanFilter(widget=forms.CheckboxInput())
+    
 
     o = django_filters.OrderingFilter(
         fields=(("title")),

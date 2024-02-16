@@ -7,6 +7,7 @@ admin.site.register(Location)
 admin.site.register(Variety)
 admin.site.register(Rating)
 
+
 class UpdateVendor:
     def enable_featured(self, request, queryset):
         for Vendor in queryset:
@@ -100,9 +101,11 @@ class CollectionAdmin(admin.ModelAdmin):
 
 admin.site.register(Profile)
 
+
 @admin.register(Tea)
 class TeaAdmin(admin.ModelAdmin):
     search_fields = ["title"]
+
 
 @admin.register(TeaVariant)
 class TeaVariantAdmin(admin.ModelAdmin):

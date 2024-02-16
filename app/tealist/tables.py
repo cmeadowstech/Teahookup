@@ -6,8 +6,6 @@ from .models import *
 
 
 class VendorTable(tables.Table):
-
-
     class Meta:
         model = Vendor
         fields = (
@@ -19,52 +17,50 @@ class VendorTable(tables.Table):
             "variety",
         )
         order_by = "-created"
-        
+
     def render_name(self, value, record):
-        html = f'''
+        html = f"""
         <a href="{ record.get_absolute_url() }" hx-get="{ record.get_absolute_url() }" hx-target="#htmx_modal" hx-trigger="click"
             hx-on:click="daisy_modal.showModal()" class="font-serif font-bold border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out text-left">
             {value}
         </a>
-        '''
+        """
         return format_html(html)
-    
+
     def render_url(self, value):
-        return format_html(f'<a href="{value}" class="text-secondary border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out" target="_blank">{value}</a>')
-    
+        return format_html(
+            f'<a href="{value}" class="text-secondary border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out" target="_blank">{value}</a>'
+        )
+
     def render_description(self, value):
         return value
-    
+
     def render_store_location(self, value):
-        locations = list(value.all().values_list('name', flat=True))
-                
+        locations = list(value.all().values_list("name", flat=True))
+
         return format_html(f'<span class="text-accent">{", ".join(locations)}</span>')
-    
+
     def render_tea_source(self, value):
-        locations = list(value.all().values_list('name', flat=True))
-                
+        locations = list(value.all().values_list("name", flat=True))
+
         return format_html(f'<span class="text-accent">{", ".join(locations)}</span>')
-    
+
     def render_variety(self, value):
-        varieties = list(value.all().values_list('name', flat=True))
-                
+        varieties = list(value.all().values_list("name", flat=True))
+
         return format_html(f'<span class="text-accent">{", ".join(varieties)}</span>')
-    
+
+
 class TeaTable(tables.Table):
-    tea_variant = tables.Column(verbose_name= "Price")
+    tea_variant = tables.Column(verbose_name="Price")
 
     class Meta:
         model = Tea
-        fields = (
-            "title",
-            "vendor",
-            "tea_variant",
-            "variety"
-        )
+        fields = ("title", "vendor", "tea_variant", "variety")
         order_by = "-created_at"
-        
+
     def render_title(self, value, record):
-        html = f'''
+        html = f"""
         <span class="flex justify-between w-full">
             <p>{value}</p>
             <a href="{record.vendor.url.removesuffix('/')}/products/{ record.handle }" target="_blank">
@@ -73,31 +69,33 @@ class TeaTable(tables.Table):
                 </svg>
             </a>
         </span>
-        '''
-        
+        """
+
         return format_html(html)
-    
+
     def render_vendor(self, value):
-        html = f'''
+        html = f"""
         <a href="{ value.get_absolute_url() }" hx-get="{ value.get_absolute_url() }" hx-target="#htmx_modal" hx-trigger="click"
             hx-on:click="daisy_modal.showModal()" class="font-serif font-bold border-b border-transparent hover:border-b hover:border-secondary transition ease-in-out text-left">
             {value}
         </a>
-        '''
+        """
         return format_html(html)
-    
+
     def render_tea_variant(self, value):
         variants = value.all()
         variants_html = []
         for v in variants:
             if v.title == "Default Title":
-                variants_html += f'<option>{v.price}</option>'
+                variants_html += f"<option>{v.price}</option>"
             else:
-                variants_html += f'<option>{v.title} - {v.price}</option>'
-        
-        return format_html(f'<select class="select w-full max-w-64">{"".join(variants_html)}</select>')
-    
+                variants_html += f"<option>{v.title} - {v.price}</option>"
+
+        return format_html(
+            f'<select class="select w-full max-w-64 min-w-32">{"".join(variants_html)}</select>'
+        )
+
     def render_variety(self, value):
-        varieties = list(value.all().values_list('name', flat=True))
-                
+        varieties = list(value.all().values_list("name", flat=True))
+
         return format_html(f'<span class="text-accent">{", ".join(varieties)}</span>')

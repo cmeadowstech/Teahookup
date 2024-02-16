@@ -34,6 +34,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
     def location(self, item):
         return reverse(item)
 
+
 sitemaps = {
     "static": StaticViewSitemap,
     "vendors": VendorSitemap,
@@ -78,11 +79,11 @@ urlpatterns = [
         "cookie_consent_check/", views.CookieConsentCheck, name="cookie_consent_check"
     ),
     path(
-    "sitemap.xml",
-    sitemap,
-    {"sitemaps": sitemaps},
-    name="django.contrib.sitemaps.views.sitemap",
-    )
+        "sitemap.xml",
+        sitemap,
+        {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
 ]
 
 # Only add this when we are in debug mode.

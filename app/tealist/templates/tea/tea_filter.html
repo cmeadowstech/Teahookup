@@ -2,7 +2,23 @@
     hx-target="div.teas" hx-push-url="true" hx-swap="innerHTML">
     <fieldset class="filter-form border-0 flex flex-wrap gap-2">
         <input type="text" name="{{ filter.form.title.name }}" placeholder="Search..." class="input w-1/2" autocomplete="off" id="{{ filter.form.title.id_for_label }}">
-  
+
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn font-medium">
+            Store Location
+          </div>
+          <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+            {% for v in filter.form.vendor %}
+            <li>
+              <label for="{{ v.id_for_label }}">
+                <input type="checkbox" name="{{ v.data.name }}" value="{{ v.data.value }}" class="peer checkbox" id="{{ v.id_for_label }}">
+                {{ v.choice_label }}
+              </label>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
         <div class="dropdown dropdown-end">
           <div tabindex="0" role="button" class="btn font-medium">
             Varities
